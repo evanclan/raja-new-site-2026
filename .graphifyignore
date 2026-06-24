@@ -1,0 +1,17 @@
+# Skip non-code files for code-only graph extraction (no LLM key needed).
+# Remove these lines and run `/graphify .` in Cursor to also extract docs/images.
+
+# Docs
+*.md
+*.mdx
+*.txt
+*.rst
+
+# Images / assets
+*.png
+*.jpg
+*.jpeg
+*.webp
+*.gif
+*.svg
+*.ico

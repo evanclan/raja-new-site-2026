@@ -1,0 +1,186 @@
+"use client";
+
+import { createContext, useContext, useEffect, useRef } from "react";
+import Lenis from "lenis";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
+
+type LenisCtx = {
+  scrollTo: (
+    target: string | number | HTMLElement,
+    opts?: { immediate?: boolean }
+  ) => void;
+  /** Pause smooth scroll — lock the page behind a modal/lightbox. */
+  stop: () => void;
+  /** Resume smooth scroll after a modal closes. */
+  start: () => void;
+};
+
+const Ctx = createContext<LenisCtx>({
+  scrollTo: () => {},
+  stop: () => {},
+  start: () => {},
+});
+
+export function useSmoothScroll() {
+  return useContext(Ctx);
+}
+
+/**
+ * Lenis smooth scroll + GSAP ScrollTrigger directional snap.
+ *
+ * Why GSAP here: our previous hand-rolled snap had to guess "is the user
+ * done scrolling yet?" from wheel deltas and timers. That worked on a fresh
+ * mouse wheel but fought trackpad inertia, touch flings, and programmatic
+ * scrollTo calls — sections sometimes refused to commit, or snapped twice.
+ *
+ * ScrollTrigger already solves this problem and ships a battle-tested
+ * directional snap. We just need it to read/write scroll through Lenis
+ * (via `scrollerProxy`) and to tick on Lenis' scroll events. Registering
+ * ScrollTrigger here also unlocks it for scroll-linked animations across
+ * the rest of the site (parallax, pinning, scrub) with zero extra setup.
+ */
+export function SmoothScrollProvider({ children }: { children: React.ReactNode }) {
+  const lenisRef = useRef<Lenis | null>(null);
+
+  useEffect(() => {
+    const lenis = new Lenis({
+      duration: 1.15,
+      easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      wheelMultiplier: 1,
+      touchMultiplier: 1.2,
+      smoothWheel: true,
+    });
+    lenisRef.current = lenis;
+
+    document.documentElement.classList.add("lenis", "lenis-smooth");
+
+    // Keep ScrollTrigger in lock-step with Lenis' virtualized scroll.
+    lenis.on("scroll", ScrollTrigger.update);
+
+    // Drive Lenis from GSAP's ticker so the whole page runs on one rAF.
+    const tick = (time: number) => lenis.raf(time * 1000);
+    gsap.ticker.add(tick);
+    gsap.ticker.lagSmoothing(0);
+
+    // Teach ScrollTrigger how to read/write scroll through Lenis.
+    // The setter is used by ScrollTrigger's snap tween — we bypass Lenis
+    // smoothing there (`immediate`) because ScrollTrigger does its own
+    // easing; otherwise the two curves would compound.
+    ScrollTrigger.scrollerProxy(document.body, {
+      scrollTop(value) {
+        if (typeof value === "number") {
+          lenis.scrollTo(value, { immediate: true, force: true });
+          return value;
+        }
+        return window.scrollY;
+      },
+      getBoundingClientRect() {
+        return {
+          top: 0,
+          left: 0,
+          width: window.innerWidth,
+          height: window.innerHeight,
+        };
+      },
+    });
+
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+
+    // Compute each section's scroll-progress position. Using offsetTop
+    // (not index * vh) means sections taller than the viewport still
+    // snap cleanly to their own top.
+    const sectionProgress = () => {
+      const sections = Array.from(
+        document.querySelectorAll<HTMLElement>("[data-snap-section]")
+      );
+      const max = ScrollTrigger.maxScroll(window);
+      if (max <= 0 || sections.length === 0) return [0];
+      return sections
+        .map((s) => s.offsetTop / max)
+        .map((p) => Math.max(0, Math.min(1, p)));
+    };
+
+    const snapTrigger = prefersReducedMotion
+      ? null
+      : ScrollTrigger.create({
+          id: "page-section-snap",
+          trigger: document.body,
+          start: 0,
+          end: "max",
+          snap: {
+            snapTo: (value) => {
+              const positions = sectionProgress();
+              return gsap.utils.snap(positions, value);
+            },
+            // Wait briefly after the user stops — long enough to not
+            // interrupt them, short enough to feel intentional.
+            delay: 0.08,
+            duration: { min: 0.25, max: 0.7 },
+            ease: "power2.out",
+            directional: true,
+            inertia: false,
+          },
+        });
+
+    // Recompute after fonts/images/dynamic content settle so the snap
+    // positions match the final layout.
+    const onLoad = () => ScrollTrigger.refresh();
+    window.addEventListener("load", onLoad);
+
+    // ——— Resize / orientation: keep ScrollTrigger + snap in sync ———
+    // Lenis 1.3 self-handles its own scroll-length recompute (internal
+    // ResizeObserver + window 'resize'), so we never call lenis.resize().
+    // But ScrollTrigger's start/end, every scrubbed Section cross-fade,
+    // the parallax ranges, and the snap offsetTop positions are resolved
+    // at refresh() time from document.body geometry — stale after any
+    // viewport change. We gate on WIDTH so iOS Safari's URL-bar collapse
+    // (a height-only "resize" fired on every scroll) doesn't yank the
+    // user mid-scroll, and debounce so a drag-resize refreshes just once.
+    let resizeTimer: ReturnType<typeof setTimeout> | undefined;
+    let lastW = window.innerWidth;
+    const onResize = () => {
+      if (window.innerWidth === lastW) return;
+      lastW = window.innerWidth;
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => ScrollTrigger.refresh(), 200);
+    };
+    window.addEventListener("resize", onResize);
+    window.addEventListener("orientationchange", onResize);
+
+    return () => {
+      window.removeEventListener("load", onLoad);
+      window.removeEventListener("resize", onResize);
+      window.removeEventListener("orientationchange", onResize);
+      clearTimeout(resizeTimer);
+      snapTrigger?.kill();
+      gsap.ticker.remove(tick);
+      lenis.destroy();
+      document.documentElement.classList.remove("lenis", "lenis-smooth");
+    };
+  }, []);
+
+  const scrollTo: LenisCtx["scrollTo"] = (target, opts) => {
+    const lenis = lenisRef.current;
+    if (!lenis) return;
+    const duration = opts?.immediate ? 0 : 1.2;
+    if (typeof target === "string") {
+      const el = document.querySelector<HTMLElement>(target);
+      if (!el) return;
+      lenis.scrollTo(el, { duration });
+    } else {
+      lenis.scrollTo(target as number | HTMLElement, { duration });
+    }
+  };
+
+  const stop = () => lenisRef.current?.stop();
+  const start = () => lenisRef.current?.start();
+
+  return (
+    <Ctx.Provider value={{ scrollTo, stop, start }}>{children}</Ctx.Provider>
+  );
+}

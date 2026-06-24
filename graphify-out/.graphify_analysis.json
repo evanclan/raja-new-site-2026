@@ -1,0 +1,307 @@
+{
+  "communities": {
+    "0": [
+      "app_page",
+      "app_page_home",
+      "backdrops_sectionbackdrops_clabbackdrop",
+      "backdrops_sectionbackdrops_englishbackdrop",
+      "backdrops_sectionbackdrops_preschoolbackdrop",
+      "components_section",
+      "components_section_section",
+      "components_section_sectionprops",
+      "lib_i18n_uset",
+      "sections_academy",
+      "sections_academy_academy",
+      "sections_clab",
+      "sections_clab_clab",
+      "sections_english",
+      "sections_english_english",
+      "sections_inquiry",
+      "sections_inquiry_field",
+      "sections_inquiry_infoblock",
+      "sections_inquiry_inquiry",
+      "sections_news",
+      "sections_news_news",
+      "sections_news_tints",
+      "sections_panelshell",
+      "sections_panelshell_panelshell",
+      "sections_panelshell_panelshellprops",
+      "sections_preschool",
+      "sections_preschool_preschool",
+      "sections_studyabroad_studyabroad",
+      "visuals_visuals",
+      "visuals_visuals_clabvisual",
+      "visuals_visuals_englishvisual",
+      "visuals_visuals_globevisual",
+      "visuals_visuals_kaeru_panels",
+      "visuals_visuals_playgroundvisual",
+      "visuals_visuals_preschoolvisual"
+    ],
+    "1": [
+      "app_layout",
+      "app_layout_fredoka",
+      "app_layout_inter",
+      "app_layout_metadata",
+      "app_layout_notojp",
+      "app_layout_rootlayout",
+      "components_loadingprovider",
+      "components_loadingprovider_ctx",
+      "components_loadingprovider_loadingprovider",
+      "components_loadingprovider_loadingstate",
+      "components_loadingprovider_phase",
+      "components_loadingprovider_useloading",
+      "components_nav",
+      "components_nav_langtoggle",
+      "components_nav_nav",
+      "components_preloader",
+      "components_preloader_blobs",
+      "components_preloader_chars",
+      "components_preloader_preloader",
+      "components_smoothscrollprovider",
+      "components_smoothscrollprovider_ctx",
+      "components_smoothscrollprovider_lenisctx",
+      "components_smoothscrollprovider_smoothscrollprovider",
+      "components_smoothscrollprovider_usesmoothscroll",
+      "sections_hero",
+      "sections_hero_ease_out_expo",
+      "sections_hero_ease_out_quart",
+      "sections_hero_hero",
+      "sections_hero_heroheadline",
+      "sections_hero_herotagline"
+    ],
+    "2": [
+      "tsconfig",
+      "tsconfig_compileroptions",
+      "tsconfig_compileroptions_allowjs",
+      "tsconfig_compileroptions_esmoduleinterop",
+      "tsconfig_compileroptions_incremental",
+      "tsconfig_compileroptions_isolatedmodules",
+      "tsconfig_compileroptions_jsx",
+      "tsconfig_compileroptions_lib",
+      "tsconfig_compileroptions_module",
+      "tsconfig_compileroptions_moduleresolution",
+      "tsconfig_compileroptions_noemit",
+      "tsconfig_compileroptions_paths",
+      "tsconfig_compileroptions_plugins",
+      "tsconfig_compileroptions_resolvejsonmodule",
+      "tsconfig_compileroptions_skiplibcheck",
+      "tsconfig_compileroptions_strict",
+      "tsconfig_compileroptions_target",
+      "tsconfig_exclude",
+      "tsconfig_include",
+      "tsconfig_paths"
+    ],
+    "3": [
+      "package",
+      "package_dependencies",
+      "package_dependencies_clsx",
+      "package_dependencies_framer_motion",
+      "package_dependencies_gsap",
+      "package_dependencies_gsap_react",
+      "package_dependencies_lenis",
+      "package_dependencies_next",
+      "package_dependencies_react",
+      "package_dependencies_react_dom",
+      "package_name",
+      "package_private",
+      "package_scripts",
+      "package_scripts_build",
+      "package_scripts_dev",
+      "package_scripts_lint",
+      "package_scripts_start",
+      "package_version"
+    ],
+    "4": [
+      "lib_i18n_usei18n",
+      "sections_studyabroad",
+      "sections_studyabroad_bigpanelsrow",
+      "sections_studyabroad_frameshapedefs",
+      "sections_studyabroad_illoanchor",
+      "sections_studyabroad_illokind",
+      "sections_studyabroad_illostyle",
+      "sections_studyabroad_kaeru_panels",
+      "sections_studyabroad_marquee_frames",
+      "sections_studyabroad_marqueeframe",
+      "sections_studyabroad_mockillustration",
+      "sections_studyabroad_photomarquee",
+      "visuals_visuals_kaeruryugakuvisual"
+    ],
+    "5": [
+      "backdrops_sectionbackdrops",
+      "backdrops_sectionbackdrops_academy_stars",
+      "backdrops_sectionbackdrops_academybackdrop",
+      "backdrops_sectionbackdrops_backdropframe",
+      "backdrops_sectionbackdrops_clab_tri",
+      "backdrops_sectionbackdrops_english_letters",
+      "backdrops_sectionbackdrops_glow",
+      "backdrops_sectionbackdrops_kaeru_stamps",
+      "backdrops_sectionbackdrops_preschool_bubbles",
+      "backdrops_sectionbackdrops_studyabroadbackdrop"
+    ],
+    "6": [
+      "package_devdependencies",
+      "package_devdependencies_eslint",
+      "package_devdependencies_eslint_config_next",
+      "package_devdependencies_tailwindcss",
+      "package_devdependencies_tailwindcss_postcss",
+      "package_devdependencies_types_node",
+      "package_devdependencies_types_react",
+      "package_devdependencies_types_react_dom",
+      "package_devdependencies_typescript"
+    ],
+    "7": [
+      "lib_i18n",
+      "lib_i18n_ctx",
+      "lib_i18n_dictionary",
+      "lib_i18n_i18ncontext",
+      "lib_i18n_languageprovider",
+      "lib_i18n_locale"
+    ],
+    "8": [
+      "components_blobfield",
+      "components_blobfield_blob_paths",
+      "components_blobfield_blobfield",
+      "components_blobfield_blobpath",
+      "components_blobfield_props"
+    ],
+    "9": [
+      "eslint_config",
+      "eslint_config_eslintconfig"
+    ],
+    "10": [
+      "next_config",
+      "next_config_nextconfig"
+    ],
+    "11": [
+      "postcss_config",
+      "postcss_config_config"
+    ]
+  },
+  "cohesion": {
+    "0": 0.1226890756302521,
+    "1": 0.10804597701149425,
+    "2": 0.1,
+    "3": 0.1111111111111111,
+    "4": 0.1794871794871795,
+    "5": 0.2,
+    "6": 0.2222222222222222,
+    "7": 0.3333333333333333,
+    "8": 0.4,
+    "9": 1.0,
+    "10": 1.0,
+    "11": 1.0
+  },
+  "gods": [
+    {
+      "id": "lib_i18n_uset",
+      "label": "useT()",
+      "degree": 18
+    },
+    {
+      "id": "tsconfig_compileroptions",
+      "label": "compilerOptions",
+      "degree": 16
+    },
+    {
+      "id": "lib_i18n_usei18n",
+      "label": "useI18n()",
+      "degree": 12
+    },
+    {
+      "id": "components_loadingprovider_useloading",
+      "label": "useLoading()",
+      "degree": 7
+    },
+    {
+      "id": "components_section_section",
+      "label": "Section()",
+      "degree": 6
+    },
+    {
+      "id": "sections_panelshell_panelshell",
+      "label": "PanelShell()",
+      "degree": 6
+    },
+    {
+      "id": "components_nav_nav",
+      "label": "Nav()",
+      "degree": 5
+    },
+    {
+      "id": "components_smoothscrollprovider_usesmoothscroll",
+      "label": "useSmoothScroll()",
+      "degree": 5
+    },
+    {
+      "id": "sections_hero_hero",
+      "label": "Hero()",
+      "degree": 5
+    },
+    {
+      "id": "package_scripts",
+      "label": "scripts",
+      "degree": 5
+    }
+  ],
+  "surprises": [
+    {
+      "source": "Nav()",
+      "target": "useI18n()",
+      "source_files": [
+        "components/Nav.tsx",
+        "lib/i18n.tsx"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "connects across different repos/directories; bridges separate communities"
+    },
+    {
+      "source": "Hero()",
+      "target": "useI18n()",
+      "source_files": [
+        "components/sections/Hero.tsx",
+        "lib/i18n.tsx"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "connects across different repos/directories; bridges separate communities"
+    },
+    {
+      "source": "PhotoMarquee()",
+      "target": "useI18n()",
+      "source_files": [
+        "components/sections/StudyAbroad.tsx",
+        "lib/i18n.tsx"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "connects across different repos/directories; peripheral node `PhotoMarquee()` unexpectedly reaches hub `useI18n()`"
+    },
+    {
+      "source": "BigPanelsRow()",
+      "target": "useI18n()",
+      "source_files": [
+        "components/sections/StudyAbroad.tsx",
+        "lib/i18n.tsx"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "connects across different repos/directories; peripheral node `BigPanelsRow()` unexpectedly reaches hub `useI18n()`"
+    },
+    {
+      "source": "KaeruRyugakuVisual()",
+      "target": "useI18n()",
+      "source_files": [
+        "components/visuals/Visuals.tsx",
+        "lib/i18n.tsx"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "connects across different repos/directories; peripheral node `KaeruRyugakuVisual()` unexpectedly reaches hub `useI18n()`"
+    }
+  ],
+  "tokens": {
+    "input": 0,
+    "output": 0
+  }
+}

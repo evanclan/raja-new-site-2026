@@ -1,26 +1,230 @@
 @import "tailwindcss";
 
+/* ============================================================
+   RaJA International — Design Tokens
+   ============================================================ */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Brand palette — warm, child-friendly, globally inviting */
+  --color-cream: #fff7e6;
+  --color-ink: #20233a;
+  --color-ink-soft: #3c4060;
+  --color-sky: #6fc3e8;     /* Kaeru Ryugaku — Study Abroad */
+  --color-sun: #ffd23d;     /* RaJA Academy */
+  --color-peach: #ff9a6b;   /* RaJA Preschool */
+  --color-leaf: #58c27d;    /* Clab + Education */
+  --color-berry: #e86b9e;   /* RaJA English */
+  --color-cloud: #ffffff;
+  --color-shadow: rgba(32, 35, 58, 0.08);
+
+  /* Motion — Playful personality, three durations */
+  --ease-signature: cubic-bezier(0.22, 1, 0.36, 1);      /* deceleration */
+  --ease-pop: cubic-bezier(0.175, 0.885, 0.32, 1.275);   /* overshoot */
+  --ease-flow: cubic-bezier(0.65, 0, 0.35, 1);           /* symmetrical */
+  --dur-quick: 220ms;
+  --dur-standard: 480ms;
+  --dur-slow: 900ms;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-cream: var(--color-cream);
+  --color-ink: var(--color-ink);
+  --color-ink-soft: var(--color-ink-soft);
+  --color-sky: var(--color-sky);
+  --color-sun: var(--color-sun);
+  --color-peach: var(--color-peach);
+  --color-leaf: var(--color-leaf);
+  --color-berry: var(--color-berry);
+  --color-cloud: var(--color-cloud);
+
+  --font-display: var(--font-fredoka);
+  --font-sans: var(--font-inter);
+  --font-jp: var(--font-noto-jp);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ============================================================
+   FLUID FOUNDATION
+   One scaling source: the root font-size grows with the viewport,
+   and because every Tailwind size is rem-based, the whole design
+   (type, spacing, container) scales proportionally — a 1440 layout
+   fills widescreen and shrinks cleanly to mobile.
+
+   THE RULE: `vw` is allowed in exactly three places — the root
+   font-size below, the three --text-display-* tokens, and the
+   container width guard `min(…vw, …rem)`. Everything else is plain
+   rem so it scales exactly once. Any stray vw elsewhere double-scales.
+   ============================================================ */
+
+/* (A) Master scaler — fluid root font-size. The rem bounds resolve
+   against the user's browser default, so zoom/font-size prefs are
+   respected. 14px ≤768 · 16px @1440 · 18px @1920 · 20.7px @2560 · cap 24px. */
+html {
+  font-size: clamp(0.875rem, 0.625rem + 0.4167vw, 1.5rem);
 }
 
+/* (B) Bespoke helper vars (not Tailwind theme namespaces) live in :root
+   so they always emit as plain CSS variables for the @utility rules below. */
+:root {
+  --shell-max: 110rem; /* default content cap; vw guard governs until past 4K */
+  --shell-tight-max: 78rem; /* content-light sections (News, English, Footer) */
+  --shell-wide-max: 120rem; /* edge-to-edge brochure row */
+  --measure: 38rem; /* single-column prose / form cap */
+
+  --space-gutter: 1.75rem; /* was px-6 → md:px-10 */
+  --space-gutter-lg: 2.75rem; /* was px-6 → md:px-12 */
+  --space-band: 6.5rem; /* was py-24 → md:py-32 */
+  --space-band-lg: 8rem;
+
+  /* Motion distances — baseline (root 16px) matches the original px so the
+     hand-tuned choreography is preserved, then scales with the root. */
+  --move-xs: 0.5rem; /* idle bob (~8px, was 5–7px) */
+  --move-sm: 1.125rem; /* hover lift (~18px) */
+  --move-md: 2.25rem; /* copy / section-fade rise (~36px) */
+  --move-lg: 5rem; /* hero / photo entrance (~80px) */
+}
+
+/* (C) Fluid type scale — registered as Tailwind tokens so `text-*`
+   utilities exist. Plain-rem tiers scale via the root; the three
+   display tiers carry the only sanctioned heading vw term (the rem
+   ceiling caps how far they grow on widescreen). */
+@theme {
+  --text-2xs: 0.625rem;
+  --text-2xs--line-height: 1.4;
+  --text-xs: 0.75rem;
+  --text-xs--line-height: 1.5;
+  --text-sm: 0.875rem;
+  --text-sm--line-height: 1.55;
+  --text-base: 1rem;
+  --text-base--line-height: 1.65;
+  --text-lg: 1.125rem;
+  --text-lg--line-height: 1.6;
+  --text-xl: 1.25rem;
+  --text-xl--line-height: 1.5;
+  --text-2xl: 1.5rem;
+  --text-2xl--line-height: 1.35;
+  --text-3xl: 1.875rem;
+  --text-3xl--line-height: 1.25;
+  --text-4xl: 2.25rem;
+  --text-4xl--line-height: 1.15;
+  --text-5xl: 3rem;
+  --text-5xl--line-height: 1.05;
+  --text-6xl: 3.75rem;
+  --text-6xl--line-height: 1;
+  --text-7xl: 4.5rem;
+  --text-7xl--line-height: 0.98;
+
+  /* DISPLAY tier — the only type tokens with a vw term. */
+  --text-display-3: clamp(1.6rem, 3vw, 2.75rem);
+  --text-display-3--line-height: 1.05;
+  --text-display-2: clamp(2rem, 4.2vw, 3.75rem);
+  --text-display-2--line-height: 1.04;
+  --text-display-1: clamp(2.6rem, 5.4vw, 5.5rem);
+  --text-display-1--line-height: 0.96;
+
+  /* Keep Tailwind's spacing base in rem so p-/m-/gap-/w-/h-* auto-scale
+     with the root font-size (this is what makes spacing fill widescreen). */
+  --spacing: 0.25rem;
+}
+
+/* (D) Unified container + rhythm utilities. `shell` is the one content
+   container: it caps width (the rem max scales with the root, so it keeps
+   growing to fill widescreen, then centres with auto margins past the cap),
+   centres, and bakes in the standard gutter — one class replacing
+   `mx-auto max-w-7xl px-6 md:px-10`. Apply to INNER content columns ONLY,
+   never to a full-bleed <Section> or an absolute inset-0 backdrop layer. */
+@utility shell {
+  width: 100%;
+  max-width: var(--shell-max);
+  margin-inline: auto;
+  padding-inline: var(--space-gutter);
+}
+@utility shell-tight {
+  width: 100%;
+  max-width: var(--shell-tight-max);
+  margin-inline: auto;
+  padding-inline: var(--space-gutter);
+}
+@utility shell-wide {
+  width: 100%;
+  max-width: var(--shell-wide-max);
+  margin-inline: auto;
+  padding-inline: var(--space-gutter);
+}
+/* Inner reading-width cap for prose/forms — sits within a shell's gutter. */
+@utility measure {
+  max-width: var(--measure);
+}
+/* Standalone gutters/bands for full-bleed sections that don't use `shell`. */
+@utility px-gutter {
+  padding-inline: var(--space-gutter);
+}
+@utility px-gutter-lg {
+  padding-inline: var(--space-gutter-lg);
+}
+@utility py-band {
+  padding-block: var(--space-band);
+}
+@utility py-band-lg {
+  padding-block: var(--space-band-lg);
+}
+
+html,
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-cream);
+  color: var(--color-ink);
+  font-family: var(--font-inter), var(--font-noto-jp), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Lenis — required for smooth scroll */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: clip;
+}
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}
+
+/* Disable native smooth scroll-snap — we use Lenis virtual snap */
+html {
+  scroll-behavior: auto;
+}
+
+/* Typography */
+.font-display {
+  font-family: var(--font-fredoka), var(--font-noto-jp), system-ui, sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+/* Japanese locale: switch display font to Noto Sans JP so headings look right in JP */
+html[lang="ja"] .font-display {
+  font-family: var(--font-noto-jp), var(--font-fredoka), system-ui, sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.005em;
+}
+
+/* Utility: blob mask for playful shapes */
+.blob {
+  border-radius: 68% 32% 61% 39% / 45% 54% 46% 55%;
+}
+
+/* Respect user preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

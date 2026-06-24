@@ -1,0 +1,127 @@
+{
+  "app/layout.tsx": {
+    "mtime": 1782182915.0967302,
+    "ast_hash": "beb35da5ee49708fed870bc82e98d2fe",
+    "semantic_hash": "beb35da5ee49708fed870bc82e98d2fe"
+  },
+  "app/page.tsx": {
+    "mtime": 1776992137.2246785,
+    "ast_hash": "c7111f0e8a348c0f8d2200906bf26618",
+    "semantic_hash": "c7111f0e8a348c0f8d2200906bf26618"
+  },
+  "components/BlobField.tsx": {
+    "mtime": 1782182915.1187189,
+    "ast_hash": "be064ce1a96d218f954792c822b4adb4",
+    "semantic_hash": "be064ce1a96d218f954792c822b4adb4"
+  },
+  "components/LoadingProvider.tsx": {
+    "mtime": 1782182915.0969052,
+    "ast_hash": "0971009f5696acabb873e65ad022b165",
+    "semantic_hash": "0971009f5696acabb873e65ad022b165"
+  },
+  "components/Nav.tsx": {
+    "mtime": 1782182915.1148288,
+    "ast_hash": "321b464695f3df40331c0f02b4f6444b",
+    "semantic_hash": "321b464695f3df40331c0f02b4f6444b"
+  },
+  "components/Preloader.tsx": {
+    "mtime": 1782182915.1147661,
+    "ast_hash": "1429258454a3e502a1b58e55fc53612f",
+    "semantic_hash": "1429258454a3e502a1b58e55fc53612f"
+  },
+  "components/Section.tsx": {
+    "mtime": 1782182915.070124,
+    "ast_hash": "b92bd5cebfd414f74ed029efdb379783",
+    "semantic_hash": "b92bd5cebfd414f74ed029efdb379783"
+  },
+  "components/SmoothScrollProvider.tsx": {
+    "mtime": 1782182915.0701127,
+    "ast_hash": "d7a41cd169ca9a8ab8922c63021f6d3f",
+    "semantic_hash": "d7a41cd169ca9a8ab8922c63021f6d3f"
+  },
+  "components/backdrops/SectionBackdrops.tsx": {
+    "mtime": 1782182915.105696,
+    "ast_hash": "ad539372a2cbb2313087db85179dd1e0",
+    "semantic_hash": "ad539372a2cbb2313087db85179dd1e0"
+  },
+  "components/sections/Academy.tsx": {
+    "mtime": 1782182915.0694573,
+    "ast_hash": "38b837df9ac231bff1552483a204c86b",
+    "semantic_hash": "38b837df9ac231bff1552483a204c86b"
+  },
+  "components/sections/Clab.tsx": {
+    "mtime": 1782182915.0969293,
+    "ast_hash": "035aa24b891773cfc6781a7f45d506f5",
+    "semantic_hash": "035aa24b891773cfc6781a7f45d506f5"
+  },
+  "components/sections/English.tsx": {
+    "mtime": 1782182915.0693233,
+    "ast_hash": "7f01920771e9505f02f07847b6390c56",
+    "semantic_hash": "7f01920771e9505f02f07847b6390c56"
+  },
+  "components/sections/Hero.tsx": {
+    "mtime": 1782182915.0692887,
+    "ast_hash": "ba4c5979973ca52b98328847a319eed1",
+    "semantic_hash": "ba4c5979973ca52b98328847a319eed1"
+  },
+  "components/sections/Inquiry.tsx": {
+    "mtime": 1782182915.0694158,
+    "ast_hash": "26b35d70785da192c54ed4413569aa41",
+    "semantic_hash": "26b35d70785da192c54ed4413569aa41"
+  },
+  "components/sections/News.tsx": {
+    "mtime": 1782182915.1185791,
+    "ast_hash": "3db4b8552b39f0f34850ba7300f04adb",
+    "semantic_hash": "3db4b8552b39f0f34850ba7300f04adb"
+  },
+  "components/sections/PanelShell.tsx": {
+    "mtime": 1782182915.0969079,
+    "ast_hash": "b848fd2716278ce865c3caf5405443ed",
+    "semantic_hash": "b848fd2716278ce865c3caf5405443ed"
+  },
+  "components/sections/Preschool.tsx": {
+    "mtime": 1782182915.0926442,
+    "ast_hash": "f5841ed8211275c47e5d21585a221889",
+    "semantic_hash": "f5841ed8211275c47e5d21585a221889"
+  },
+  "components/sections/StudyAbroad.tsx": {
+    "mtime": 1782182915.0925803,
+    "ast_hash": "8056e23295164de9678a834b45b5936c",
+    "semantic_hash": "8056e23295164de9678a834b45b5936c"
+  },
+  "components/visuals/Visuals.tsx": {
+    "mtime": 1782182915.1186957,
+    "ast_hash": "7ba5406a009c3b436d7a0eb46e361e6b",
+    "semantic_hash": "7ba5406a009c3b436d7a0eb46e361e6b"
+  },
+  "eslint.config.mjs": {
+    "mtime": 1776901458.6358318,
+    "ast_hash": "dfa1f5f6a7037bf39dc510f30b180002",
+    "semantic_hash": "dfa1f5f6a7037bf39dc510f30b180002"
+  },
+  "lib/i18n.tsx": {
+    "mtime": 1782182915.1147127,
+    "ast_hash": "c9c1f99d27f44ece58e9a67629a096ff",
+    "semantic_hash": "c9c1f99d27f44ece58e9a67629a096ff"
+  },
+  "next.config.ts": {
+    "mtime": 1776901458.6361008,
+    "ast_hash": "9b77af189a21a7a64e4bd7a426f64176",
+    "semantic_hash": "9b77af189a21a7a64e4bd7a426f64176"
+  },
+  "package.json": {
+    "mtime": 1776913280.5947092,
+    "ast_hash": "f7772d05c05b240b206a809eb01fde36",
+    "semantic_hash": "f7772d05c05b240b206a809eb01fde36"
+  },
+  "postcss.config.mjs": {
+    "mtime": 1776901458.636324,
+    "ast_hash": "239f3ebf717465dc636818a1a619398d",
+    "semantic_hash": "239f3ebf717465dc636818a1a619398d"
+  },
+  "tsconfig.json": {
+    "mtime": 1776901458.6374745,
+    "ast_hash": "02fc19ad21338c2ab820a70136310db4",
+    "semantic_hash": "02fc19ad21338c2ab820a70136310db4"
+  }
+}
