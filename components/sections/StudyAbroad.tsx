@@ -698,7 +698,7 @@ export function StudyAbroad() {
                 delay: 0.22,
                 ease: [0.22, 1, 0.36, 1],
               }}
-              className="font-display mt-4 text-display-1 tracking-tight"
+              className="font-display mt-4 whitespace-pre-line text-display-1 tracking-tight"
             >
               {p.title}
             </motion.h2>

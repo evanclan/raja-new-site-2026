@@ -375,7 +375,7 @@ const DICTIONARY = {
     panels: {
       studyAbroad: {
         label: "かえる留学",
-        title: "世界を見て、変わって帰ろう。",
+        title: "世界を見て、\n変わって帰ろう。",
         subtitle: "あたらしいカタチの留学。",
         ages: "ティーン ＆ 若者",
         description:

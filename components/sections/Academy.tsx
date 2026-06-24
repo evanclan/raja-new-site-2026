@@ -163,10 +163,12 @@ export function Academy() {
         ref={rootRef}
         className="relative z-[1] shell grid min-h-screen grid-cols-1 items-center gap-12 py-band md:grid-cols-12"
       >
-        {/* COPY — left half, deliberately under-filled with ma. */}
-        <div className="relative z-10 flex items-center gap-6 md:col-span-5 md:gap-10">
+        {/* COPY — left half, deliberately under-filled with ma. Top-aligned
+            with the photo's upper edge so the badge→CTA group reads as one
+            composition with the hero (the IB lockup anchors the bottom). */}
+        <div className="relative z-10 flex items-start gap-6 md:col-span-5 md:gap-10 md:pt-[var(--space-band)]">
           <div
-            className="flex max-w-[46ch] flex-1 flex-col justify-center"
+            className="flex max-w-[46ch] flex-1 flex-col justify-start"
             style={locale === "ja" ? { maxWidth: "26em" } : undefined}
           >
             {/* Number badge + label — the shared section header. */}
@@ -246,7 +248,7 @@ export function Academy() {
               initial={{ opacity: 0, y: reduce ? 0 : 26 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.9, delay: 0.2, ease: EASE }}
-              className="font-display shrink-0 self-center text-[4.2rem]"
+              className="font-display shrink-0 self-start text-[4.2rem]"
               style={{
                 writingMode: "vertical-rl",
                 textOrientation: "upright",
