@@ -173,6 +173,7 @@ export function Clab() {
             height={453}
             alt="C-Lab + Education"
             className="mt-6"
+            large
           />
 
           <p

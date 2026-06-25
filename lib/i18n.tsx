@@ -53,6 +53,15 @@ const DICTIONARY = {
         english: "Let's Go English",
       },
     },
+    intro: {
+      eyebrow: "An introduction",
+      // The Japanese ink phrase (SVG) is the hero; this renders as a
+      // small caption beneath it so EN readers get the meaning.
+      lead: "When we say “international school” …",
+      srLead: "When we say international school…",
+      answer: "… we mean RaJA.",
+      caption: "Press play — see what we mean",
+    },
     panels: {
       studyAbroad: {
         label: "Kaeru Ryugaku",
@@ -67,7 +76,7 @@ const DICTIONARY = {
         kicker: "Commencement · Class of 2026",
         // Authored line breaks — the headline is set in three short
         // lines so the ma (negative space) reads, never browser-wrapped.
-        title: ["The day they", "reached for", "the stars."],
+        title: ["A Gift", "from Nature."],
         // Age folded into the subtitle (no standalone pill).
         subtitle: "An English-immersion academy · ages 3–6.",
         body: "A real cap-and-gown milestone that says: you can belong anywhere.",
@@ -81,12 +90,12 @@ const DICTIONARY = {
           "RaJA Co., Ltd. — a candidate school for the International Baccalaureate Primary Years Programme.",
       },
       preschool: {
-        label: "RaJA Preschool",
-        title: "The softest first step.",
-        subtitle: "Nurture that holds, gently.",
-        ages: "Ages 0 – 3",
+        label: "RaJA International Preschool",
+        title: "To a Wider,\nBrighter Future",
+        subtitle: "Gentle care for ages 0 – 2.",
+        ages: "Ages 0 – 2",
         description:
-          "A home away from home for our tiniest learners — built around the science of early attachment.",
+          "What makes RaJA International Preschool special is its richly international, wonderfully diverse environment. Learning joyfully through play, children build the foundation to grow as individuals with a true international spirit.",
         imageAlt:
           "A smiling preschool child resting their chin on their hands.",
         pillars: [
@@ -372,6 +381,13 @@ const DICTIONARY = {
         english: "Let's Go English",
       },
     },
+    intro: {
+      eyebrow: "はじめに",
+      lead: "「インターナショナルスクール」と言えば …",
+      srLead: "「インターナショナルスクール」と言えば…",
+      answer: "… そう、RaJA。",
+      caption: "再生して、その答えを",
+    },
     panels: {
       studyAbroad: {
         label: "かえる留学",
@@ -384,10 +400,10 @@ const DICTIONARY = {
       academy: {
         label: "RaJA アカデミー",
         kicker: "卒園おめでとう · 2026年度",
-        // 「星に手を、/ のばした日。」— pre-broken after the 読点 so CJK
-        // never wraps mid-word. Set tate-gaki (vertical) on desktop, or
-        // these two lines stacked on mobile / short panels.
-        title: ["星に手を、", "のばした日。"],
+        // 「環境の / プレゼント」— broken before the key noun so CJK never
+        // wraps mid-word. Set tate-gaki (vertical) on desktop, or these two
+        // lines stacked on mobile / short panels.
+        title: ["環境の", "プレゼント"],
         subtitle: "英語でまなぶ、こども国際教養施設。3〜6歳。",
         // RaJA の実際のタグライン。
         body: "愛するこどもたちへ、言語環境のプレゼントを。",
@@ -400,12 +416,12 @@ const DICTIONARY = {
           "RaJA Co., Ltd. ／ 国際バカロレア（IB）PYP 候補校のロゴ。",
       },
       preschool: {
-        label: "RaJA プリスクール",
-        title: "やわらかな、\nはじめの一歩。",
-        subtitle: "やさしく、しっかりと寄りそう保育。",
-        ages: "0 〜 3 歳",
+        label: "RaJA International Preschool",
+        title: "より広く、\nより輝ける未来へ。",
+        subtitle: "0〜2歳の、やさしく寄りそう保育。",
+        ages: "0 〜 2 歳",
         description:
-          "いちばん小さな学び手たちのための、もうひとつの家。愛着形成の科学にもとづいて設計しました。",
+          "ラジャ・インターナショナル保育園は、国際色豊かで多様性に富む環境が魅力です。遊びの中で楽しく学び、こどもたちが ひとりの人として、真の国際性を築いていくための土台作りをしています。",
         imageAlt: "頬づえをついて笑う、プリスクールの子ども。",
         pillars: [
           { t: "安心のリズム", d: "毎日が、見通せて心地よい。" },

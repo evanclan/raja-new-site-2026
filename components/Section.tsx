@@ -49,6 +49,29 @@ type SectionProps = {
    * fully visible from the start.
    */
   noFade?: boolean;
+  /**
+   * Drop the forced full-viewport height. Use on compact interstitials
+   * that should hug their own content instead of filling the screen.
+   * Still a snap section and still cross-fades.
+   */
+  compact?: boolean;
+  /**
+   * Non-fading decorative layer painted between the solid `background`
+   * and the cross-fading content. Unlike `children` (which lives inside
+   * `[data-section-fade]` and dissolves at the section seam), an underlay
+   * stays crisp at all scroll positions. Used by the Preschool→Academy
+   * dive seam to paint a waterline that must NOT soften mid-fade.
+   * Expected to be an absolutely-positioned, `pointer-events-none` layer.
+   */
+  underlay?: ReactNode;
+  /**
+   * Non-fading decorative layer painted ABOVE the content (and above the
+   * cross-fading backdrop). Use for transient effects that must punch
+   * over everything — e.g. the dive seam's surface flash / splash as you
+   * break through the waterline. Must be `pointer-events-none` and should
+   * gate itself to zero opacity at rest so it never obscures content.
+   */
+  overlay?: ReactNode;
 } & Omit<MotionProps, "children">;
 
 /**
@@ -62,6 +85,9 @@ export function Section({
   className = "",
   style,
   noFade,
+  compact = false,
+  underlay,
+  overlay,
   ...motionProps
 }: SectionProps) {
   const sectionRef = useRef<HTMLElement | null>(null);
@@ -147,10 +173,25 @@ export function Section({
       ref={sectionRef as unknown as React.RefObject<HTMLElement>}
       id={id}
       data-snap-section
-      className={`relative min-h-screen w-full overflow-hidden ${className}`}
+      className={`relative ${compact ? "" : "min-h-screen"} w-full overflow-hidden ${className}`}
       style={{ background, ...style }}
       {...motionProps}
     >
+      {/* Underlay — a crisp, never-fading decorative layer that sits
+          above the solid background but below the cross-fading content.
+          The scrub only touches `[data-section-fade]`, so anything here
+          holds full opacity across the seam (the dive waterline lives
+          here so it doesn't dissolve at the hand-off midpoint). */}
+      {underlay != null && (
+        <div
+          data-section-underlay
+          aria-hidden
+          className="pointer-events-none absolute inset-0 z-0"
+        >
+          {underlay}
+        </div>
+      )}
+
       {/* Fade layer — wraps all section content so the background
           (painted on the <section> itself) can stay solid while
           the content crossfades. `display: contents` is avoided
@@ -164,6 +205,20 @@ export function Section({
       >
         {children}
       </div>
+
+      {/* Overlay — a non-fading layer painted above the content. Used by
+          the dive seam to flash bright surface effects over everything at
+          the moment of breaking through, while gating itself to zero at
+          rest so it never obscures the section. */}
+      {overlay != null && (
+        <div
+          data-section-overlay
+          aria-hidden
+          className="pointer-events-none absolute inset-0 z-[3]"
+        >
+          {overlay}
+        </div>
+      )}
     </motion.section>
   );
 }

@@ -129,7 +129,7 @@ export function AcademyKeepsake() {
               Calmed (−4px / 8s) so the hero stays alive without competing
               with the other ornaments for attention. */}
           <motion.div
-            className="absolute inset-0"
+            className="absolute inset-0 origin-bottom scale-[1.15]"
             animate={reduce ? undefined : { y: [0, -4, 0] }}
             transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
           >

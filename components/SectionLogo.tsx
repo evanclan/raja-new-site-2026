@@ -25,6 +25,7 @@ export function SectionLogo({
   alt = "",
   className = "",
   large = false,
+  sizeClassName,
 }: {
   src: string;
   width: number;
@@ -34,6 +35,8 @@ export function SectionLogo({
   className?: string;
   /** Render at a larger size than the default uniform height. */
   large?: boolean;
+  /** Override the fluid height clamp for this instance (e.g. a tall crest). */
+  sizeClassName?: string;
 }) {
   const reduce = useReducedMotion();
   // SVGs skip Next's image optimizer (it blocks SVG without
@@ -59,12 +62,15 @@ export function SectionLogo({
           width={width}
           height={height}
           unoptimized={unoptimized}
-          sizes="240px"
+          // Large emblems render up to ~24rem (≈384px) on widescreen, so they
+          // need a bigger source there to stay crisp; mobile stays light.
+          sizes={large ? "(min-width: 768px) 384px, 160px" : "240px"}
           draggable={false}
           // Height owns the size (uniform across sections); width follows the
           // image's own aspect ratio. Grows strongly on widescreen via the vw
-          // term: ~60px mobile · ~94px @1440 · ~125px @1920 · ~166px @2560.
-          className={`${large ? "h-[clamp(8rem,12vw,18rem)]" : "h-[clamp(4.25rem,6.5vw,9rem)]"} w-auto select-none`}
+          // term. Default: ~60px mobile · ~94px @1440 · ~125px @1920. Large
+          // emblems run bigger: ~216px @1440 · ~288px @1920 · 384px cap.
+          className={`${sizeClassName ?? (large ? "h-[clamp(8rem,15vw,24rem)]" : "h-[clamp(4.25rem,6.5vw,9rem)]")} w-auto select-none`}
           style={{ filter: "drop-shadow(0 8px 16px rgba(8,10,40,0.18))" }}
         />
       </motion.div>

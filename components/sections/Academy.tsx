@@ -8,6 +8,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { Section } from "../Section";
 import { AcademyBackdrop } from "../backdrops/SectionBackdrops";
+import { DiveSeam } from "../transitions/DiveSeam";
 import { AcademyKeepsake } from "../visuals/AcademyKeepsake";
 import { useI18n, useT } from "@/lib/i18n";
 import { remPx } from "@/lib/useViewportPx";
@@ -156,6 +157,10 @@ export function Academy() {
       id="academy"
       background="linear-gradient(160deg, #3c44a8 0%, #2e3192 50%, #191d5c 100%)"
       style={{ color: "#fff7e6" }}
+      // The dive seam flashes a crisp waterline + splash at the
+      // Preschool→Academy boundary in a non-fading overlay above the
+      // backdrop, then gates itself to zero so Academy is unchanged at rest.
+      overlay={<DiveSeam />}
     >
       <AcademyBackdrop />
 
@@ -166,7 +171,7 @@ export function Academy() {
         {/* COPY — left half, deliberately under-filled with ma. Top-aligned
             with the photo's upper edge so the badge→CTA group reads as one
             composition with the hero (the IB lockup anchors the bottom). */}
-        <div className="relative z-10 flex items-start gap-6 md:col-span-5 md:gap-10 md:pt-[var(--space-band)]">
+        <div className="relative z-10 flex items-start gap-6 self-start md:col-span-5 md:gap-10 md:pt-[var(--space-band)]">
           <div
             className="flex max-w-[46ch] flex-1 flex-col justify-start"
             style={locale === "ja" ? { maxWidth: "26em" } : undefined}
@@ -180,7 +185,7 @@ export function Academy() {
                 className="font-display grid h-8 w-8 place-items-center rounded-full text-sm"
                 style={{ background: "#ffd23d", color: "#20233a" }}
               >
-                02
+                03
               </span>
               <span style={{ opacity: 0.7 }}>{p.label}</span>
             </div>
@@ -188,11 +193,12 @@ export function Academy() {
             {/* Section logo — uniform size across all sections, on its own
                 line beneath the badge. */}
             <SectionLogo
-              src="/academy/academy-logo.png"
-              width={3579}
-              height={2552}
+              src="/academy/academy-logo.svg"
+              width={375}
+              height={300}
               className="mt-5"
               large
+              sizeClassName="h-[clamp(14rem,21vw,30rem)]"
             />
 
             {/* Headline — horizontal here unless it's the JA vertical
@@ -294,7 +300,7 @@ export function Academy() {
             height={600}
             sizes="(max-width: 768px) 80vw, 460px"
             quality={90}
-            className="mt-2 h-auto w-[clamp(20rem,32vw,28.75rem)]"
+            className="mt-[13px] h-auto w-[clamp(23rem,38vw,33rem)]"
           />
         </div>
       </div>

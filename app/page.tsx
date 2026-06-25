@@ -1,5 +1,6 @@
 import { Hero } from "@/components/sections/Hero";
 import { StudyAbroad } from "@/components/sections/StudyAbroad";
+import { Intro } from "@/components/sections/Intro";
 import { Academy } from "@/components/sections/Academy";
 import { Preschool } from "@/components/sections/Preschool";
 import { Clab } from "@/components/sections/Clab";
@@ -13,8 +14,9 @@ export default function Home() {
     <>
       <Hero />
       <StudyAbroad />
-      <Academy />
+      <Intro />
       <Preschool />
+      <Academy />
       <Clab />
       <English />
       <News />

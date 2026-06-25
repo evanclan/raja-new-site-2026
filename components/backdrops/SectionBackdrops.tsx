@@ -26,7 +26,7 @@
  *   honoured globally in `globals.css`.
  */
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 
 // ————————————————————————————————————————————————————————
 // Shared helpers
@@ -128,87 +128,6 @@ export function StudyAbroadBackdrop() {
         }}
       />
 
-      {/* Faint globe meridians — dashed in a sage green, slowly
-          rotating. Reads as a map-room globe, on-brand for 留学. */}
-      <motion.svg
-        className="absolute left-[-10%] top-[8%] h-[80%] w-[60%] md:left-[-4%]"
-        viewBox="0 0 400 400"
-        fill="none"
-        initial={{ rotate: 0 }}
-        animate={{ rotate: 360 }}
-        transition={{ duration: 220, repeat: Infinity, ease: "linear" }}
-      >
-        {[180, 70, 120].map((ry, i) => (
-          <ellipse
-            key={i}
-            cx="200"
-            cy="200"
-            rx={180}
-            ry={ry}
-            stroke="rgba(43,182,115,0.22)"
-            strokeWidth="1"
-            strokeDasharray="2 8"
-          />
-        ))}
-        {[180, 120, 70].map((rx, i) => (
-          <ellipse
-            key={`v${i}`}
-            cx="200"
-            cy="200"
-            rx={rx}
-            ry={180}
-            stroke="rgba(43,182,115,0.18)"
-            strokeWidth="1"
-            strokeDasharray="2 8"
-          />
-        ))}
-        <circle
-          cx="200"
-          cy="200"
-          r="180"
-          stroke="rgba(43,182,115,0.28)"
-          strokeWidth="1"
-          strokeDasharray="2 8"
-        />
-      </motion.svg>
-
-      {/* Flight arcs — six dashed curves, one per destination on
-          the brochure, each coloured to match its card. The
-          bundle reads as an "air-route map" across the sheet. */}
-      <svg
-        className="absolute inset-0 h-full w-full"
-        viewBox="0 0 1200 800"
-        preserveAspectRatio="xMidYMid slice"
-        fill="none"
-      >
-        {[
-          { d: "M -40 620 Q 400 300 900 520", delay: 0.2, color: "#569ecc" },
-          { d: "M 100 200 Q 500 520 1200 260", delay: 0.6, color: "#b15896" },
-          { d: "M 200 740 Q 700 420 1240 720", delay: 1.0, color: "#7db852" },
-          { d: "M -20 480 Q 500 120 1100 360", delay: 1.4, color: "#e4703d" },
-          { d: "M 60 120 Q 600 600 1180 480", delay: 1.8, color: "#3d5ca0" },
-          { d: "M 160 680 Q 620 240 1220 560", delay: 2.2, color: "#61358b" },
-        ].map((a, i) => (
-          <motion.path
-            key={i}
-            d={a.d}
-            stroke={a.color}
-            strokeWidth="1.6"
-            strokeDasharray="4 10"
-            strokeLinecap="round"
-            style={{ opacity: 0.4 }}
-            initial={{ pathLength: 0 }}
-            whileInView={{ pathLength: 1 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{
-              duration: 3.2,
-              delay: a.delay,
-              ease: [0.22, 1, 0.36, 1],
-            }}
-          />
-        ))}
-      </svg>
-
       {/* Confetti stamps — scattered like passport stamps across
           the sheet, in the six brochure colours plus two kaeru
           greens, floating gently so the page feels alive. */}
@@ -297,14 +216,23 @@ export function StudyAbroadBackdrop() {
 }
 
 // ————————————————————————————————————————————————————————
-// 2. Academy — DARK ROYAL INDIGO
-//    Main card rect of academy.svg is #2e3192 (deep royal). We
-//    build a scholarly "night library / celestial map" stage
-//    using the SVG's own #2f4c70 navy, #008ad0 cyan, #9099c4
-//    periwinkle, and the amber #f99e49 accent.
+// 2. Academy — DARK ROYAL INDIGO  ·  concept: DEEP OCEAN
+//    Same palette the client loves (academy.svg colours):
+//      · #2e3192 / #4f56be  deep royal indigo  → the water body
+//      · #2f4c70            navy               → deep-water shade
+//      · #008ad0            cyan               → sunlit shallows
+//      · #9099c4            periwinkle         → drifting light
+//      · #f99e49            amber              → warm sun-glints
+//    The concept is no longer a starfield/constellation but a
+//    sub-surface ocean: sunlight god-rays shafting down from the
+//    surface, slow caustic shimmer, marine particles drifting in
+//    the current, and bubbles rising to the light.
 // ————————————————————————————————————————————————————————
 
-const ACADEMY_STARS = [
+// Marine-snow / plankton motes — what used to be "stars" are now
+// suspended particles drifting in the current. Same scatter, but
+// they slide laterally and bob rather than twinkle in place.
+const ACADEMY_MOTES = [
   { x: 140, y: 120, s: 2.2 },
   { x: 380, y: 80, s: 1.6 },
   { x: 680, y: 160, s: 2.8 },
@@ -322,239 +250,367 @@ const ACADEMY_STARS = [
   { x: 60, y: 380, s: 1.4 },
 ];
 
+// Rising bubbles — column + size + timing, drifting up to the surface.
+const ACADEMY_BUBBLES = [
+  { x: "12%", y: "92%", s: 10, d: 0 },
+  { x: "26%", y: "84%", s: 6, d: 1.6 },
+  { x: "44%", y: "96%", s: 13, d: 0.8 },
+  { x: "58%", y: "88%", s: 7, d: 2.4 },
+  { x: "72%", y: "94%", s: 9, d: 1.1 },
+  { x: "86%", y: "82%", s: 5, d: 3.0 },
+  { x: "34%", y: "74%", s: 8, d: 2.0 },
+  { x: "66%", y: "70%", s: 6, d: 0.4 },
+];
+
+// Fish silhouette — a clean teardrop body + tail wedge (no detail, so
+// it reads as a refined silhouette gliding in the current, not a cartoon).
+// Drawn nose-right in a ~44-wide local box; direction is set by flipping
+// scaleX, size by a uniform scale = px / 44.
+const FISH_PATH =
+  "M6 12 Q 18 3 34 9 Q 40 11 42 12 Q 40 13 34 15 Q 18 21 6 12 Z M6 12 L -2 6 L 1 12 L -2 18 Z";
+
+type FishDef = {
+  id: string;
+  y: number; // vertical band in the 0..800 viewBox
+  size: number; // body length in viewBox units
+  dir: 1 | -1; // swim direction (1 → right, -1 → left)
+  op: number; // depth opacity
+  fill: string;
+  driftDur: number; // seconds to cross the water
+  bob: number; // vertical bob amplitude
+  bobDur: number;
+  delay: number;
+  restX: number; // static placement when reduced-motion
+};
+
+// Two loose schools in the UPPER water + a couple of faint strays in the
+// mid water at the edges — kept clear of the copy (left) and the
+// graduation faces (right).
+const ACADEMY_FISH_BACK: FishDef[] = [
+  { id: "F1", y: 150, size: 34, dir: 1, op: 0.2, fill: "#141652", driftDur: 38, bob: 10, bobDur: 6, delay: 0, restX: 300 },
+  { id: "F2", y: 185, size: 28, dir: 1, op: 0.18, fill: "#141652", driftDur: 40, bob: 12, bobDur: 7, delay: 1.2, restX: 640 },
+  { id: "F4", y: 128, size: 30, dir: 1, op: 0.19, fill: "#141652", driftDur: 42, bob: 9, bobDur: 6.5, delay: 2.0, restX: 900 },
+  { id: "F5", y: 300, size: 22, dir: -1, op: 0.12, fill: "#141652", driftDur: 52, bob: 6, bobDur: 8, delay: 0.8, restX: 980 },
+  { id: "F6", y: 340, size: 20, dir: -1, op: 0.12, fill: "#141652", driftDur: 54, bob: 7, bobDur: 8.5, delay: 1.6, restX: 220 },
+];
+
+const ACADEMY_FISH_FRONT: FishDef[] = [
+  { id: "F3", y: 215, size: 44, dir: 1, op: 0.32, fill: "#0c0e36", driftDur: 32, bob: 8, bobDur: 5.5, delay: 0.5, restX: 480 },
+  { id: "F7", y: 92, size: 40, dir: 1, op: 0.3, fill: "#0c0e36", driftDur: 30, bob: 9, bobDur: 5, delay: 2.6, restX: 140 },
+];
+
+function Fish({ f, reduce }: { f: FishDef; reduce: boolean }) {
+  const k = f.size / 44;
+  const scale = `scale(${f.dir * k} ${k})`;
+
+  // Reduced motion → a still fish placed on-screen at its rest position.
+  if (reduce) {
+    return (
+      <g transform={`translate(${f.restX} ${f.y})`} opacity={f.op}>
+        <g transform={scale}>
+          <path d={FISH_PATH} fill={f.fill} />
+        </g>
+      </g>
+    );
+  }
+
+  // Glide fully across and off the far edge; opacity fades in/out at the
+  // edges (synced to the drift) so the loop reset is never visible.
+  const startX = f.dir > 0 ? -90 : 1290;
+  const endX = f.dir > 0 ? 1320 : -120;
+  return (
+    <g transform={`translate(0 ${f.y})`}>
+      <motion.g
+        initial={{ opacity: 0 }}
+        animate={{
+          x: [startX, endX],
+          opacity: [0, f.op, f.op, f.op, 0],
+          y: [0, -f.bob, 0, f.bob, 0],
+          rotate: [-2.5, 2.5, -2.5],
+        }}
+        transition={{
+          x: { duration: f.driftDur, repeat: Infinity, ease: "linear", delay: f.delay },
+          opacity: {
+            duration: f.driftDur,
+            repeat: Infinity,
+            ease: "linear",
+            times: [0, 0.06, 0.5, 0.94, 1],
+            delay: f.delay,
+          },
+          y: { duration: f.bobDur, repeat: Infinity, ease: "easeInOut" },
+          rotate: { duration: f.bobDur * 0.95, repeat: Infinity, ease: "easeInOut" },
+        }}
+      >
+        <g transform={scale}>
+          <path d={FISH_PATH} fill={f.fill} />
+        </g>
+      </motion.g>
+    </g>
+  );
+}
+
 export function AcademyBackdrop() {
+  const reduce = useReducedMotion() ?? false;
   return (
     <BackdropFrame>
-      {/* Deep-field indigo vignette — a brighter royal in the
-          upper-left fading into an inky blue-black at the
-          bottom-right for cinematic depth. */}
+      {/* Water column — sunlit royal-indigo near the surface up
+          top, darkening into an inky navy-black in the deep at the
+          bottom. Same indigo the client approved, re-read as the
+          body of water itself. */}
       <div
         className="absolute inset-0"
         style={{
           background:
-            "radial-gradient(120% 90% at 15% -10%, rgba(79,86,190,0.55) 0%, transparent 55%), radial-gradient(100% 80% at 100% 110%, rgba(15,17,66,0.75) 0%, transparent 60%)",
+            "linear-gradient(180deg, rgba(79,86,190,0.55) 0%, rgba(46,49,146,0.7) 42%, rgba(20,24,82,0.85) 78%, rgba(12,14,54,0.95) 100%), radial-gradient(120% 70% at 50% -20%, rgba(0,138,208,0.4) 0%, transparent 60%)",
         }}
       />
 
-      {/* Ambient glows — cyan + periwinkle + amber, placed
-          asymmetrically for an editorial composition. */}
-      <Glow x="-8%" y="0%" size="48vw" color="#008ad0" opacity={0.35} />
-      <Glow x="68%" y="-6%" size="42vw" color="#9099c4" opacity={0.3} delay={2} />
-      <Glow x="62%" y="62%" size="44vw" color="#f99e49" opacity={0.22} delay={4} blur={80} />
-      <Glow x="-10%" y="58%" size="40vw" color="#2f4c70" opacity={0.5} delay={6} />
+      {/* Ambient glows — cyan + periwinkle near the surface, navy
+          + amber in the deep, drifting like diffuse underwater light. */}
+      <Glow x="-8%" y="-6%" size="48vw" color="#008ad0" opacity={0.35} />
+      <Glow x="60%" y="-10%" size="42vw" color="#9099c4" opacity={0.3} delay={2} />
+      <Glow x="62%" y="64%" size="44vw" color="#f99e49" opacity={0.16} delay={4} blur={90} />
+      <Glow x="-10%" y="60%" size="42vw" color="#2f4c70" opacity={0.55} delay={6} />
 
-      {/* Celestial constellation field — scattered stars
-          twinkling on a slow cycle. */}
+      {/* Deep-sea life — a far/mid school gliding through the upper
+          water, rendered BEHIND the god-rays so the light shafts pass
+          in front of them. Navy silhouettes, faint with depth. */}
       <svg
         className="absolute inset-0 h-full w-full"
         viewBox="0 0 1200 800"
         preserveAspectRatio="xMidYMid slice"
       >
-        {ACADEMY_STARS.map((st, i) => (
-          <motion.circle
+        {ACADEMY_FISH_BACK.map((f) => (
+          <Fish key={f.id} f={f} reduce={reduce} />
+        ))}
+      </svg>
+
+      {/* God-rays — shafts of sunlight slanting down from the
+          surface. Soft cyan/periwinkle gradients, each breathing
+          on its own slow cycle and skewing gently like light
+          refracting through a moving surface. */}
+      <div
+        className="absolute inset-x-0 top-0 h-full overflow-hidden"
+        style={{
+          maskImage:
+            "linear-gradient(180deg, black 0%, black 45%, transparent 92%)",
+          WebkitMaskImage:
+            "linear-gradient(180deg, black 0%, black 45%, transparent 92%)",
+        }}
+      >
+        {[
+          { left: "12%", w: "13vw", c: "rgba(0,138,208,0.30)", rot: -10, dur: 9, delay: 0 },
+          { left: "30%", w: "9vw", c: "rgba(144,153,196,0.26)", rot: -6, dur: 11, delay: 1.5 },
+          { left: "52%", w: "15vw", c: "rgba(255,255,255,0.16)", rot: -8, dur: 10, delay: 0.8 },
+          { left: "70%", w: "10vw", c: "rgba(0,138,208,0.24)", rot: -5, dur: 12, delay: 2.2 },
+          { left: "85%", w: "8vw", c: "rgba(249,158,73,0.14)", rot: -9, dur: 13, delay: 1.1 },
+        ].map((r, i) => (
+          <motion.span
             key={i}
-            cx={st.x}
-            cy={st.y}
-            r={st.s}
-            fill={i % 5 === 0 ? "#f99e49" : "#ffffff"}
+            className="absolute top-[-12%] h-[130%] origin-top"
+            style={{
+              left: r.left,
+              width: r.w,
+              background: `linear-gradient(180deg, ${r.c} 0%, transparent 75%)`,
+              filter: "blur(8px)",
+              transform: `rotate(${r.rot}deg)`,
+            }}
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true, amount: 0.1 }}
-            animate={{ opacity: [0.4, 1, 0.4] }}
-            transition={{
-              opacity: {
-                duration: 2.2 + (i % 4) * 0.6,
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: i * 0.18,
-              },
+            animate={{
+              opacity: [0.5, 0.95, 0.5],
+              scaleX: [1, 1.15, 1],
             }}
-            style={{
-              filter: `drop-shadow(0 0 ${st.s * 2}px ${i % 5 === 0 ? "#f99e49" : "#ffffff"})`,
+            transition={{
+              duration: r.dur,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: r.delay,
             }}
           />
         ))}
-        {/* A few thin "constellation lines" linking three stars. */}
-        <motion.path
-          d="M 140 120 L 380 80 L 680 160"
-          stroke="#ffffff"
-          strokeWidth="0.8"
-          fill="none"
-          strokeDasharray="1 6"
-          initial={{ opacity: 0, pathLength: 0 }}
-          whileInView={{ opacity: 0.35, pathLength: 1 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 2, delay: 0.6 }}
-        />
-        <motion.path
-          d="M 940 90 L 1080 440 L 980 680"
-          stroke="#f99e49"
-          strokeWidth="0.8"
-          fill="none"
-          strokeDasharray="1 6"
-          initial={{ opacity: 0, pathLength: 0 }}
-          whileInView={{ opacity: 0.35, pathLength: 1 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 2, delay: 1.2 }}
-        />
+      </div>
+
+      {/* Drifting marine particles — the old "stars" now suspended
+          in the water, sliding sideways and bobbing with the
+          current instead of twinkling in place. */}
+      <svg
+        className="absolute inset-0 h-full w-full"
+        viewBox="0 0 1200 800"
+        preserveAspectRatio="xMidYMid slice"
+      >
+        {ACADEMY_MOTES.map((m, i) => (
+          <motion.circle
+            key={i}
+            cx={m.x}
+            cy={m.y}
+            r={m.s}
+            fill={i % 5 === 0 ? "#f99e49" : i % 3 === 0 ? "#9099c4" : "#cfe6f5"}
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true, amount: 0.1 }}
+            animate={{
+              opacity: [0.25, 0.7, 0.25],
+              x: [0, (i % 2 ? 18 : -18), 0],
+              y: [0, (i % 3 ? -12 : 14), 0],
+            }}
+            transition={{
+              duration: 9 + (i % 5) * 1.4,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: i * 0.25,
+            }}
+            style={{
+              filter: `drop-shadow(0 0 ${m.s * 1.6}px ${i % 5 === 0 ? "#f99e49" : "#9bd3f0"})`,
+            }}
+          />
+        ))}
       </svg>
 
-      {/* Diamond outline — a direct echo of the hex-diamond crest
-          at the centre of academy.svg. Two concentric, slowly
-          rotating, held very quiet. */}
-      <motion.svg
-        className="absolute left-1/2 top-1/2 h-[120vmin] w-[120vmin] -translate-x-1/2 -translate-y-1/2"
-        viewBox="0 0 400 400"
-        fill="none"
-        animate={{ rotate: 360 }}
-        transition={{ duration: 280, repeat: Infinity, ease: "linear" }}
-      >
-        <polygon
-          points="200,40 320,110 320,290 200,360 80,290 80,110"
-          stroke="rgba(255,255,255,0.12)"
-          strokeWidth="1"
-          strokeDasharray="3 9"
-        />
-        <polygon
-          points="200,80 290,130 290,270 200,320 110,270 110,130"
-          stroke="rgba(249,158,73,0.18)"
-          strokeWidth="1"
-          strokeDasharray="3 9"
-        />
-      </motion.svg>
-
-      {/* Soft celestial grid — a ruled starmap, gently masked
-          in a radial vignette so it only reads in the middle. */}
-      <div
-        className="absolute inset-0 opacity-[0.10]"
+      {/* Caustics — the rippling lattice of light cast on the
+          sea floor. A wavy grid, gently sliding, masked to read
+          strongest in the upper-middle where the light pools. */}
+      <motion.div
+        className="absolute inset-0 opacity-[0.12]"
         style={{
           backgroundImage:
-            "linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)",
-          backgroundSize: "72px 72px",
+            "repeating-radial-gradient(circle at 30% 20%, rgba(180,225,250,0.5) 0 2px, transparent 2px 26px), repeating-radial-gradient(circle at 75% 35%, rgba(0,138,208,0.45) 0 2px, transparent 2px 32px)",
           maskImage:
-            "radial-gradient(ellipse at center, rgba(0,0,0,1) 30%, rgba(0,0,0,0) 75%)",
+            "radial-gradient(ellipse at 50% 25%, rgba(0,0,0,1) 20%, rgba(0,0,0,0) 80%)",
           WebkitMaskImage:
-            "radial-gradient(ellipse at center, rgba(0,0,0,1) 30%, rgba(0,0,0,0) 75%)",
+            "radial-gradient(ellipse at 50% 25%, rgba(0,0,0,1) 20%, rgba(0,0,0,0) 80%)",
         }}
-      />
-    </BackdropFrame>
-  );
-}
-
-// ————————————————————————————————————————————————————————
-// 3. Preschool — OCEAN BLUE
-//    Main card rect is #00aeef (bright ocean cyan). Supporting
-//    blues: #005baa deep, #3f6eb6 / #819bd0 wave tones.
-//    We build a gentle underwater / horizon scene: ocean wash,
-//    floating bubbles, soft swells, drifting clouds.
-// ————————————————————————————————————————————————————————
-
-const PRESCHOOL_BUBBLES = [
-  { x: "8%", y: "88%", s: 44, d: 0 },
-  { x: "20%", y: "92%", s: 22, d: 1.2 },
-  { x: "34%", y: "78%", s: 30, d: 0.6 },
-  { x: "48%", y: "94%", s: 18, d: 2.0 },
-  { x: "62%", y: "82%", s: 38, d: 1.4 },
-  { x: "76%", y: "90%", s: 26, d: 0.3 },
-  { x: "88%", y: "76%", s: 20, d: 1.8 },
-  { x: "14%", y: "60%", s: 14, d: 2.4 },
-  { x: "70%", y: "54%", s: 16, d: 3.0 },
-];
-
-export function PreschoolBackdrop() {
-  return (
-    <BackdropFrame>
-      {/* Horizon wash — sky-cyan up top, deep ocean-blue on the
-          bottom, a warm sun-glow bleeding through the top-right. */}
-      <div
-        className="absolute inset-0"
-        style={{
-          background:
-            "linear-gradient(180deg, rgba(184,232,250,0.8) 0%, rgba(75,198,239,0.5) 50%, rgba(0,91,170,0.55) 100%), radial-gradient(60% 40% at 85% 10%, rgba(255,236,95,0.32) 0%, transparent 60%)",
-        }}
+        animate={{ backgroundPosition: ["0px 0px, 0px 0px", "26px 14px, -32px 18px", "0px 0px, 0px 0px"] }}
+        transition={{ duration: 16, repeat: Infinity, ease: "easeInOut" }}
       />
 
-      {/* Two soft cloud silhouettes drifting across the top. */}
-      <motion.svg
-        className="absolute left-[4%] top-[12%] h-20 w-44 md:h-28 md:w-64"
-        viewBox="0 0 240 120"
-        fill="#ffffff"
-        style={{ opacity: 0.85 }}
-        initial={{ x: -60, opacity: 0 }}
-        whileInView={{ x: 0, opacity: 0.85 }}
-        viewport={{ once: true, amount: 0.2 }}
-        animate={{ y: [0, -6, 0] }}
-        transition={{
-          y: { duration: 6, repeat: Infinity, ease: "easeInOut" },
-          x: { duration: 1.2, ease: [0.22, 1, 0.36, 1] },
-        }}
-      >
-        <circle cx="60" cy="70" r="36" />
-        <circle cx="100" cy="52" r="42" />
-        <circle cx="150" cy="64" r="36" />
-        <circle cx="180" cy="78" r="28" />
-        <rect x="50" y="70" width="140" height="30" rx="15" />
-      </motion.svg>
-
-      <motion.svg
-        className="absolute right-[8%] top-[24%] h-16 w-32 md:h-24 md:w-48"
-        viewBox="0 0 240 120"
-        fill="#ffffff"
-        style={{ opacity: 0.7 }}
-        initial={{ x: 80, opacity: 0 }}
-        whileInView={{ x: 0, opacity: 0.7 }}
-        viewport={{ once: true, amount: 0.2 }}
-        animate={{ y: [0, 8, 0] }}
-        transition={{
-          y: { duration: 7, repeat: Infinity, ease: "easeInOut", delay: 0.8 },
-          x: { duration: 1.2, ease: [0.22, 1, 0.36, 1] },
-        }}
-      >
-        <circle cx="70" cy="68" r="40" />
-        <circle cx="120" cy="50" r="46" />
-        <circle cx="170" cy="66" r="38" />
-        <rect x="60" y="68" width="120" height="30" rx="15" />
-      </motion.svg>
-
-      {/* Ocean swells — three layered wave bands along the
-          bottom, low-opacity, gently phasing. */}
+      {/* Slow ocean current — broad undulating bands anchored to the
+          section floor (bottom 0) and rising into the mid-water, in
+          navy + cyan, phasing against each other so the whole column
+          feels like it's gently flowing. */}
       <svg
-        className="absolute bottom-0 left-0 h-[45%] w-full"
-        viewBox="0 0 1200 400"
+        className="absolute inset-x-0 bottom-0 h-[55%] w-full"
+        viewBox="0 0 1200 500"
         preserveAspectRatio="none"
         fill="none"
       >
         {[
-          { c: "#005baa", o: 0.55, y: 180, amp: 30 },
-          { c: "#3f6eb6", o: 0.45, y: 230, amp: 26 },
-          { c: "#819bd0", o: 0.4, y: 290, amp: 22 },
-          { c: "#ffffff", o: 0.25, y: 340, amp: 18 },
+          { c: "#2f4c70", o: 0.4, y: 180, amp: 46 },
+          { c: "#008ad0", o: 0.22, y: 260, amp: 54 },
+          { c: "#9099c4", o: 0.2, y: 340, amp: 40 },
         ].map((w, i) => (
           <motion.path
             key={i}
-            d={`M 0 ${w.y} Q 150 ${w.y - w.amp} 300 ${w.y} T 600 ${w.y} T 900 ${w.y} T 1200 ${w.y} L 1200 400 L 0 400 Z`}
             fill={w.c}
-            style={{ opacity: w.o }}
+            style={{ opacity: w.o, filter: "blur(2px)" }}
             animate={{
               d: [
-                `M 0 ${w.y} Q 150 ${w.y - w.amp} 300 ${w.y} T 600 ${w.y} T 900 ${w.y} T 1200 ${w.y} L 1200 400 L 0 400 Z`,
-                `M 0 ${w.y} Q 150 ${w.y + w.amp} 300 ${w.y} T 600 ${w.y} T 900 ${w.y} T 1200 ${w.y} L 1200 400 L 0 400 Z`,
-                `M 0 ${w.y} Q 150 ${w.y - w.amp} 300 ${w.y} T 600 ${w.y} T 900 ${w.y} T 1200 ${w.y} L 1200 400 L 0 400 Z`,
+                `M 0 ${w.y} Q 300 ${w.y - w.amp} 600 ${w.y} T 1200 ${w.y} L 1200 500 L 0 500 Z`,
+                `M 0 ${w.y} Q 300 ${w.y + w.amp} 600 ${w.y} T 1200 ${w.y} L 1200 500 L 0 500 Z`,
+                `M 0 ${w.y} Q 300 ${w.y - w.amp} 600 ${w.y} T 1200 ${w.y} L 1200 500 L 0 500 Z`,
               ],
             }}
             transition={{
-              duration: 8 + i * 1.5,
+              duration: 12 + i * 2.5,
               repeat: Infinity,
               ease: "easeInOut",
-              delay: i * 0.4,
+              delay: i * 0.6,
             }}
           />
         ))}
       </svg>
 
-      {/* Rising bubbles — small round circles with a highlight
-          dot, drifting upward in a slow loop. */}
-      {PRESCHOOL_BUBBLES.map((b, i) => (
+      {/* Near fish — a couple of larger, darker silhouettes passing IN
+          FRONT of the god-rays, giving the water real depth. */}
+      <svg
+        className="absolute inset-0 h-full w-full"
+        viewBox="0 0 1200 800"
+        preserveAspectRatio="xMidYMid slice"
+      >
+        {ACADEMY_FISH_FRONT.map((f) => (
+          <Fish key={f.id} f={f} reduce={reduce} />
+        ))}
+      </svg>
+
+      {/* A single jellyfish drifting at the far-left margin — periwinkle
+          and faint, so it sits quietly behind the copy column. Bell
+          pulses while the whole body slowly rises and sinks. */}
+      <motion.svg
+        className="absolute left-[4%] top-[13%] h-24 w-16 md:h-28 md:w-20"
+        viewBox="0 0 60 110"
+        fill="none"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 0.18 }}
+        viewport={{ once: true, amount: 0.1 }}
+        animate={reduce ? undefined : { y: [0, -26, 0] }}
+        transition={
+          reduce ? undefined : { y: { duration: 14, repeat: Infinity, ease: "easeInOut" } }
+        }
+      >
+        <motion.path
+          d="M6 34 Q 30 -6 54 34 Q 54 47 30 44 Q 6 47 6 34 Z"
+          fill="#9099c4"
+          style={{ transformOrigin: "30px 34px" }}
+          animate={reduce ? undefined : { scaleY: [1, 0.86, 1] }}
+          transition={
+            reduce ? undefined : { duration: 5, repeat: Infinity, ease: "easeInOut" }
+          }
+        />
+        {[16, 24, 30, 36, 44].map((x, i) => (
+          <path
+            key={i}
+            d={`M${x} 44 Q ${x + (i % 2 ? 5 : -5)} 72 ${x} 98`}
+            stroke="#9099c4"
+            strokeWidth="2"
+            strokeLinecap="round"
+            fill="none"
+            opacity={0.8}
+          />
+        ))}
+      </motion.svg>
+
+      {/* Kelp — two fronds rooted in the bottom corners, swaying from
+          their base with the current. Clear of the copy and the photo. */}
+      {[
+        { side: "left-[2%]", blades: [-3, 4], delay: 0 },
+        { side: "right-[2%]", blades: [3, -4], delay: 1.2 },
+      ].map((kp, ki) => (
+        <svg
+          key={ki}
+          className={`absolute bottom-0 ${kp.side} h-[32%] w-16`}
+          viewBox="0 0 40 200"
+          fill="none"
+          preserveAspectRatio="xMidYMax meet"
+        >
+          {kp.blades.map((sway, bi) => (
+            <motion.path
+              key={bi}
+              d={`M${20 + bi * 6} 200 C ${8 + bi * 6} 150 ${32 + bi * 6} 110 ${16 + bi * 6} 70 C ${6 + bi * 6} 44 ${26 + bi * 6} 20 ${20 + bi * 6} 2`}
+              stroke="#2f4c70"
+              strokeWidth={6 - bi}
+              strokeLinecap="round"
+              fill="none"
+              style={{ transformOrigin: "20px 200px", filter: "blur(1px)", opacity: 0.3 }}
+              animate={reduce ? undefined : { rotate: [sway, -sway, sway] }}
+              transition={
+                reduce
+                  ? undefined
+                  : {
+                      duration: 8 + bi * 1.2,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                      delay: kp.delay + bi * 0.4,
+                    }
+              }
+            />
+          ))}
+        </svg>
+      ))}
+
+      {/* Rising bubbles — small glassy spheres climbing toward the
+          surface and fading as they thin into the light. */}
+      {ACADEMY_BUBBLES.map((b, i) => (
         <motion.span
           key={i}
           className="absolute rounded-full"
@@ -564,42 +620,276 @@ export function PreschoolBackdrop() {
             width: b.s,
             height: b.s,
             background:
-              "radial-gradient(circle at 30% 30%, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.25) 35%, rgba(255,255,255,0.05) 80%)",
-            border: "1px solid rgba(255,255,255,0.45)",
+              "radial-gradient(circle at 32% 30%, rgba(255,255,255,0.9) 0%, rgba(155,211,240,0.3) 40%, rgba(0,138,208,0.06) 80%)",
+            border: "1px solid rgba(207,230,245,0.45)",
           }}
           initial={{ y: 0, opacity: 0 }}
-          whileInView={{ opacity: 0.8 }}
+          whileInView={{ opacity: 0.75 }}
           viewport={{ once: true, amount: 0.2 }}
-          animate={{
-            y: [0, -180, -360],
-            opacity: [0, 0.8, 0],
-          }}
+          animate={{ y: [0, -220, -440], opacity: [0, 0.75, 0] }}
           transition={{
-            duration: 9 + (i % 4),
+            duration: 10 + (i % 4) * 1.5,
             repeat: Infinity,
             ease: "easeOut",
             delay: b.d,
           }}
         />
       ))}
+    </BackdropFrame>
+  );
+}
 
-      {/* Faint sun-shimmer on the horizon. */}
-      <motion.div
-        className="absolute right-[12%] top-[6%] h-20 w-20 rounded-full md:h-28 md:w-28"
+// ————————————————————————————————————————————————————————
+// 3. Preschool — PURE SKY  ·  concept: the open sky
+//    Same cyan card palette the client loves (#00aeef ocean cyan
+//    re-read as a bright daytime sky), with supporting tints
+//    #b8e8fa / #4bc6ef and the deep #005baa at the very bottom —
+//    the horizon that sets up the dive into the Academy sea.
+//    The scene is now SKY ONLY: a warm sun with soft god-rays,
+//    layered drifting clouds at three depths, floating light
+//    motes, a far-off bird pair, and a single paper-plane. The
+//    ocean swells + underwater bubbles are gone (they belonged to
+//    the old "classroom by the sea" reading and now live in the
+//    dive transition instead).
+// ————————————————————————————————————————————————————————
+
+// One reusable puffy-cloud silhouette (circle cluster + base bar),
+// reused across every cloud — size/opacity/blur vary by depth tier.
+// Exported so the Intro "cloud theater" transition reuses the EXACT same
+// silhouette — that shared shape is what makes the clouds→sky hand-off into
+// Preschool read as one continuous sky rather than a swap.
+export const CLOUD_SHAPE = (
+  <>
+    <circle cx="60" cy="70" r="36" />
+    <circle cx="100" cy="52" r="42" />
+    <circle cx="150" cy="64" r="36" />
+    <circle cx="180" cy="78" r="28" />
+    <rect x="50" y="70" width="140" height="30" rx="15" />
+  </>
+);
+
+// Five clouds across three depth tiers. Near = larger, more opaque,
+// crisper, faster bob; far = smaller, fainter, blurrier, slower. All
+// kept in the TOP band so they clear the copy (right) and child photo
+// (left). Drift is a slow lateral sway; bob is a gentle vertical lilt.
+const SKY_CLOUDS = [
+  { cls: "left-[4%] top-[7%] h-20 w-44 md:h-28 md:w-64", op: 0.9, blur: 0.5, bob: [0, -8, 0], drift: [0, 40, 0], bobDur: 7, driftDur: 38, delay: 0 },
+  { cls: "left-[54%] top-[5%] h-16 w-40 md:h-24 md:w-52", op: 0.72, blur: 1, bob: [0, 10, 0], drift: [0, -30, 0], bobDur: 8.5, driftDur: 46, delay: 0.6 },
+  { cls: "left-[74%] top-[13%] h-12 w-28 md:h-16 md:w-36", op: 0.5, blur: 2, bob: [0, -6, 0], drift: [0, 26, 0], bobDur: 10, driftDur: 60, delay: 1.2 },
+  { cls: "left-[30%] top-[16%] h-16 w-44 md:h-24 md:w-56", op: 0.8, blur: 0.6, bob: [0, 7, 0], drift: [0, 34, 0], bobDur: 9, driftDur: 52, delay: 0.3 },
+  { cls: "right-[3%] top-[4%] h-10 w-24 md:h-14 md:w-32", op: 0.45, blur: 2, bob: [0, -5, 0], drift: [0, -22, 0], bobDur: 11, driftDur: 66, delay: 1.8 },
+];
+
+// Floating light motes (pollen / sun-specks) drifting in the upper-right
+// sky. A few warm ones (#fff5c9) among the white.
+const SKY_MOTES = [
+  { x: 700, y: 90, r: 2.4, warm: true },
+  { x: 860, y: 150, r: 1.8, warm: false },
+  { x: 980, y: 110, r: 2.0, warm: false },
+  { x: 1080, y: 200, r: 2.6, warm: true },
+  { x: 760, y: 240, r: 1.6, warm: false },
+  { x: 930, y: 290, r: 2.2, warm: false },
+  { x: 1140, y: 300, r: 1.6, warm: true },
+];
+
+export function PreschoolBackdrop() {
+  const reduce = useReducedMotion() ?? false;
+  return (
+    <BackdropFrame>
+      {/* Sky wash — bright cyan up top, deepening toward the horizon,
+          with a warm sun-glow bleeding through the top-right. The deep
+          blue at the very bottom is the horizon we dive through. */}
+      <div
+        className="absolute inset-0"
         style={{
           background:
-            "radial-gradient(circle, #fff5c9 0%, rgba(255,236,95,0.5) 50%, transparent 100%)",
-          filter: "blur(4px)",
-        }}
-        initial={{ opacity: 0, scale: 0.8 }}
-        whileInView={{ opacity: 0.8, scale: 1 }}
-        viewport={{ once: true, amount: 0.2 }}
-        animate={{ scale: [1, 1.06, 1] }}
-        transition={{
-          scale: { duration: 6, repeat: Infinity, ease: "easeInOut" },
-          opacity: { duration: 1.2 },
+            "linear-gradient(180deg, rgba(184,232,250,0.85) 0%, rgba(75,198,239,0.45) 48%, rgba(0,91,170,0.45) 100%), radial-gradient(60% 40% at 85% 10%, rgba(255,236,95,0.32) 0%, transparent 60%)",
         }}
       />
+
+      {/* Sun — a warm disc in the top-right, breathing gently. */}
+      <motion.div
+        className="absolute right-[12%] top-[6%] h-24 w-24 rounded-full md:h-32 md:w-32"
+        style={{
+          background:
+            "radial-gradient(circle, #fff5c9 0%, rgba(255,236,95,0.6) 45%, transparent 72%)",
+          filter: "blur(3px)",
+        }}
+        initial={{ opacity: 0, scale: 0.85 }}
+        whileInView={{ opacity: 0.9, scale: 1 }}
+        viewport={{ once: true, amount: 0.2 }}
+        animate={reduce ? undefined : { scale: [1, 1.06, 1] }}
+        transition={
+          reduce ? undefined : { scale: { duration: 7, repeat: Infinity, ease: "easeInOut" } }
+        }
+      />
+
+      {/* Sun god-rays — soft warm shafts fanning down-left from the sun,
+          masked so they fade out long before the copy/photo. */}
+      <div
+        aria-hidden
+        className="absolute inset-0"
+        style={{
+          maskImage:
+            "linear-gradient(165deg, black 0%, black 36%, transparent 76%)",
+          WebkitMaskImage:
+            "linear-gradient(165deg, black 0%, black 36%, transparent 76%)",
+        }}
+      >
+        {[
+          { left: "78%", w: "7vw", rot: -8, dur: 10, delay: 0 },
+          { left: "70%", w: "9vw", rot: -14, dur: 12, delay: 1.5 },
+          { left: "62%", w: "6vw", rot: -20, dur: 13, delay: 0.8 },
+          { left: "54%", w: "8vw", rot: -26, dur: 15, delay: 2.2 },
+        ].map((r, i) => (
+          <motion.span
+            key={i}
+            className="absolute top-[-10%] h-[120%] origin-top"
+            style={{
+              left: r.left,
+              width: r.w,
+              background:
+                "linear-gradient(180deg, rgba(255,245,201,0.18) 0%, transparent 72%)",
+              filter: "blur(10px)",
+              transform: `rotate(${r.rot}deg)`,
+            }}
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true, amount: 0.1 }}
+            animate={reduce ? undefined : { opacity: [0.4, 0.85, 0.4], scaleX: [1, 1.12, 1] }}
+            transition={
+              reduce
+                ? undefined
+                : { duration: r.dur, repeat: Infinity, ease: "easeInOut", delay: r.delay }
+            }
+          />
+        ))}
+      </div>
+
+      {/* Cloud layers — five puffy clouds across three depth tiers,
+          drifting and bobbing low and slow in the top band. */}
+      {SKY_CLOUDS.map((c, i) => (
+        <motion.svg
+          key={i}
+          className={`absolute ${c.cls}`}
+          viewBox="0 0 240 120"
+          fill="#ffffff"
+          style={{ filter: `blur(${c.blur}px)` }}
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: c.op }}
+          viewport={{ once: true, amount: 0.2 }}
+          animate={reduce ? undefined : { x: c.drift, y: c.bob }}
+          transition={
+            reduce
+              ? undefined
+              : {
+                  x: { duration: c.driftDur, repeat: Infinity, ease: "easeInOut", delay: c.delay },
+                  y: { duration: c.bobDur, repeat: Infinity, ease: "easeInOut", delay: c.delay },
+                }
+          }
+        >
+          {CLOUD_SHAPE}
+        </motion.svg>
+      ))}
+
+      {/* Floating light motes — tiny sun-specks drifting in the
+          upper-right sky. */}
+      <svg
+        className="absolute inset-0 h-full w-full"
+        viewBox="0 0 1200 800"
+        preserveAspectRatio="xMidYMid slice"
+      >
+        {SKY_MOTES.map((m, i) => (
+          <motion.circle
+            key={i}
+            cx={m.x}
+            cy={m.y}
+            r={m.r}
+            fill={m.warm ? "#fff5c9" : "#ffffff"}
+            style={{ filter: `drop-shadow(0 0 ${m.r * 1.6}px rgba(255,245,201,0.8))` }}
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 0.5 }}
+            viewport={{ once: true, amount: 0.1 }}
+            animate={
+              reduce
+                ? undefined
+                : {
+                    opacity: [0.2, 0.6, 0.2],
+                    x: [0, i % 2 ? 12 : -12, 0],
+                    y: [0, i % 3 ? -10 : 8, 0],
+                  }
+            }
+            transition={
+              reduce
+                ? undefined
+                : { duration: 9 + (i % 5) * 1.2, repeat: Infinity, ease: "easeInOut", delay: i * 0.3 }
+            }
+          />
+        ))}
+      </svg>
+
+      {/* Two far-off birds — faint gull silhouettes soaring high, with
+          a slow wing-flap. */}
+      {[
+        { cls: "top-[10%] left-[64%]", dur: 30, delay: 0 },
+        { cls: "top-[13%] left-[70%]", dur: 34, delay: 1.5 },
+      ].map((b, i) => (
+        <motion.svg
+          key={i}
+          className={`absolute ${b.cls} h-3 w-10 md:h-4 md:w-12`}
+          viewBox="0 0 48 16"
+          fill="none"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 0.4 }}
+          viewport={{ once: true, amount: 0.2 }}
+          animate={reduce ? undefined : { x: [0, 50, 0], y: [0, -6, 0] }}
+          transition={
+            reduce
+              ? undefined
+              : {
+                  x: { duration: b.dur, repeat: Infinity, ease: "easeInOut", delay: b.delay },
+                  y: { duration: 6, repeat: Infinity, ease: "easeInOut", delay: b.delay },
+                }
+          }
+        >
+          <motion.path
+            d="M2 10 Q 12 2 24 9 Q 36 2 46 10"
+            stroke="#4bc6ef"
+            strokeWidth="2"
+            strokeLinecap="round"
+            fill="none"
+            style={{ transformOrigin: "24px 9px" }}
+            animate={reduce ? undefined : { scaleY: [1, 0.6, 1] }}
+            transition={
+              reduce ? undefined : { duration: 1.6, repeat: Infinity, ease: "easeInOut", delay: b.delay }
+            }
+          />
+        </motion.svg>
+      ))}
+
+      {/* A single paper-plane drifting on a gentle arc — a quiet nod to
+          learning taking flight. */}
+      <motion.svg
+        className="absolute left-[80%] top-[18%] h-6 w-6 md:h-8 md:w-8"
+        viewBox="0 0 32 32"
+        fill="#ffffff"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 0.7 }}
+        viewport={{ once: true, amount: 0.2 }}
+        animate={reduce ? undefined : { x: [0, 40, 0], y: [0, -10, 0], rotate: [-4, 3, -4] }}
+        transition={
+          reduce
+            ? undefined
+            : {
+                x: { duration: 22, repeat: Infinity, ease: "easeInOut" },
+                y: { duration: 22, repeat: Infinity, ease: "easeInOut" },
+                rotate: { duration: 11, repeat: Infinity, ease: "easeInOut" },
+              }
+        }
+      >
+        <path d="M2 16 L30 4 L18 30 L15 19 Z" />
+        <path d="M15 19 L30 4 L18 22 Z" fill="#b8e8fa" />
+      </motion.svg>
     </BackdropFrame>
   );
 }

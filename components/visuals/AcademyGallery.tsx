@@ -27,9 +27,9 @@ const PHOTOS = Array.from(
 const EASE = [0.22, 1, 0.36, 1] as const;
 const POP = [0.34, 1.56, 0.64, 1] as const;
 
-// Node positions (% of the photo box). Kept to the open "sky" — top
-// band and side edges — to clear the graduates (bottom-centre), the
-// gold seal (lower-left) and the existing amber star (upper-right).
+// Node positions (% of the photo box). Kept to the open water — top
+// band and side edges — to clear the graduates (bottom-centre) and the
+// gold seal (lower-left). Each photo floats inside a glassy bubble.
 const NODES = [
   { x: 10, y: 23 },
   { x: 31, y: 9 },
@@ -38,9 +38,6 @@ const NODES = [
   { x: 7, y: 53 },
   { x: 93, y: 60 },
 ];
-// Faint dashed line threading the nodes — two strokes so it never
-// crosses the figures: top chain 1-2-3-4-6, plus a short 5-1 on the left.
-const LINE = "M10 23 L31 9 L55 6 L92 33 L93 60 M7 53 L10 23";
 
 export function AcademyGallery() {
   const { locale } = useI18n();
@@ -196,34 +193,13 @@ export function AcademyGallery() {
           surrounding sky. pointer-events-none so it never blocks the
           photo, with each node re-enabling pointer events. */}
       <div className="pointer-events-none absolute inset-0 z-[7]">
-        <svg
-          className="absolute inset-0 h-full w-full"
-          viewBox="0 0 100 100"
-          preserveAspectRatio="none"
-          aria-hidden
-        >
-          <motion.path
-            d={LINE}
-            fill="none"
-            stroke="#f6c66b"
-            strokeWidth="0.18"
-            strokeDasharray="0.7 1.6"
-            strokeLinecap="round"
-            vectorEffect="non-scaling-stroke"
-            initial={{ pathLength: reduce ? 1 : 0, opacity: reduce ? 0.4 : 0 }}
-            whileInView={{ pathLength: 1, opacity: 0.4 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 1.6, delay: 0.4, ease: EASE }}
-          />
-        </svg>
-
         {NODES.map((n, i) => (
           <button
             key={i}
             type="button"
             onClick={() => openAt(i)}
             aria-label={`${tx.label} — ${i + 1}`}
-            className="group pointer-events-auto absolute block aspect-[4/5] w-[clamp(56px,14vw,84px)] -translate-x-1/2 -translate-y-1/2"
+            className="group pointer-events-auto absolute block aspect-square w-[clamp(56px,14vw,120px)] -translate-x-1/2 -translate-y-1/2"
             style={{ left: `${n.x}%`, top: `${n.y}%` }}
           >
             {/* entrance pop (own transform layer) */}
@@ -245,12 +221,40 @@ export function AcademyGallery() {
                   delay: i * 0.3,
                 }}
               >
-                {/* hover scale (CSS, own transform layer) */}
+                {/* hover scale (CSS, own transform layer). drop-shadow on the
+                    wrapper gives the bubble its depth shadow + a soft cyan
+                    underwater glow that brightens on hover. */}
                 <span
-                  className="relative block h-full w-full overflow-hidden rounded-lg border border-[#fff7e6]/40 transition-all duration-300 group-hover:scale-[1.18] group-hover:border-[#ffd23d]"
-                  style={{ boxShadow: "0 4px 14px rgba(8,10,40,0.5)" }}
+                  className="relative block h-full w-full transition-transform duration-300 group-hover:scale-[1.12] [filter:drop-shadow(0_5px_12px_rgba(8,16,48,0.5))_drop-shadow(0_0_7px_rgba(120,200,255,0.35))] group-hover:[filter:drop-shadow(0_0_16px_rgba(140,215,255,0.9))]"
                 >
-                  <Image src={PHOTOS[i]} alt="" fill sizes="84px" className="object-cover" />
+                  {/* the bubble — a glossy sphere holding the photo */}
+                  <span className="relative block h-full w-full overflow-hidden rounded-full bg-[#0b1240]">
+                    <Image src={PHOTOS[i]} alt="" fill sizes="120px" className="object-cover" />
+                    {/* sphere shading — bright top rim, deep bottom */}
+                    <span
+                      aria-hidden
+                      className="pointer-events-none absolute inset-0 rounded-full"
+                      style={{
+                        boxShadow:
+                          "inset 0 3px 8px rgba(255,255,255,0.5), inset 0 -12px 22px rgba(0,42,92,0.55)",
+                      }}
+                    />
+                    {/* thin glass rim */}
+                    <span
+                      aria-hidden
+                      className="pointer-events-none absolute inset-0 rounded-full ring-1 ring-white/40"
+                    />
+                    {/* specular highlight — the light catching the bubble */}
+                    <span
+                      aria-hidden
+                      className="pointer-events-none absolute left-[14%] top-[10%] h-[34%] w-[42%] rounded-full"
+                      style={{
+                        background:
+                          "radial-gradient(circle at 35% 35%, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.3) 45%, transparent 72%)",
+                        filter: "blur(0.5px)",
+                      }}
+                    />
+                  </span>
                 </span>
               </motion.span>
             </motion.span>

@@ -687,6 +687,7 @@ export function StudyAbroad() {
               height={217}
               alt="かえる留学"
               className="mt-5"
+              sizeClassName="h-[clamp(12.75rem,19.5vw,27rem)]"
             />
 
             <motion.h2

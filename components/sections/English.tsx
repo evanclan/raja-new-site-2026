@@ -70,6 +70,7 @@ export function English() {
               height={750}
               alt={e.logoAlt}
               className="mt-5"
+              large
             />
 
             {/* Headline */}

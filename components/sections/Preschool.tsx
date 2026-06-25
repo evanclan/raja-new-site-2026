@@ -27,7 +27,7 @@ export function Preschool() {
   return (
     <PanelShell
       id="preschool"
-      index={3}
+      index={2}
       label={p.label}
       title={p.title}
       subtitle={p.subtitle}
