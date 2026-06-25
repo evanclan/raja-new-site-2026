@@ -13,6 +13,10 @@ import { useT } from "@/lib/i18n";
 const BRANCH_IMAGES = [
   { src: "/Taniyama_branch.png", w: 1266, h: 503 },
   { src: "/shimoaratabranch.png", w: 1185, h: 503 },
+  // RaJA 病児保育園 — sick-child daycare at the Shimoarata location.
+  // Interior room photo, center-cropped to the same 1185×503 frame as the
+  // other branch cards so all three rows read uniform.
+  { src: "/shimoarata_byouji.png", w: 1185, h: 503 },
 ];
 
 export function Preschool() {
@@ -28,6 +32,7 @@ export function Preschool() {
     <PanelShell
       id="preschool"
       index={2}
+      href={p.href}
       label={p.label}
       title={p.title}
       subtitle={p.subtitle}
@@ -36,6 +41,10 @@ export function Preschool() {
       // The RaJA Method crest heads the copy column as the section's mark.
       logo={{ src: "/preschool/preschool_logoo.png", w: 2682, h: 2682 }}
       logoLarge
+      // Mobile: enlarge the crest to match the Study Abroad logo height
+      // (~12.75rem ≈ 178px) so the section headers read uniform on phones.
+      // Desktop clamp is preserved unchanged.
+      logoSizeClassName="h-[clamp(8rem,15vw,24rem)] max-md:h-[12.75rem]"
       // The two campuses replace the generic trust pillars — the photos
       // carry the "why" now. Pillar copy stays in i18n for reference.
       campusesLabel={p.campusesLabel}
@@ -46,6 +55,9 @@ export function Preschool() {
       reverse
       // Let the child photo span the full height of the section.
       bleedVisual
+      // Mobile only: the child photo moves BELOW the intro copy (after the
+      // description) as a clean boxed photo, instead of bleeding above it.
+      mobileVisual={<PreschoolPhoto />}
       // Brand peach (#ff9a6b) — the warm Preschool token. Against
       // the cool ocean it frames the child and complements the
       // teal shirt, where the old sun-yellow read flatter.

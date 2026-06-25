@@ -10,6 +10,7 @@ import { Section } from "../Section";
 import { ClabBackdrop } from "../backdrops/SectionBackdrops";
 import { ClabCarat } from "../visuals/ClabCarat";
 import { useI18n, useT } from "@/lib/i18n";
+import { useSmoothScroll } from "../SmoothScrollProvider";
 import { useParallaxPx, remPx } from "@/lib/useViewportPx";
 import { SectionLogo } from "../SectionLogo";
 
@@ -36,6 +37,7 @@ export function Clab() {
   const t = useT();
   const { locale } = useI18n();
   const reduce = useReducedMotion();
+  const { scrollTo } = useSmoothScroll();
   const p = t.panels.clab;
 
   const rootRef = useRef<HTMLDivElement | null>(null);
@@ -135,7 +137,7 @@ export function Clab() {
           large and faint on the right as a human backdrop. The cutout is
           edge-free (transparent) so it needs no frame; its base already
           fades out. Sits above the decorative layers, below the content. */}
-      <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+      <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden max-md:hidden">
         <div className="absolute bottom-0 right-0 h-[clamp(24rem,82%,54rem)] w-[clamp(22rem,46vw,46rem)]">
           <Image
             src="/clab/shawn-cutout.png"
@@ -150,7 +152,7 @@ export function Clab() {
 
       <div
         ref={rootRef}
-        className="relative z-[1] shell grid min-h-screen grid-cols-1 items-center gap-10 py-band md:grid-cols-12"
+        className="relative z-[1] shell grid min-h-screen grid-cols-1 items-center gap-10 py-band md:grid-cols-12 max-md:min-h-0"
       >
         {/* COPY — brand story (left). */}
         <div className="relative z-10 md:col-span-4">
@@ -174,6 +176,9 @@ export function Clab() {
             alt="C-Lab + Education"
             className="mt-6"
             large
+            // Mobile: match the enlarged logo height of the other sections
+            // (~12.75rem ≈ 178px). Desktop clamp preserved unchanged.
+            sizeClassName="h-[clamp(8rem,15vw,24rem)] max-md:h-[12.75rem]"
           />
 
           <p
@@ -226,7 +231,7 @@ export function Clab() {
             >
               {p.ages}
             </span>
-            <button className="group inline-flex items-center gap-2 text-sm font-medium" style={{ color: "var(--color-ink)" }}>
+            <button type="button" onClick={() => scrollTo(p.href)} className="group inline-flex items-center gap-2 text-sm font-medium max-md:min-h-11" style={{ color: "var(--color-ink)" }}>
               <span
                 className="border-b pb-0.5 transition-colors group-hover:border-[var(--color-leaf)]"
                 style={{ borderColor: "color-mix(in srgb, var(--color-leaf) 55%, transparent)" }}

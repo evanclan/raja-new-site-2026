@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 // ————————————————————————————————————————————————————————
 // DiveSeam — the wave divider straddling the Preschool↔Academy seam.
@@ -64,8 +64,24 @@ const DIVIDER_LINES = [
   { d: waveLine(AMP, 89, HALF), stroke: "#0a6fb8", w: 2, dur: 14 }, // thin blue
 ];
 
+// SSR-safe desktop flag — mirrors the useTategaki / useIsDesktop pattern.
+// Default false so SSR and first client paint agree (mobile/static branch).
+// Upgrades to true after mount on >=768px viewports.
+function useIsDesktop() {
+  const [isDesktop, setIsDesktop] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 768px)");
+    const sync = () => setIsDesktop(mq.matches);
+    sync();
+    mq.addEventListener("change", sync);
+    return () => mq.removeEventListener("change", sync);
+  }, []);
+  return isDesktop;
+}
+
 export function DiveSeam() {
   const reduce = useReducedMotion() ?? false;
+  const isDesktop = useIsDesktop();
   const ref = useRef<HTMLDivElement | null>(null);
 
   // 0 = seam at viewport bottom · 1 = seam at viewport top.
@@ -79,9 +95,11 @@ export function DiveSeam() {
   // Visible across the crossing, clears at rest.
   const dividerOpacity = useTransform(p, [0.08, 0.3, 0.74, 0.95], [0, 1, 1, 0]);
 
-  // Roll props — disabled under reduced motion.
+  // Roll props — disabled under reduced motion OR on mobile (<768px).
+  // On mobile the wave renders statically (still colour-bridges the seam)
+  // without the infinite Framer loop and its paint cost.
   const roll = (dur: number) =>
-    reduce
+    reduce || !isDesktop
       ? {}
       : {
           animate: { x: [0, -ROLL_X] as number[] },

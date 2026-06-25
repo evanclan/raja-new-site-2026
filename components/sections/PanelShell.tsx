@@ -27,6 +27,13 @@ type PanelShellProps = {
   subtitleColor?: string;
   visual: ReactNode;
   /**
+   * Optional mobile-only visual rendered INSIDE the copy column, right after
+   * the description, instead of the stacked/bleed visual at the top. Used by
+   * Preschool to move the child photo below the intro copy on phones. It is
+   * shown only <768px (md:hidden); the bleed/stacked visual is hidden there.
+   */
+  mobileVisual?: ReactNode;
+  /**
    * Place the visual on the LEFT and the copy on the RIGHT
    * (default is copy-left / visual-right). On mobile the visual
    * always stacks on top when reversed.
@@ -54,6 +61,12 @@ type PanelShellProps = {
     name: string;
     sub: string;
     line: string;
+    /** Postal code + street address (one line). */
+    addr: string;
+    /** Phone number (rendered after a "TEL" prefix). */
+    tel: string;
+    /** Care-type / hours line. */
+    hours: string;
     img: string;
     alt: string;
     /** Intrinsic pixel size of the source image, for correct aspect ratio. */
@@ -68,10 +81,23 @@ type PanelShellProps = {
   logo?: { src: string; w: number; h: number };
   logoLarge?: boolean;
   /**
+   * Override the logo size classes entirely (height clamp + any max-md
+   * mobile override). Used by Preschool to enlarge its crest on mobile to
+   * match the Study Abroad logo height. Keep the desktop clamp in here so
+   * the approved desktop size is preserved.
+   */
+  logoSizeClassName?: string;
+  /**
    * Optional content rendered in the copy column between the branches block
    * and the CTA row — e.g. Preschool's embedded photo slideshow.
    */
   extra?: ReactNode;
+  /**
+   * Destination for the "Learn more" CTA. An external sister-company
+   * site (https://…) opens in a new tab; an in-page anchor (#…) stays
+   * in the same tab.
+   */
+  href: string;
   /**
    * Render the visual as a full-height, full-bleed layer on one half
    * of the section (left when `reverse`, else right) instead of inside
@@ -113,8 +139,11 @@ export function PanelShell({
   branches,
   logo,
   logoLarge = false,
+  logoSizeClassName,
   extra,
+  href,
   bleedVisual = false,
+  mobileVisual,
 }: PanelShellProps) {
   const ref = useRef<HTMLDivElement | null>(null);
   const t = useT();
@@ -156,6 +185,7 @@ export function PanelShell({
           height={logo.h}
           className="mt-5"
           large={logoLarge}
+          sizeClassName={logoSizeClassName}
         />
       )}
 
@@ -164,7 +194,7 @@ export function PanelShell({
         whileInView={{ y: 0, opacity: 1 }}
         viewport={{ once: true, amount: 0.4 }}
         transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-        className="font-display mt-5 text-display-1 tracking-tight whitespace-pre-line"
+        className="font-display mt-5 text-display-1 tracking-tight whitespace-pre-line max-md:whitespace-normal max-md:leading-[1.05]"
       >
         {title}
       </motion.h2>
@@ -190,6 +220,13 @@ export function PanelShell({
       >
         {description}
       </motion.p>
+
+      {/* Mobile-only visual — sits right after the description on phones,
+          below the intro copy (the bleed/stacked visual above is hidden
+          on mobile when this is provided). Desktop is untouched. */}
+      {mobileVisual && (
+        <div className="md:hidden mt-8">{mobileVisual}</div>
+      )}
 
       {pillars && pillars.length > 0 && (
         <motion.ul
@@ -261,26 +298,35 @@ export function PanelShell({
               {campusesLabel}
             </p>
           )}
-          {/* Each source photo is an info-card: the building sits on the
-              left, with the campus name / address / phone / hours set in
-              WHITE text on a transparent right half. We show the whole image
-              on a deep-blue card so that white text reads — it would vanish
-              on a white background. */}
+          {/* Each source photo packs the building on its LEFT and (now unused)
+              baked-in white text on the right. We crop to just the photo with
+              `object-left` and re-type the address as real blue text on a white
+              card, so the colours are fully controllable. */}
           <div className="grid gap-3">
             {branches.map((b, i) => (
               <figure
                 key={i}
-                className="group overflow-hidden rounded-2xl bg-[#06407a] shadow-[0_14px_34px_-18px_rgba(8,10,40,0.7)] ring-1 ring-white/10 transition-transform duration-300 hover:-translate-y-0.5"
+                className="group flex items-stretch overflow-hidden rounded-2xl bg-white shadow-[0_14px_34px_-18px_rgba(8,10,40,0.35)] ring-1 ring-[#06407a]/10 transition-transform duration-300 hover:-translate-y-0.5"
               >
-                <Image
-                  src={b.img}
-                  alt={b.alt}
-                  width={b.w}
-                  height={b.h}
-                  sizes="(max-width: 768px) 86vw, 460px"
-                  draggable={false}
-                  className="h-auto w-full"
-                />
+                <div className="relative aspect-[6/5] w-[38%] shrink-0 overflow-hidden bg-white max-sm:w-[44%]">
+                  <Image
+                    src={b.img}
+                    alt=""
+                    fill
+                    sizes="180px"
+                    draggable={false}
+                    className="object-cover object-left"
+                  />
+                </div>
+                <figcaption
+                  className="flex flex-1 flex-col justify-center gap-0.5 px-4 py-3"
+                  style={{ color: "#06407a" }}
+                >
+                  <p className="font-display text-sm leading-tight md:text-base">{b.name}</p>
+                  <p className="mt-1 text-[0.72rem] leading-snug opacity-80">{b.addr}</p>
+                  <p className="text-[0.72rem] leading-snug opacity-80">TEL {b.tel}</p>
+                  <p className="text-[0.72rem] leading-snug opacity-60">{b.hours}</p>
+                </figcaption>
               </figure>
             ))}
           </div>
@@ -297,7 +343,7 @@ export function PanelShell({
         className="mt-8 flex flex-wrap items-center gap-4"
       >
         <span
-          className="rounded-full px-4 py-1.5 text-sm font-medium"
+          className="rounded-full px-4 py-1.5 text-sm font-medium max-md:py-2.5"
           // `color-mix` derives a subtle translucent chip from
           // whatever ink colour the section uses, so the pill
           // stays legible on both light and dark backdrops.
@@ -308,15 +354,18 @@ export function PanelShell({
         >
           {ages}
         </span>
-        <button
-          className="group inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium transition-transform duration-300 hover:-translate-y-0.5"
+        <a
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium transition-transform duration-300 hover:-translate-y-0.5 max-md:py-3"
           style={{ background: accent, color: "var(--color-ink)" }}
         >
           {t.panels.learnMore}
           <span className="transition-transform duration-300 group-hover:translate-x-1">
             →
           </span>
-        </button>
+        </a>
       </motion.div>
     </div>
   );
@@ -331,7 +380,7 @@ export function PanelShell({
     <motion.span
       aria-hidden
       style={{ y: labelY, color: ink, opacity: 0.04 }}
-      className="pointer-events-none absolute bottom-4 right-4 font-display text-[18vw] leading-none"
+      className="pointer-events-none absolute bottom-4 right-4 font-display text-[18vw] leading-none max-md:hidden"
     >
       {String(index).padStart(2, "0")}
     </motion.span>
@@ -346,14 +395,14 @@ export function PanelShell({
         {backdrop}
         <div
           className={`pointer-events-none relative z-[1] w-full md:absolute md:inset-y-0 md:w-1/2 ${
-            reverse ? "md:left-0" : "md:right-0"
-          }`}
+            mobileVisual ? "max-md:hidden" : ""
+          } ${reverse ? "md:left-0" : "md:right-0"}`}
         >
           {visual}
         </div>
         <div
           ref={ref}
-          className="relative z-[1] shell grid grid-cols-1 items-center gap-9 py-band md:min-h-screen md:grid-cols-12"
+          className="relative z-[1] shell grid grid-cols-1 items-center gap-9 py-band max-md:gap-7 md:min-h-screen md:grid-cols-12"
         >
           {textCol}
           {watermark}
@@ -367,7 +416,7 @@ export function PanelShell({
       {backdrop}
       <div
         ref={ref}
-        className="relative z-[1] shell grid min-h-screen grid-cols-1 items-center gap-9 py-band md:grid-cols-12"
+        className="relative z-[1] shell grid grid-cols-1 items-center gap-9 py-band max-md:gap-7 md:min-h-screen md:grid-cols-12"
       >
         {reverse ? (
           <>

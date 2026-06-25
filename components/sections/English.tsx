@@ -39,9 +39,9 @@ export function English() {
     <Section id="english" background={BG} style={{ color: "var(--color-ink)" }}>
       <EnglishBackdrop />
 
-      <div className="relative z-[1] shell flex min-h-screen flex-col justify-center gap-14 py-band">
+      <div className="relative z-[1] shell flex min-h-screen flex-col justify-center gap-band py-band">
         {/* ——— Band 1 — header + emotional hero ——— */}
-        <div className="grid grid-cols-1 items-center gap-10 md:grid-cols-12 md:gap-6">
+        <div className="grid grid-cols-1 items-center gap-10 max-md:gap-8 md:grid-cols-12 md:gap-6">
           {/* Copy column */}
           <div className="md:col-span-7">
             {/* Eyebrow */}
@@ -71,6 +71,9 @@ export function English() {
               alt={e.logoAlt}
               className="mt-5"
               large
+              // Mobile: match the enlarged logo height of the other sections
+              // (~12.75rem ≈ 178px). Desktop clamp preserved unchanged.
+              sizeClassName="h-[clamp(8rem,15vw,24rem)] max-md:h-[12.75rem]"
             />
 
             {/* Headline */}
@@ -79,7 +82,7 @@ export function English() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.5 }}
               transition={{ duration: 0.9, ease: EASE }}
-              className="font-display mt-5 text-display-1 tracking-tight text-balance"
+              className="font-display mt-5 text-display-1 tracking-tight text-balance max-md:mt-4 max-md:leading-[1.05]"
             >
               {e.title.map((line, i) => (
                 <span key={i} className="block">
@@ -94,7 +97,7 @@ export function English() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.5 }}
               transition={{ duration: 0.8, delay: 0.1, ease: EASE }}
-              className="mt-4 text-2xl font-medium"
+              className="mt-4 text-2xl font-medium max-md:text-xl"
               style={{ color: TEAL }}
             >
               {e.tagline}
@@ -164,9 +167,10 @@ export function English() {
               transition={{ duration: 0.7, delay: 0.34, ease: EASE }}
               className="mt-8 flex flex-wrap items-center gap-4"
             >
-              <button
-                type="button"
-                onClick={() => scrollTo("#inquiry")}
+              <a
+                href={e.href}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="group inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white transition-transform duration-300 hover:-translate-y-0.5"
                 style={{
                   background: ACCENT,
@@ -177,7 +181,7 @@ export function English() {
                 <span className="transition-transform duration-300 group-hover:translate-x-1">
                   →
                 </span>
-              </button>
+              </a>
               <span className="text-sm" style={{ opacity: 0.7 }}>
                 {e.ctaNote}
               </span>
@@ -199,7 +203,7 @@ export function English() {
             transition={{ duration: 0.7, ease: EASE }}
             className="mb-8 flex flex-wrap items-end justify-between gap-3"
           >
-            <h3 className="font-display text-3xl tracking-tight">
+            <h3 className="font-display text-3xl tracking-tight max-md:text-2xl">
               {e.teachersKicker}
             </h3>
             <ul className="flex flex-wrap gap-2">
@@ -293,9 +297,9 @@ function HeroCutout({ e }: { e: EnglishCopy }) {
         whileInView={{ opacity: 1, scale: 1, rotate: -8 }}
         viewport={{ once: true, amount: 0.3 }}
         transition={{ duration: 0.7, delay: 0.5, ease: POP }}
-        className="absolute top-[8%] left-0 z-10 max-w-[46%]"
+        className="absolute top-[8%] left-0 z-10 max-w-[46%] max-md:max-w-[40%]"
       >
-        <div className="rounded-2xl bg-white px-3 py-2 shadow-xl ring-1 ring-black/5">
+        <div className="rounded-2xl bg-white px-3 py-2 shadow-xl ring-1 ring-black/5 max-md:px-2 max-md:py-1.5">
           <div className="flex items-center gap-1.5">
             <span
               className="grid h-6 w-6 shrink-0 place-items-center rounded-full text-white"
@@ -321,7 +325,7 @@ function HeroCutout({ e }: { e: EnglishCopy }) {
         whileInView={{ opacity: 1, y: 0, scale: 1 }}
         viewport={{ once: true, amount: 0.3 }}
         transition={{ duration: 0.7, delay: 0.65, ease: POP }}
-        className="absolute right-0 -bottom-3 z-10 flex max-w-[80%] items-center gap-2.5 rounded-2xl bg-white/90 px-3 py-2 shadow-xl ring-1 ring-black/5 backdrop-blur"
+        className="absolute right-0 -bottom-3 z-10 flex max-w-[80%] items-center gap-2.5 rounded-2xl bg-white/90 px-3 py-2 shadow-xl ring-1 ring-black/5 backdrop-blur max-md:max-w-[72%] max-md:bottom-0 max-md:px-2.5 max-md:py-1.5"
       >
         <Image
           src="/lets-go-english/principal.png"

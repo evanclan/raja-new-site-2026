@@ -74,7 +74,7 @@ export function Intro() {
         {/* Ink phrase — inlined + typed. Bigger of the two. */}
         <div
           ref={svgHostRef}
-          className="w-[clamp(17rem,48vw,42rem)]"
+          className="w-[clamp(17rem,48vw,42rem)] max-md:w-full"
           style={{ filter: "drop-shadow(0 10px 22px rgba(35,25,22,0.10))" }}
         />
 

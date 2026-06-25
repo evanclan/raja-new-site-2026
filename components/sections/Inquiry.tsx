@@ -44,17 +44,17 @@ export function Inquiry() {
       background="var(--color-ink)"
       style={{ color: "var(--color-cream)" }}
     >
-      <div className="relative mx-auto flex min-h-screen max-w-[clamp(34rem,42vw,46rem)] flex-col justify-center px-gutter py-band">
+      <div className="relative mx-auto flex min-h-screen max-w-[clamp(34rem,42vw,46rem)] max-md:max-w-full flex-col justify-center px-gutter py-band">
         {/* Floating brand blobs — soft, slow, behind the card */}
         <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
           <motion.div
-            className="absolute -left-16 top-16 h-56 w-56 rounded-full opacity-25 blur-[80px]"
+            className="absolute -left-16 top-16 h-56 w-56 rounded-full opacity-25 blur-[80px] max-md:opacity-[0.18] max-md:blur-[60px]"
             style={{ background: "var(--color-berry)" }}
             animate={{ y: [0, -22, 0] }}
             transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
           />
           <motion.div
-            className="absolute -right-12 bottom-24 h-64 w-64 rounded-full opacity-25 blur-[90px]"
+            className="absolute -right-12 bottom-24 h-64 w-64 rounded-full opacity-25 blur-[90px] max-md:opacity-[0.18] max-md:blur-[60px]"
             style={{ background: "var(--color-sky)" }}
             animate={{ y: [0, 24, 0] }}
             transition={{ duration: 11, repeat: Infinity, ease: "easeInOut" }}
@@ -90,7 +90,7 @@ export function Inquiry() {
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
           onSubmit={(e) => e.preventDefault()}
-          className="relative rounded-[1.75rem] border border-white/10 bg-white/[0.04] p-7 shadow-[0_30px_80px_-30px_rgba(0,0,0,0.7)] backdrop-blur-xl"
+          className="relative rounded-[1.75rem] border border-white/10 bg-white/[0.04] p-7 max-md:p-5 shadow-[0_30px_80px_-30px_rgba(0,0,0,0.7)] backdrop-blur-xl"
         >
           <div className="grid gap-5 sm:grid-cols-2">
             <Field label={t.inquiry.fields.name} placeholder={t.inquiry.fields.namePh} icon={UserIcon} />
@@ -151,7 +151,7 @@ export function Inquiry() {
       {/* Ambient glow */}
       <motion.div
         aria-hidden
-        className="pointer-events-none absolute -bottom-40 left-1/2 h-[500px] w-[700px] -translate-x-1/2 rounded-full"
+        className="pointer-events-none absolute -bottom-40 left-1/2 h-[500px] w-[700px] max-md:h-[360px] max-md:w-[420px] -translate-x-1/2 rounded-full"
         style={{
           background:
             "radial-gradient(circle, rgba(255,210,61,0.18) 0%, transparent 60%)",
@@ -177,7 +177,7 @@ function Field({
   icon?: ReactNode;
 }) {
   const base =
-    "w-full rounded-2xl border border-white/10 bg-white/[0.05] py-3.5 text-[var(--color-cream)] placeholder:text-white/35 outline-none transition-all duration-300 focus:border-[var(--color-sun)]/70 focus:bg-white/[0.08] focus:[box-shadow:0_0_0_4px_rgba(255,210,61,0.12)]";
+    "w-full rounded-2xl border border-white/10 bg-white/[0.05] py-3.5 text-[var(--color-cream)] placeholder:text-white/35 outline-none transition-all duration-300 focus:border-[var(--color-sun)]/70 focus:bg-white/[0.08] focus:[box-shadow:0_0_0_4px_rgba(255,210,61,0.12)] max-md:text-[16px]";
   const pad = icon ? "pl-12 pr-4" : "px-4";
   return (
     <label className="block">

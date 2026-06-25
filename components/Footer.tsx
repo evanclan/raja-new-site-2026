@@ -21,7 +21,7 @@ export function Footer() {
       {/* Ambient glow — echoes the Inquiry section's breathing backdrop */}
       <motion.div
         aria-hidden
-        className="pointer-events-none absolute -top-32 left-1/2 h-[440px] w-[720px] -translate-x-1/2 rounded-full"
+        className="pointer-events-none absolute -top-32 left-1/2 h-[440px] w-[720px] -translate-x-1/2 rounded-full max-md:h-[280px] max-md:w-[420px]"
         style={{
           background:
             "radial-gradient(circle, rgba(255,210,61,0.14) 0%, transparent 65%)",
@@ -68,13 +68,14 @@ export function Footer() {
               {f.brandsTitle}
             </h2>
             <ul className="mt-5 space-y-3.5">
-              {brands.map((b) => (
+              {brands.map((b) => {
+                const external = b.href.startsWith("http");
+                return (
                 <li key={b.href}>
                   <a
                     href={b.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group flex items-center gap-3"
+                    {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                    className="group flex items-center gap-3 max-md:flex-col max-md:items-start max-md:gap-1 max-md:py-2"
                   >
                     <span
                       className="h-2.5 w-2.5 shrink-0 rounded-full transition-transform duration-300 group-hover:scale-150"
@@ -83,18 +84,19 @@ export function Footer() {
                     <span className="text-[var(--color-cream)]/90 transition-colors group-hover:text-[var(--color-cream)]">
                       {b.name}
                     </span>
-                    <span className="text-xs text-[var(--color-cream)]/40">
+                    <span className="text-xs text-[var(--color-cream)]/40 max-md:pl-[1.375rem]">
                       {b.desc}
                     </span>
                     <span
                       aria-hidden
-                      className="ml-auto text-[var(--color-cream)]/30 opacity-0 transition-all duration-300 group-hover:translate-x-1 group-hover:opacity-100"
+                      className="ml-auto text-[var(--color-cream)]/30 opacity-0 transition-all duration-300 group-hover:translate-x-1 group-hover:opacity-100 max-md:hidden"
                     >
                       ↗
                     </span>
                   </a>
                 </li>
-              ))}
+                );
+              })}
             </ul>
           </motion.nav>
 
@@ -114,7 +116,7 @@ export function Footer() {
               <div>
                 <a
                   href={`tel:${f.tel.replace(/[^+\d]/g, "")}`}
-                  className="block transition-colors hover:text-[var(--color-sun)]"
+                  className="block transition-colors hover:text-[var(--color-sun)] max-md:py-1.5"
                 >
                   TEL {f.tel}
                 </a>
@@ -124,7 +126,7 @@ export function Footer() {
               </div>
               <a
                 href={`mailto:${f.email}`}
-                className="block break-all transition-colors hover:text-[var(--color-sun)]"
+                className="block break-all transition-colors hover:text-[var(--color-sun)] max-md:py-1.5"
               >
                 {f.email}
               </a>
@@ -132,7 +134,7 @@ export function Footer() {
                 href={f.mapHref}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 text-[var(--color-sky)] transition-opacity hover:opacity-80"
+                className="inline-flex items-center gap-1 text-[var(--color-sky)] transition-opacity hover:opacity-80 max-md:py-1.5"
               >
                 {f.mapLabel}
                 <span aria-hidden>→</span>
@@ -151,7 +153,7 @@ export function Footer() {
               href={f.aboutHref}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[var(--color-cream)]/70 transition-colors hover:text-[var(--color-cream)]"
+              className="text-[var(--color-cream)]/70 transition-colors hover:text-[var(--color-cream)] max-md:py-1.5"
             >
               {f.about}
             </a>
@@ -159,14 +161,14 @@ export function Footer() {
               href={f.recruitHref}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[var(--color-cream)]/70 transition-colors hover:text-[var(--color-cream)]"
+              className="text-[var(--color-cream)]/70 transition-colors hover:text-[var(--color-cream)] max-md:py-1.5"
             >
               {f.recruit}
             </a>
             <button
               type="button"
               onClick={toggleLocale}
-              className="text-[var(--color-cream)]/70 transition-colors hover:text-[var(--color-cream)]"
+              className="text-[var(--color-cream)]/70 transition-colors hover:text-[var(--color-cream)] max-md:py-1.5"
             >
               {locale === "en" ? "日本語" : "English"}
             </button>

@@ -8,17 +8,33 @@ import { useI18n } from "@/lib/i18n";
 import { useSmoothScroll } from "../SmoothScrollProvider";
 
 // ————————————————————————————————————————————————————————
-// Academy gallery — the Class of 2026 keepsake photos as a small
-// CONSTELLATION floating in the night sky around the graduates. Each
-// node is a star/photo; clicking one opens a full-screen celestial
-// lightbox at that photo.
+// Academy gallery — the Class of 2026 keepsake photos.
 //
-// Placement note: rendered as an `absolute inset-0` overlay INSIDE the
-// photo box (AcademyKeepsake), so the nodes sit around the graduation
-// photo. The lightbox is portaled to <body> so the section's scroll-
-// fade transform can't trap its position:fixed, and the page is locked
-// via Lenis stop()/start() while it's open.
+// Desktop (>=768px): glassy constellation bubbles overlaid on the
+//   photo box (absolute inset-0). Framer entrance pop + idle drift.
+//
+// Mobile (<768px): a horizontal snap row of 64px round thumbs in
+//   NORMAL FLOW below the photo box (md:hidden). Zero Framer loops —
+//   static CSS only. Both surfaces share the same lightbox.
+//
+// The Framer animation loops only mount when isDesktop is true,
+// preventing battery drain on phones.
 // ————————————————————————————————————————————————————————
+
+// SSR-safe desktop flag (mirrors useTategaki pattern in Academy.tsx).
+// Default false → first paint is the mobile/static branch; upgrades
+// after mount. Prevents hydration mismatch.
+function useIsDesktop() {
+  const [isDesktop, setIsDesktop] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 768px)");
+    const sync = () => setIsDesktop(mq.matches);
+    sync();
+    mq.addEventListener("change", sync);
+    return () => mq.removeEventListener("change", sync);
+  }, []);
+  return isDesktop;
+}
 
 const PHOTOS = Array.from(
   { length: 6 },
@@ -43,6 +59,7 @@ export function AcademyGallery() {
   const { locale } = useI18n();
   const reduce = useReducedMotion();
   const { stop, start } = useSmoothScroll();
+  const isDesktop = useIsDesktop();
 
   const [mounted, setMounted] = useState(false);
   const [open, setOpen] = useState(false);
@@ -189,75 +206,124 @@ export function AcademyGallery() {
 
   return (
     <>
-      {/* Constellation overlay — fills the photo box; nodes float in the
-          surrounding sky. pointer-events-none so it never blocks the
-          photo, with each node re-enabling pointer events. */}
-      <div className="pointer-events-none absolute inset-0 z-[7]">
-        {NODES.map((n, i) => (
-          <button
-            key={i}
-            type="button"
-            onClick={() => openAt(i)}
-            aria-label={`${tx.label} — ${i + 1}`}
-            className="group pointer-events-auto absolute block aspect-square w-[clamp(56px,14vw,120px)] -translate-x-1/2 -translate-y-1/2"
-            style={{ left: `${n.x}%`, top: `${n.y}%` }}
-          >
-            {/* entrance pop (own transform layer) */}
-            <motion.span
-              className="block h-full w-full"
-              initial={{ opacity: 0, scale: reduce ? 1 : 0.4 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 0.6, delay: 0.5 + i * 0.1, ease: POP }}
+      {/* ── DESKTOP constellation overlay ────────────────────────────
+          Fills the photo box (absolute inset-0). Framer entrance pop
+          + idle drift run ONLY when isDesktop is true so mobile
+          devices never start the animation loops. The max-md:hidden
+          class is a CSS safety-net for the brief SSR→hydration gap. */}
+      {isDesktop && (
+        <div className="pointer-events-none absolute inset-0 z-[7] max-md:hidden">
+          {NODES.map((n, i) => (
+            <button
+              key={i}
+              type="button"
+              onClick={() => openAt(i)}
+              aria-label={`${tx.label} — ${i + 1}`}
+              className="group pointer-events-auto absolute block aspect-square w-[clamp(56px,14vw,120px)] -translate-x-1/2 -translate-y-1/2"
+              style={{ left: `${n.x}%`, top: `${n.y}%` }}
             >
-              {/* idle drift (own transform layer) */}
+              {/* entrance pop (own transform layer) */}
               <motion.span
                 className="block h-full w-full"
-                animate={reduce ? undefined : { y: [0, i % 2 ? -6 : -4, 0] }}
-                transition={{
-                  duration: 5.5 + i * 0.6,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                  delay: i * 0.3,
-                }}
+                initial={{ opacity: 0, scale: reduce ? 1 : 0.4 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.6, delay: 0.5 + i * 0.1, ease: POP }}
               >
-                {/* hover scale (CSS, own transform layer). drop-shadow on the
-                    wrapper gives the bubble its depth shadow + a soft cyan
-                    underwater glow that brightens on hover. */}
-                <span
-                  className="relative block h-full w-full transition-transform duration-300 group-hover:scale-[1.12] [filter:drop-shadow(0_5px_12px_rgba(8,16,48,0.5))_drop-shadow(0_0_7px_rgba(120,200,255,0.35))] group-hover:[filter:drop-shadow(0_0_16px_rgba(140,215,255,0.9))]"
+                {/* idle drift (own transform layer) */}
+                <motion.span
+                  className="block h-full w-full"
+                  animate={reduce ? undefined : { y: [0, i % 2 ? -6 : -4, 0] }}
+                  transition={{
+                    duration: 5.5 + i * 0.6,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                    delay: i * 0.3,
+                  }}
                 >
-                  {/* the bubble — a glossy sphere holding the photo */}
-                  <span className="relative block h-full w-full overflow-hidden rounded-full bg-[#0b1240]">
-                    <Image src={PHOTOS[i]} alt="" fill sizes="120px" className="object-cover" />
-                    {/* sphere shading — bright top rim, deep bottom */}
-                    <span
-                      aria-hidden
-                      className="pointer-events-none absolute inset-0 rounded-full"
-                      style={{
-                        boxShadow:
-                          "inset 0 3px 8px rgba(255,255,255,0.5), inset 0 -12px 22px rgba(0,42,92,0.55)",
-                      }}
-                    />
-                    {/* thin glass rim */}
-                    <span
-                      aria-hidden
-                      className="pointer-events-none absolute inset-0 rounded-full ring-1 ring-white/40"
-                    />
-                    {/* specular highlight — the light catching the bubble */}
-                    <span
-                      aria-hidden
-                      className="pointer-events-none absolute left-[14%] top-[10%] h-[34%] w-[42%] rounded-full"
-                      style={{
-                        background:
-                          "radial-gradient(circle at 35% 35%, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.3) 45%, transparent 72%)",
-                        filter: "blur(0.5px)",
-                      }}
-                    />
+                  {/* hover scale (CSS, own transform layer). drop-shadow on the
+                      wrapper gives the bubble its depth shadow + a soft cyan
+                      underwater glow that brightens on hover. */}
+                  <span
+                    className="relative block h-full w-full transition-transform duration-300 group-hover:scale-[1.12] [filter:drop-shadow(0_5px_12px_rgba(8,16,48,0.5))_drop-shadow(0_0_7px_rgba(120,200,255,0.35))] group-hover:[filter:drop-shadow(0_0_16px_rgba(140,215,255,0.9))]"
+                  >
+                    {/* the bubble — a glossy sphere holding the photo */}
+                    <span className="relative block h-full w-full overflow-hidden rounded-full bg-[#0b1240]">
+                      <Image src={PHOTOS[i]} alt="" fill sizes="120px" className="object-cover" />
+                      {/* sphere shading — bright top rim, deep bottom */}
+                      <span
+                        aria-hidden
+                        className="pointer-events-none absolute inset-0 rounded-full"
+                        style={{
+                          boxShadow:
+                            "inset 0 3px 8px rgba(255,255,255,0.5), inset 0 -12px 22px rgba(0,42,92,0.55)",
+                        }}
+                      />
+                      {/* thin glass rim */}
+                      <span
+                        aria-hidden
+                        className="pointer-events-none absolute inset-0 rounded-full ring-1 ring-white/40"
+                      />
+                      {/* specular highlight — the light catching the bubble */}
+                      <span
+                        aria-hidden
+                        className="pointer-events-none absolute left-[14%] top-[10%] h-[34%] w-[42%] rounded-full"
+                        style={{
+                          background:
+                            "radial-gradient(circle at 35% 35%, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.3) 45%, transparent 72%)",
+                          filter: "blur(0.5px)",
+                        }}
+                      />
+                    </span>
                   </span>
-                </span>
+                </motion.span>
               </motion.span>
-            </motion.span>
+            </button>
+          ))}
+        </div>
+      )}
+
+      {/* ── MOBILE thumb row ─────────────────────────────────────────
+          Horizontal snap row of 64px round bubbles, placed in NORMAL
+          FLOW below the photo box by AcademyKeepsake (not inside the
+          absolute overlay). md:hidden so it never shows on desktop.
+          Zero Framer loops — pure CSS tap feedback. Same openAt() as
+          the desktop overlay → same lightbox. */}
+      <div
+        className="md:hidden mt-5 flex gap-3 overflow-x-auto px-1 pb-2"
+        style={{ scrollSnapType: "x mandatory" }}
+        role="list"
+        aria-label={tx.label}
+      >
+        {PHOTOS.map((src, i) => (
+          <button
+            key={src}
+            type="button"
+            role="listitem"
+            onClick={() => openAt(i)}
+            aria-label={`${tx.label} — ${i + 1}`}
+            className="relative shrink-0 overflow-hidden rounded-full bg-[#0b1240] transition-opacity active:opacity-70"
+            style={{
+              scrollSnapAlign: "start",
+              width: "4rem",
+              height: "4rem",
+              minWidth: "4rem", // 64px tap target — above 44px minimum
+            }}
+          >
+            <Image src={src} alt="" fill sizes="64px" className="object-cover" />
+            {/* bubble shading — mirrors the desktop constellation style */}
+            <span
+              aria-hidden
+              className="pointer-events-none absolute inset-0 rounded-full"
+              style={{
+                boxShadow:
+                  "inset 0 3px 8px rgba(255,255,255,0.45), inset 0 -10px 18px rgba(0,42,92,0.5)",
+              }}
+            />
+            <span
+              aria-hidden
+              className="pointer-events-none absolute inset-0 rounded-full ring-1 ring-white/35"
+            />
           </button>
         ))}
       </div>

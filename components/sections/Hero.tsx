@@ -219,14 +219,14 @@ export function Hero() {
       label: t.hero.panels.studyAbroad,
       color: "var(--color-sky)",
       src: "/hero-main/navigation-svg/kaeruryugaku.svg",
-      sizeClass: "h-[clamp(7rem,18.5vw,15rem)]",
+      sizeClass: "h-[clamp(7rem,18.5vw,15rem)] max-md:h-[7.5rem]",
     },
     {
       id: "academy",
       label: t.hero.panels.academy,
       color: "var(--color-sun)",
       src: "/hero-main/navigation-svg/academy.svg",
-      sizeClass: "h-[clamp(7rem,18.5vw,15rem)]",
+      sizeClass: "h-[clamp(7rem,18.5vw,15rem)] max-md:h-[7.5rem]",
     },
     {
       // Preschool SVG has extra vertical padding in its viewBox, so
@@ -239,21 +239,21 @@ export function Hero() {
       label: t.hero.panels.preschool,
       color: "var(--color-peach)",
       src: "/hero-main/navigation-svg/preschool.svg",
-      sizeClass: "h-[clamp(8rem,21vw,17.25rem)]",
+      sizeClass: "h-[clamp(8rem,21vw,17.25rem)] max-md:h-[8.5rem]",
     },
     {
       id: "clab",
       label: t.hero.panels.clab,
       color: "var(--color-leaf)",
       src: "/hero-main/navigation-svg/clab.svg",
-      sizeClass: "h-[clamp(7rem,18.5vw,15rem)]",
+      sizeClass: "h-[clamp(7rem,18.5vw,15rem)] max-md:h-[7.5rem]",
     },
     {
       id: "english",
       label: t.hero.panels.english,
       color: "var(--color-berry)",
       src: "/hero-main/navigation-svg/letsgoenglish.svg",
-      sizeClass: "h-[clamp(7rem,18.5vw,15rem)]",
+      sizeClass: "h-[clamp(7rem,18.5vw,15rem)] max-md:h-[7.5rem]",
     },
   ];
 
@@ -284,6 +284,20 @@ export function Hero() {
         panelsRef.current.querySelectorAll("[data-panel]"),
       );
       if (cards.length === 0) return;
+
+      // Respect prefers-reduced-motion: set cards to their resting state
+      // immediately and skip the entrance / idle choreography entirely.
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        const rmRestRotation = (i: number) => (i % 2 === 0 ? -1.5 : 1.5);
+        gsap.set(cards, {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          rotate: (i: number) => rmRestRotation(i),
+          filter: "none",
+        });
+        return;
+      }
 
       const buttons = cards.map(
         (card) => card.querySelector("[data-panel-btn]") as HTMLElement,
@@ -546,7 +560,7 @@ export function Hero() {
             quality={85}
             sizes="100vw"
             draggable={false}
-            className="select-none object-cover object-center"
+            className="select-none object-cover object-center max-md:object-[55%_center]"
           />
         </motion.div>
 
@@ -591,14 +605,14 @@ export function Hero() {
         />
       </motion.div>
 
-      <div className="relative z-10 flex min-h-screen flex-col justify-between px-gutter-lg pt-32 pb-10 md:pt-40 md:pb-16">
+      <div className="relative z-10 flex min-h-screen flex-col justify-between px-gutter-lg pt-32 pb-10 md:pt-40 md:pb-16 max-md:px-gutter max-md:pt-44 max-md:pb-8 max-md:justify-center">
         {/* Top-middle logo — absolutely positioned so it sits in the
             hero's visual "eyebrow" without disturbing the left-aligned
             title column below. This is the FLIP target rect that the
             preloader's center mark lands on. The hero's own copy stays
             invisible during `reveal` and fades in on `ready`, so the
             handoff from preloader → hero is invisible. */}
-        <div className="pointer-events-none absolute inset-x-0 top-24 z-20 flex justify-center md:top-28">
+        <div className="pointer-events-none absolute inset-x-0 top-24 z-20 flex justify-center md:top-28 max-md:top-20">
           <div
             ref={heroLogoRef}
             data-flip-target="raja-logo"
@@ -689,7 +703,7 @@ export function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={entered ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ delay: 0.5, duration: 0.7, ease: EASE_OUT_QUART }}
-          className="flex items-center gap-4 text-sm tracking-widest uppercase text-white/70"
+          className="flex items-center gap-4 text-sm tracking-widest uppercase text-white/70 max-md:justify-center"
         >
           <motion.span
             className="h-px bg-white/60 origin-left"
@@ -706,7 +720,7 @@ export function Hero() {
               RaJA headline and the Association subtitle can lock up
               tight — matching the brand composition — while the
               tagline and CTA below keep their generous breathing room. */}
-          <div className="flex flex-col">
+          <div className="flex flex-col max-md:items-center max-md:text-center">
             {/* RaJA headline — redesigned typographic mark. Replaces
                 the old flat-white SVG wordmark, which fought for
                 contrast against bright regions of the photo. The new
@@ -734,7 +748,7 @@ export function Hero() {
                 src="/hero-main/RaJA-subtitle.svg"
                 alt="Radiant Japan Association"
                 draggable={false}
-                className="block h-auto w-[clamp(22rem,58vw,48rem)] select-none"
+                className="block h-auto w-[clamp(22rem,58vw,48rem)] select-none max-md:w-[clamp(15rem,80vw,22rem)]"
                 style={{
                   filter: "drop-shadow(0 6px 18px rgba(0,0,0,0.45))",
                 }}
@@ -787,7 +801,7 @@ export function Hero() {
               }}
               whileHover={{ y: -3 }}
               whileTap={{ scale: 0.97, y: 0 }}
-              className="group relative mt-6 md:mt-8 inline-flex w-fit items-center gap-3 overflow-hidden rounded-full px-9 py-[0.95rem] text-xs font-medium uppercase tracking-[0.26em] text-white select-none focus:outline-none focus-visible:ring-2 focus-visible:ring-white/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0b0c10] md:px-11 md:py-4 md:tracking-[0.3em]"
+              className="group relative mt-6 md:mt-8 inline-flex w-fit items-center gap-3 overflow-hidden rounded-full px-9 py-[0.95rem] text-xs font-medium uppercase tracking-[0.26em] text-white select-none focus:outline-none focus-visible:ring-2 focus-visible:ring-white/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0b0c10] md:px-11 md:py-4 md:tracking-[0.3em] max-md:mx-auto"
               style={{
                 background:
                   "linear-gradient(180deg, #EE3A3F 0%, #D91F24 100%)",
@@ -834,7 +848,7 @@ export function Hero() {
             initial={{ opacity: 0, y: 30 }}
             animate={entered ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
             transition={{ delay: 1.25, duration: 0.8, ease: EASE_OUT_QUART }}
-            className="max-w-md text-lg leading-relaxed text-white/75"
+            className="max-w-md text-lg leading-relaxed text-white/75 max-md:text-center max-md:mx-auto"
           >
             {t.hero.description}
           </motion.p>
@@ -842,7 +856,7 @@ export function Hero() {
           <ul
             key={`panels-${locale}`}
             ref={panelsRef}
-            className="flex flex-wrap items-end gap-3 md:flex-nowrap md:gap-6"
+            className="flex flex-wrap items-end gap-3 md:flex-nowrap md:gap-6 max-md:justify-center max-md:gap-x-5 max-md:gap-y-4"
             aria-label={t.hero.overline}
           >
             {panels.map((p) => (
@@ -898,7 +912,7 @@ export function Hero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: entered ? 1 : 0 }}
           transition={{ delay: 1.8, duration: 0.6 }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-xs uppercase tracking-widest text-white/65"
+          className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-xs uppercase tracking-widest text-white/65 max-md:hidden"
         >
           <span>{t.hero.scroll}</span>
           <motion.span

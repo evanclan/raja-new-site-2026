@@ -233,14 +233,14 @@ export function Academy() {
 
             {/* CTA — demoted to a quiet text-link. */}
             <div data-academy="copy" className="mt-7">
-              <button className="group inline-flex items-center gap-2 text-sm font-medium text-[#fff7e6] transition-colors hover:text-[#ffd23d]">
+              <a href={p.href} target="_blank" rel="noopener noreferrer" className="group inline-flex items-center gap-2 text-sm font-medium text-[#fff7e6] transition-colors hover:text-[#ffd23d] max-md:min-h-11">
                 <span className="border-b border-[#fff7e6]/30 pb-0.5 transition-colors group-hover:border-[#ffd23d]">
                   {p.cta}
                 </span>
                 <span className="transition-transform duration-300 group-hover:translate-x-1">
                   →
                 </span>
-              </button>
+              </a>
             </div>
           </div>
 
@@ -300,7 +300,7 @@ export function Academy() {
             height={600}
             sizes="(max-width: 768px) 80vw, 460px"
             quality={90}
-            className="mt-[13px] h-auto w-[clamp(23rem,38vw,33rem)]"
+            className="mt-[13px] h-auto w-[clamp(23rem,38vw,33rem)] max-md:w-[clamp(14rem,16rem,18rem)]"
           />
         </div>
       </div>

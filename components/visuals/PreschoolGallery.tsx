@@ -51,7 +51,7 @@ export function PreschoolGallery() {
       if (!track) return;
 
       const mm = gsap.matchMedia();
-      mm.add("(prefers-reduced-motion: no-preference)", () => {
+      mm.add("(min-width: 768px) and (prefers-reduced-motion: no-preference)", () => {
         let tween: gsap.core.Tween | null = null;
         const build = () => {
           tween?.kill();
@@ -96,8 +96,10 @@ export function PreschoolGallery() {
 
       <div
         ref={rootRef}
-        className="relative overflow-hidden"
+        className="relative overflow-hidden max-md:overflow-x-auto max-md:overscroll-x-contain max-md:[scroll-snap-type:x_proximity] max-md:[-webkit-overflow-scrolling:touch]"
         // Soft edge fades so thumbs emerge / exit rather than hard-clipping.
+        // On mobile the mask still applies but overflow-x-auto overrides overflow-hidden
+        // for the cross-axis, enabling touch-swipe while keeping the fade aesthetic.
         style={{
           WebkitMaskImage:
             "linear-gradient(90deg, transparent 0%, #000 7%, #000 93%, transparent 100%)",
@@ -109,7 +111,7 @@ export function PreschoolGallery() {
       >
         <div
           ref={trackRef}
-          className="flex w-max items-center gap-3 py-1"
+          className="flex w-max items-center gap-3 py-1 max-md:pr-4"
           style={{ willChange: "transform" }}
         >
           {loop.map((p, i) => {
@@ -118,7 +120,7 @@ export function PreschoolGallery() {
               <div
                 key={i}
                 aria-hidden={dup}
-                className="relative h-20 shrink-0 overflow-hidden rounded-xl bg-white shadow-[0_6px_16px_-10px_rgba(8,10,40,0.55)] ring-1 ring-white/60"
+                className="relative h-20 shrink-0 overflow-hidden rounded-xl bg-white shadow-[0_6px_16px_-10px_rgba(8,10,40,0.55)] ring-1 ring-white/60 max-md:[scroll-snap-align:start]"
               >
                 <Image
                   src={`/preschool/gallery/LINE_ALBUM_2026.04_260624_${p.n}.jpg`}

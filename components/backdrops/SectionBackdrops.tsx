@@ -130,34 +130,37 @@ export function StudyAbroadBackdrop() {
 
       {/* Confetti stamps — scattered like passport stamps across
           the sheet, in the six brochure colours plus two kaeru
-          greens, floating gently so the page feels alive. */}
-      {KAERU_STAMPS.map((d, i) => (
-        <motion.span
-          key={i}
-          className="absolute rounded-full"
-          style={{
-            left: d.x,
-            top: d.y,
-            width: d.s,
-            height: d.s,
-            background: d.c,
-            boxShadow: `0 4px 12px ${d.c}55`,
-          }}
-          initial={{ y: 0, opacity: 0 }}
-          whileInView={{ opacity: 0.85 }}
-          viewport={{ once: true, amount: 0.3 }}
-          animate={{ y: [0, -10, 0] }}
-          transition={{
-            y: {
-              duration: 4 + (i % 5) * 0.6,
-              repeat: Infinity,
-              ease: "easeInOut",
-              delay: i * 0.15,
-            },
-            opacity: { duration: 0.9, delay: 0.1 + i * 0.05 },
-          }}
-        />
-      ))}
+          greens, floating gently so the page feels alive.
+          Hidden on mobile: reads as random specks on a small screen. */}
+      <div className="absolute inset-0 max-md:hidden">
+        {KAERU_STAMPS.map((d, i) => (
+          <motion.span
+            key={i}
+            className="absolute rounded-full"
+            style={{
+              left: d.x,
+              top: d.y,
+              width: d.s,
+              height: d.s,
+              background: d.c,
+              boxShadow: `0 4px 12px ${d.c}55`,
+            }}
+            initial={{ y: 0, opacity: 0 }}
+            whileInView={{ opacity: 0.85 }}
+            viewport={{ once: true, amount: 0.3 }}
+            animate={{ y: [0, -10, 0] }}
+            transition={{
+              y: {
+                duration: 4 + (i % 5) * 0.6,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: i * 0.15,
+              },
+              opacity: { duration: 0.9, delay: 0.1 + i * 0.05 },
+            }}
+          />
+        ))}
+      </div>
 
       {/* Ambient colour blooms — one soft radial glow in each of
           the six brochure colours, anchored at the corners so the
@@ -173,9 +176,10 @@ export function StudyAbroadBackdrop() {
       />
 
       {/* A few leaf silhouettes — quiet nods to foliage so the
-          palette doesn't read as "just dots on paper". */}
+          palette doesn't read as "just dots on paper".
+          Hidden on mobile: too small to read at 375px. */}
       <svg
-        className="absolute inset-0 h-full w-full"
+        className="absolute inset-0 h-full w-full max-md:hidden"
         viewBox="0 0 1200 800"
         preserveAspectRatio="xMidYMid slice"
         fill="none"
@@ -202,9 +206,9 @@ export function StudyAbroadBackdrop() {
         ))}
       </svg>
 
-      {/* Paper-stock grain. */}
+      {/* Paper-stock grain. Hidden on mobile: noise at small size. */}
       <div
-        className="absolute inset-0 opacity-[0.05] mix-blend-multiply"
+        className="absolute inset-0 opacity-[0.05] mix-blend-multiply max-md:hidden"
         style={{
           backgroundImage:
             "radial-gradient(rgba(32,35,58,0.8) 1px, transparent 1px)",
@@ -374,9 +378,10 @@ export function AcademyBackdrop() {
 
       {/* Deep-sea life — a far/mid school gliding through the upper
           water, rendered BEHIND the god-rays so the light shafts pass
-          in front of them. Navy silhouettes, faint with depth. */}
+          in front of them. Navy silhouettes, faint with depth.
+          Hidden on mobile: creatures are invisible/clipped behind stacked content. */}
       <svg
-        className="absolute inset-0 h-full w-full"
+        className="absolute inset-0 h-full w-full max-md:hidden"
         viewBox="0 0 1200 800"
         preserveAspectRatio="xMidYMid slice"
       >
@@ -388,9 +393,10 @@ export function AcademyBackdrop() {
       {/* God-rays — shafts of sunlight slanting down from the
           surface. Soft cyan/periwinkle gradients, each breathing
           on its own slow cycle and skewing gently like light
-          refracting through a moving surface. */}
+          refracting through a moving surface.
+          Hidden on mobile: vw-width shafts don't render well at 375px. */}
       <div
-        className="absolute inset-x-0 top-0 h-full overflow-hidden"
+        className="absolute inset-x-0 top-0 h-full overflow-hidden max-md:hidden"
         style={{
           maskImage:
             "linear-gradient(180deg, black 0%, black 45%, transparent 92%)",
@@ -434,9 +440,10 @@ export function AcademyBackdrop() {
 
       {/* Drifting marine particles — the old "stars" now suspended
           in the water, sliding sideways and bobbing with the
-          current instead of twinkling in place. */}
+          current instead of twinkling in place.
+          Hidden on mobile: tiny specks are noise on a small screen. */}
       <svg
-        className="absolute inset-0 h-full w-full"
+        className="absolute inset-0 h-full w-full max-md:hidden"
         viewBox="0 0 1200 800"
         preserveAspectRatio="xMidYMid slice"
       >
@@ -470,9 +477,10 @@ export function AcademyBackdrop() {
 
       {/* Caustics — the rippling lattice of light cast on the
           sea floor. A wavy grid, gently sliding, masked to read
-          strongest in the upper-middle where the light pools. */}
+          strongest in the upper-middle where the light pools.
+          Hidden on mobile: invisible behind stacked content. */}
       <motion.div
-        className="absolute inset-0 opacity-[0.12]"
+        className="absolute inset-0 opacity-[0.12] max-md:hidden"
         style={{
           backgroundImage:
             "repeating-radial-gradient(circle at 30% 20%, rgba(180,225,250,0.5) 0 2px, transparent 2px 26px), repeating-radial-gradient(circle at 75% 35%, rgba(0,138,208,0.45) 0 2px, transparent 2px 32px)",
@@ -488,9 +496,10 @@ export function AcademyBackdrop() {
       {/* Slow ocean current — broad undulating bands anchored to the
           section floor (bottom 0) and rising into the mid-water, in
           navy + cyan, phasing against each other so the whole column
-          feels like it's gently flowing. */}
+          feels like it's gently flowing.
+          Hidden on mobile: clipped by stacked content layout. */}
       <svg
-        className="absolute inset-x-0 bottom-0 h-[55%] w-full"
+        className="absolute inset-x-0 bottom-0 h-[55%] w-full max-md:hidden"
         viewBox="0 0 1200 500"
         preserveAspectRatio="none"
         fill="none"
@@ -522,9 +531,10 @@ export function AcademyBackdrop() {
       </svg>
 
       {/* Near fish — a couple of larger, darker silhouettes passing IN
-          FRONT of the god-rays, giving the water real depth. */}
+          FRONT of the god-rays, giving the water real depth.
+          Hidden on mobile: invisible/clipped behind stacked content. */}
       <svg
-        className="absolute inset-0 h-full w-full"
+        className="absolute inset-0 h-full w-full max-md:hidden"
         viewBox="0 0 1200 800"
         preserveAspectRatio="xMidYMid slice"
       >
@@ -535,9 +545,10 @@ export function AcademyBackdrop() {
 
       {/* A single jellyfish drifting at the far-left margin — periwinkle
           and faint, so it sits quietly behind the copy column. Bell
-          pulses while the whole body slowly rises and sinks. */}
+          pulses while the whole body slowly rises and sinks.
+          Hidden on mobile: clipped behind stacked content. */}
       <motion.svg
-        className="absolute left-[4%] top-[13%] h-24 w-16 md:h-28 md:w-20"
+        className="absolute left-[4%] top-[13%] h-24 w-16 md:h-28 md:w-20 max-md:hidden"
         viewBox="0 0 60 110"
         fill="none"
         initial={{ opacity: 0 }}
@@ -571,7 +582,9 @@ export function AcademyBackdrop() {
       </motion.svg>
 
       {/* Kelp — two fronds rooted in the bottom corners, swaying from
-          their base with the current. Clear of the copy and the photo. */}
+          their base with the current. Clear of the copy and the photo.
+          Hidden on mobile: below stacked content, not visible. */}
+      <div className="max-md:hidden">
       {[
         { side: "left-[2%]", blades: [-3, 4], delay: 0 },
         { side: "right-[2%]", blades: [3, -4], delay: 1.2 },
@@ -607,34 +620,38 @@ export function AcademyBackdrop() {
           ))}
         </svg>
       ))}
+      </div>
 
       {/* Rising bubbles — small glassy spheres climbing toward the
-          surface and fading as they thin into the light. */}
-      {ACADEMY_BUBBLES.map((b, i) => (
-        <motion.span
-          key={i}
-          className="absolute rounded-full"
-          style={{
-            left: b.x,
-            top: b.y,
-            width: b.s,
-            height: b.s,
-            background:
-              "radial-gradient(circle at 32% 30%, rgba(255,255,255,0.9) 0%, rgba(155,211,240,0.3) 40%, rgba(0,138,208,0.06) 80%)",
-            border: "1px solid rgba(207,230,245,0.45)",
-          }}
-          initial={{ y: 0, opacity: 0 }}
-          whileInView={{ opacity: 0.75 }}
-          viewport={{ once: true, amount: 0.2 }}
-          animate={{ y: [0, -220, -440], opacity: [0, 0.75, 0] }}
-          transition={{
-            duration: 10 + (i % 4) * 1.5,
-            repeat: Infinity,
-            ease: "easeOut",
-            delay: b.d,
-          }}
-        />
-      ))}
+          surface and fading as they thin into the light.
+          Hidden on mobile: lost in stacked single-column layout. */}
+      <div className="max-md:hidden">
+        {ACADEMY_BUBBLES.map((b, i) => (
+          <motion.span
+            key={i}
+            className="absolute rounded-full"
+            style={{
+              left: b.x,
+              top: b.y,
+              width: b.s,
+              height: b.s,
+              background:
+                "radial-gradient(circle at 32% 30%, rgba(255,255,255,0.9) 0%, rgba(155,211,240,0.3) 40%, rgba(0,138,208,0.06) 80%)",
+              border: "1px solid rgba(207,230,245,0.45)",
+            }}
+            initial={{ y: 0, opacity: 0 }}
+            whileInView={{ opacity: 0.75 }}
+            viewport={{ once: true, amount: 0.2 }}
+            animate={{ y: [0, -220, -440], opacity: [0, 0.75, 0] }}
+            transition={{
+              duration: 10 + (i % 4) * 1.5,
+              repeat: Infinity,
+              ease: "easeOut",
+              delay: b.d,
+            }}
+          />
+        ))}
+      </div>
     </BackdropFrame>
   );
 }
@@ -672,12 +689,13 @@ export const CLOUD_SHAPE = (
 // crisper, faster bob; far = smaller, fainter, blurrier, slower. All
 // kept in the TOP band so they clear the copy (right) and child photo
 // (left). Drift is a slow lateral sway; bob is a gentle vertical lilt.
+// hideMobile: true → smaller/far clouds hidden on <768px; keep the 2 nearest.
 const SKY_CLOUDS = [
-  { cls: "left-[4%] top-[7%] h-20 w-44 md:h-28 md:w-64", op: 0.9, blur: 0.5, bob: [0, -8, 0], drift: [0, 40, 0], bobDur: 7, driftDur: 38, delay: 0 },
-  { cls: "left-[54%] top-[5%] h-16 w-40 md:h-24 md:w-52", op: 0.72, blur: 1, bob: [0, 10, 0], drift: [0, -30, 0], bobDur: 8.5, driftDur: 46, delay: 0.6 },
-  { cls: "left-[74%] top-[13%] h-12 w-28 md:h-16 md:w-36", op: 0.5, blur: 2, bob: [0, -6, 0], drift: [0, 26, 0], bobDur: 10, driftDur: 60, delay: 1.2 },
-  { cls: "left-[30%] top-[16%] h-16 w-44 md:h-24 md:w-56", op: 0.8, blur: 0.6, bob: [0, 7, 0], drift: [0, 34, 0], bobDur: 9, driftDur: 52, delay: 0.3 },
-  { cls: "right-[3%] top-[4%] h-10 w-24 md:h-14 md:w-32", op: 0.45, blur: 2, bob: [0, -5, 0], drift: [0, -22, 0], bobDur: 11, driftDur: 66, delay: 1.8 },
+  { cls: "left-[4%] top-[7%] h-20 w-44 md:h-28 md:w-64", op: 0.9, blur: 0.5, bob: [0, -8, 0], drift: [0, 40, 0], bobDur: 7, driftDur: 38, delay: 0, hideMobile: false },
+  { cls: "left-[54%] top-[5%] h-16 w-40 md:h-24 md:w-52", op: 0.72, blur: 1, bob: [0, 10, 0], drift: [0, -30, 0], bobDur: 8.5, driftDur: 46, delay: 0.6, hideMobile: true },
+  { cls: "left-[74%] top-[13%] h-12 w-28 md:h-16 md:w-36", op: 0.5, blur: 2, bob: [0, -6, 0], drift: [0, 26, 0], bobDur: 10, driftDur: 60, delay: 1.2, hideMobile: true },
+  { cls: "left-[30%] top-[16%] h-16 w-44 md:h-24 md:w-56", op: 0.8, blur: 0.6, bob: [0, 7, 0], drift: [0, 34, 0], bobDur: 9, driftDur: 52, delay: 0.3, hideMobile: false },
+  { cls: "right-[3%] top-[4%] h-10 w-24 md:h-14 md:w-32", op: 0.45, blur: 2, bob: [0, -5, 0], drift: [0, -22, 0], bobDur: 11, driftDur: 66, delay: 1.8, hideMobile: true },
 ];
 
 // Floating light motes (pollen / sun-specks) drifting in the upper-right
@@ -725,10 +743,11 @@ export function PreschoolBackdrop() {
       />
 
       {/* Sun god-rays — soft warm shafts fanning down-left from the sun,
-          masked so they fade out long before the copy/photo. */}
+          masked so they fade out long before the copy/photo.
+          Hidden on mobile: vw-width shafts don't scale to 375px well. */}
       <div
         aria-hidden
-        className="absolute inset-0"
+        className="absolute inset-0 max-md:hidden"
         style={{
           maskImage:
             "linear-gradient(165deg, black 0%, black 36%, transparent 76%)",
@@ -767,14 +786,17 @@ export function PreschoolBackdrop() {
       </div>
 
       {/* Cloud layers — five puffy clouds across three depth tiers,
-          drifting and bobbing low and slow in the top band. */}
+          drifting and bobbing low and slow in the top band.
+          Far/small clouds hidden on mobile (hideMobile flag). */}
       {SKY_CLOUDS.map((c, i) => (
         <motion.svg
           key={i}
-          className={`absolute ${c.cls}`}
+          className={`absolute ${c.cls}${c.hideMobile ? " max-md:hidden" : ""}`}
           viewBox="0 0 240 120"
           fill="#ffffff"
-          style={{ filter: `blur(${c.blur}px)` }}
+          style={{
+            filter: `blur(${c.blur}px) drop-shadow(0 8px 14px rgba(0,91,170,0.42))`,
+          }}
           initial={{ opacity: 0 }}
           whileInView={{ opacity: c.op }}
           viewport={{ once: true, amount: 0.2 }}
@@ -793,9 +815,10 @@ export function PreschoolBackdrop() {
       ))}
 
       {/* Floating light motes — tiny sun-specks drifting in the
-          upper-right sky. */}
+          upper-right sky.
+          Hidden on mobile: invisible at 375px. */}
       <svg
-        className="absolute inset-0 h-full w-full"
+        className="absolute inset-0 h-full w-full max-md:hidden"
         viewBox="0 0 1200 800"
         preserveAspectRatio="xMidYMid slice"
       >
@@ -829,14 +852,15 @@ export function PreschoolBackdrop() {
       </svg>
 
       {/* Two far-off birds — faint gull silhouettes soaring high, with
-          a slow wing-flap. */}
+          a slow wing-flap.
+          Hidden on mobile: too small to read, and crowd the small sky. */}
       {[
         { cls: "top-[10%] left-[64%]", dur: 30, delay: 0 },
         { cls: "top-[13%] left-[70%]", dur: 34, delay: 1.5 },
       ].map((b, i) => (
         <motion.svg
           key={i}
-          className={`absolute ${b.cls} h-3 w-10 md:h-4 md:w-12`}
+          className={`absolute ${b.cls} h-3 w-10 md:h-4 md:w-12 max-md:hidden`}
           viewBox="0 0 48 16"
           fill="none"
           initial={{ opacity: 0 }}
@@ -868,9 +892,10 @@ export function PreschoolBackdrop() {
       ))}
 
       {/* A single paper-plane drifting on a gentle arc — a quiet nod to
-          learning taking flight. */}
+          learning taking flight.
+          Hidden on mobile: too far off-canvas to be visible. */}
       <motion.svg
-        className="absolute left-[80%] top-[18%] h-6 w-6 md:h-8 md:w-8"
+        className="absolute left-[80%] top-[18%] h-6 w-6 md:h-8 md:w-8 max-md:hidden"
         viewBox="0 0 32 32"
         fill="#ffffff"
         initial={{ opacity: 0 }}
@@ -920,9 +945,10 @@ export function ClabBackdrop() {
       />
 
       {/* Three arcs — one violet, one mint, one pink — the
-          hopeful "pastel rainbow" motif. */}
+          hopeful "pastel rainbow" motif.
+          Hidden on mobile: 190vw wide — way off-canvas on a 375px screen. */}
       <svg
-        className="absolute left-1/2 top-[56%] h-[150vh] w-[190vw] -translate-x-1/2 md:top-[60%]"
+        className="absolute left-1/2 top-[56%] h-[150vh] w-[190vw] -translate-x-1/2 md:top-[60%] max-md:hidden"
         viewBox="0 0 1200 600"
         fill="none"
         preserveAspectRatio="xMidYMid meet"
@@ -953,9 +979,10 @@ export function ClabBackdrop() {
       </svg>
 
       {/* Tri-colour sparkle field — each sparkle is one of the
-          three anchors, so the whole stage reads tri-tone. */}
+          three anchors, so the whole stage reads tri-tone.
+          Hidden on mobile: individual sparkles read as noise at 375px. */}
       <svg
-        className="absolute inset-0 h-full w-full"
+        className="absolute inset-0 h-full w-full max-md:hidden"
         viewBox="0 0 1200 800"
         preserveAspectRatio="xMidYMid slice"
       >
@@ -1004,9 +1031,10 @@ export function ClabBackdrop() {
       <Glow x="72%" y="-4%" size="38vw" color="#f3c8de" opacity={0.5} delay={3} blur={80} />
       <Glow x="50%" y="70%" size="46vw" color="#c8e5c6" opacity={0.55} delay={6} blur={80} />
 
-      {/* Very fine grain to keep it from feeling flat. */}
+      {/* Very fine grain to keep it from feeling flat.
+          Hidden on mobile: noise at small size. */}
       <div
-        className="absolute inset-0 opacity-[0.05] mix-blend-overlay"
+        className="absolute inset-0 opacity-[0.05] mix-blend-overlay max-md:hidden"
         style={{
           backgroundImage:
             "radial-gradient(rgba(255,255,255,0.9) 1px, transparent 1px)",
@@ -1049,9 +1077,10 @@ export function EnglishBackdrop() {
         }}
       />
 
-      {/* Alternating orange + green candy stripes — bold pop. */}
+      {/* Alternating orange + green candy stripes — bold pop.
+          Hidden on mobile: busy at small size. */}
       <div
-        className="absolute inset-0 opacity-[0.06]"
+        className="absolute inset-0 opacity-[0.06] max-md:hidden"
         style={{
           backgroundImage:
             "repeating-linear-gradient(135deg, #f15a29 0 2px, transparent 2px 20px, #3a9984 20px 22px, transparent 22px 40px)",
@@ -1059,9 +1088,10 @@ export function EnglishBackdrop() {
       />
 
       {/* Burst rings — one orange cluster top-left, one green
-          cluster bottom-right, rotating opposite directions. */}
+          cluster bottom-right, rotating opposite directions.
+          Hidden on mobile: 70-80vmin is oversized and distracting at 375px. */}
       <motion.svg
-        className="absolute -left-[10%] top-[-12%] h-[70vmin] w-[70vmin]"
+        className="absolute -left-[10%] top-[-12%] h-[70vmin] w-[70vmin] max-md:hidden"
         viewBox="0 0 400 400"
         fill="none"
         initial={{ opacity: 0, scale: 0.8 }}
@@ -1088,7 +1118,7 @@ export function EnglishBackdrop() {
       </motion.svg>
 
       <motion.svg
-        className="absolute -right-[12%] bottom-[-18%] h-[80vmin] w-[80vmin]"
+        className="absolute -right-[12%] bottom-[-18%] h-[80vmin] w-[80vmin] max-md:hidden"
         viewBox="0 0 400 400"
         fill="none"
         initial={{ opacity: 0, scale: 0.8 }}
@@ -1115,7 +1145,9 @@ export function EnglishBackdrop() {
       </motion.svg>
 
       {/* Floating letters — the English alphabet, scattered in
-          orange + green + amber. Bounce-in, then gentle idle. */}
+          orange + green + amber. Bounce-in, then gentle idle.
+          Hidden on mobile: positioned at far-edge % coordinates off-canvas at 375px. */}
+      <div className="max-md:hidden">
       {ENGLISH_LETTERS.map((l, i) => (
         <motion.span
           key={i}
@@ -1155,10 +1187,12 @@ export function EnglishBackdrop() {
           </motion.span>
         </motion.span>
       ))}
+      </div>
 
-      {/* Halftone dots — comic-book lettering texture. */}
+      {/* Halftone dots — comic-book lettering texture.
+          Hidden on mobile: busy at small size. */}
       <div
-        className="absolute inset-0 opacity-[0.07]"
+        className="absolute inset-0 opacity-[0.07] max-md:hidden"
         style={{
           backgroundImage:
             "radial-gradient(#20233a 1.3px, transparent 1.3px)",

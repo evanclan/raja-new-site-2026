@@ -56,9 +56,19 @@
 
 /* (A) Master scaler — fluid root font-size. The rem bounds resolve
    against the user's browser default, so zoom/font-size prefs are
-   respected. 14px ≤768 · 16px @1440 · 18px @1920 · 20.7px @2560 · cap 24px. */
+   respected. 14px ≤768 · 16px @1440 · 18px @1920 · 20.7px @2560 · cap 24px.
+
+   HEIGHT GUARD: the width term is now wrapped in `min(…, 2.1vh)` so the
+   whole design also scales down to fit short viewports (laptops with little
+   vertical room). The guard only bites when the viewport is WIDE (so the
+   width term is large) AND SHORT (so 2.1vh is small) — i.e. laptops/short
+   desktop windows. On phones the narrow-width term is always the smaller of
+   the two, so it wins and the height guard never engages: mobile (and the
+   iOS URL-bar height dance) is untouched. Floor 0.875rem keeps text readable
+   at the shortest target; the display headings cap themselves via their rem
+   ceilings, which now ride this height-aware root. */
 html {
-  font-size: clamp(0.875rem, 0.625rem + 0.4167vw, 1.5rem);
+  font-size: clamp(0.875rem, min(0.625rem + 0.4167vw, 2.1vh), 1.5rem);
 }
 
 /* (B) Bespoke helper vars (not Tailwind theme namespaces) live in :root
@@ -71,8 +81,12 @@ html {
 
   --space-gutter: 1.75rem; /* was px-6 → md:px-10 */
   --space-gutter-lg: 2.75rem; /* was px-6 → md:px-12 */
-  --space-band: 6.5rem; /* was py-24 → md:py-32 */
-  --space-band-lg: 8rem;
+  /* Vertical bands carry a height guard (mirrors the root scaler): the rem
+     value governs on normal/tall screens and stays put; the vh cap only bites
+     once the viewport gets short, reclaiming this "air" first so the root
+     font-size barely has to shrink (keeps text large). Break-even ≈820px. */
+  --space-band: min(6.5rem, 13vh); /* was py-24 → md:py-32 */
+  --space-band-lg: min(8rem, 16vh);
 
   /* Motion distances — baseline (root 16px) matches the original px so the
      hand-tuned choreography is preserved, then scales with the root. */
@@ -165,6 +179,12 @@ html {
 }
 @utility py-band-lg {
   padding-block: var(--space-band-lg);
+}
+/* Height-guarded vertical gap for the stacked-band sections (English, News):
+   3.5rem of breathing room between bands on tall screens, compressed via the
+   vh cap on short ones so two full bands still fit one viewport. */
+@utility gap-band {
+  gap: min(3.5rem, 6vh);
 }
 
 html,

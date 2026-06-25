@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   motion,
   useReducedMotion,
@@ -33,10 +33,24 @@ import { AcademyGallery } from "./AcademyGallery";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
+// SSR-safe desktop flag (mirrors useTategaki pattern).
+function useIsDesktop() {
+  const [isDesktop, setIsDesktop] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 768px)");
+    const sync = () => setIsDesktop(mq.matches);
+    sync();
+    mq.addEventListener("change", sync);
+    return () => mq.removeEventListener("change", sync);
+  }, []);
+  return isDesktop;
+}
+
 export function AcademyKeepsake() {
   const t = useT();
   const p = t.panels.academy;
   const reduce = useReducedMotion();
+  const isDesktop = useIsDesktop();
 
   const ref = useRef<HTMLDivElement | null>(null);
   const { scrollYProgress } = useScroll({
@@ -44,13 +58,19 @@ export function AcademyKeepsake() {
     offset: ["start end", "end start"],
   });
   const par = useParallaxPx(0.05, 28, 60); // ~±40px, scales with viewport height
-  const parallaxY = useTransform(scrollYProgress, [0, 1], [par, -par]);
+  // On mobile parallax adds scroll cost with no visual benefit — neutralise it.
+  const parallaxY = useTransform(scrollYProgress, [0, 1], [isDesktop ? par : 0, isDesktop ? -par : 0]);
 
   return (
     <div
       ref={ref}
-      className="relative mx-auto h-[clamp(60vh,70vw,94vh)] w-full max-w-[min(52.5rem,90vw)] md:ml-auto md:mr-0"
+      className="relative mx-auto h-[clamp(60vh,70vw,94vh)] w-full max-w-[min(52.5rem,90vw)] md:ml-auto md:mr-0 max-md:h-auto"
     >
+      {/* Inner STAGE box — holds the absolute photo + ornaments at a bounded
+          height. On desktop it fills the fixed outer height (h-full). On
+          mobile it keeps its own clamp height, and the gallery thumb row
+          (in flow, below) sits UNDER it instead of overlapping the photo. */}
+      <div className="relative h-full w-full max-md:h-[clamp(46vh,52vh,68vh)]">
       {/* Warm starlight halo — a soft radial bloom behind the figures
           that lifts them off the starfield without dimming the
           star-map. Gold core fading into an indigo cushion. */}
@@ -65,10 +85,11 @@ export function AcademyKeepsake() {
       />
 
       {/* Constellation line — drawn from down by the seal up to one
-          bright amber star, in the backdrop's dashed-stroke language. */}
+          bright amber star, in the backdrop's dashed-stroke language.
+          Hidden on mobile: the line crosses faces on a narrow box. */}
       <svg
         aria-hidden
-        className="pointer-events-none absolute inset-0 h-full w-full"
+        className="pointer-events-none absolute inset-0 h-full w-full max-md:hidden"
         viewBox="0 0 200 320"
         fill="none"
         preserveAspectRatio="xMidYMid meet"
@@ -150,10 +171,13 @@ export function AcademyKeepsake() {
           </motion.div>
         </div>
       </motion.div>
+      </div>
 
       {/* Class of 2026 — the student photos as a constellation floating
           in the sky around the graduates; click any node to open the
-          lightbox. */}
+          lightbox. Desktop: glassy bubbles overlaid inside this box.
+          Mobile: md:hidden thumb row that overflows below this fixed-height
+          box (overflow:visible) into the section's ample vertical space. */}
       <AcademyGallery />
     </div>
   );

@@ -70,7 +70,7 @@ export function SectionLogo({
           // image's own aspect ratio. Grows strongly on widescreen via the vw
           // term. Default: ~60px mobile · ~94px @1440 · ~125px @1920. Large
           // emblems run bigger: ~216px @1440 · ~288px @1920 · 384px cap.
-          className={`${sizeClassName ?? (large ? "h-[clamp(8rem,15vw,24rem)]" : "h-[clamp(4.25rem,6.5vw,9rem)]")} w-auto select-none`}
+          className={`${sizeClassName ?? (large ? "h-[clamp(8rem,15vw,24rem)] max-md:h-[6rem]" : "h-[clamp(4.25rem,6.5vw,9rem)] max-md:h-[3.25rem]")} w-auto select-none`}
           style={{ filter: "drop-shadow(0 8px 16px rgba(8,10,40,0.18))" }}
         />
       </motion.div>

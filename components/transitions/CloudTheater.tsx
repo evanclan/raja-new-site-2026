@@ -40,9 +40,8 @@ const WHITEOUT = "#fcfdff"; // the brief full whiteout
 const BG_CALM = "#dceffa"; // reduced-motion resting sky
 const CUE_COLOR = "rgba(46,49,90,0.55)"; // muted indigo scroll cue — reads on the pale clouds
 
-// Pin length in viewport-heights. Mobile gets a shorter, less "sticky" pin.
+// Pin length in viewport-heights (desktop only; mobile uses a static reveal).
 const PIN_VH_DESKTOP = 1.5;
-const PIN_VH_MOBILE = 1.2;
 
 // Two depth tiers' worth of puffy clouds per bank. Generous sizes + overlap so
 // each bank covers well over half the viewport; the whiteout veil guarantees
@@ -149,16 +148,69 @@ export function CloudTheater({
         gsap.set(hint, { opacity: 0 });
       });
 
-      // ——— Motion OK: the pinned, scrubbed cloud theatre. ———
+      // ——— Motion OK, MOBILE (<768px): self-playing cloud scene on enter — no pin, no scrub. ———
+      // Keeps the gather → whiteout → part → reveal cloud motion on phones, but driven
+      // by a one-shot timeline that PLAYS when the section scrolls into view. It is a
+      // NON-pinning ScrollTrigger (no pin spacer), so Preschool + below stay correctly
+      // measured. It settles on the SAME calm end-state as before, so the colours and
+      // layout of everything below are unchanged — only the entrance now animates.
       mm.add(
-        {
-          isMobile: "(prefers-reduced-motion: no-preference) and (max-width: 767px)",
-          isDesktop:
-            "(prefers-reduced-motion: no-preference) and (min-width: 768px)",
+        "(prefers-reduced-motion: no-preference) and (max-width: 767px)",
+        () => {
+          // Start frame — clouds already drifting IN from top/bottom (never an empty
+          // screen), assets hidden, no whiteout. Mirrors the desktop opening beat.
+          gsap.set(bg, { backgroundColor: BG_START });
+          gsap.set(topBank, { yPercent: -40, opacity: 0.55 });
+          gsap.set(botBank, { yPercent: 40, opacity: 0.55 });
+          gsap.set(white, { opacity: 0 });
+          gsap.set(stage, { opacity: 0, scale: 0.94, y: 12 });
+          gsap.set(glyphs, { opacity: 0, y: 12 });
+          gsap.set(hint, { opacity: 0 }); // no scroll cue — the scene self-plays
+
+          // One-shot, TIME-based timeline (not scroll-scrubbed). Paused until enter.
+          const tl = gsap.timeline({ paused: true });
+          // 1 — GATHER: banks flood in and fill; bg lifts toward white.
+          tl.to(topBank, { yPercent: 0, opacity: 1, duration: 0.55, ease: "power2.inOut" }, 0)
+            .to(botBank, { yPercent: 0, opacity: 1, duration: 0.55, ease: "power2.inOut" }, 0)
+            .to(bg, { backgroundColor: BG_FILL, duration: 0.55, ease: "power1.inOut" }, 0);
+          // 2 — WHITEOUT: brief soft flash at peak cloud density.
+          tl.to(white, { opacity: 1, duration: 0.22, ease: "power1.in" }, 0.45);
+          // 3 — PART: banks lift/sink apart; the white clears from behind them.
+          tl.to(topBank, { yPercent: -118, opacity: 0.85, duration: 0.45, ease: "power2.out" }, 0.62)
+            .to(botBank, { yPercent: 118, opacity: 0.85, duration: 0.45, ease: "power2.out" }, 0.62)
+            .to(white, { opacity: 0, duration: 0.32, ease: "power1.out" }, 0.62);
+          // 4 — REVEAL: the pair settles in; ink types in L→R.
+          tl.to(stage, { opacity: 1, scale: 1, y: 0, duration: 0.4, ease: "power3.out" }, 0.74);
+          if (glyphs.length) {
+            tl.to(glyphs, { opacity: 1, y: 0, duration: 0.3, ease: "power2.out", stagger: { amount: 0.35, from: "start" } }, 0.8);
+          }
+          // 5 — SETTLE: clouds thin into the top band toward the calm resting sky —
+          // identical end-state to the previous static version.
+          tl.to(topBank, { yPercent: -96, opacity: 0.3, duration: 0.6, ease: "power1.inOut" }, 1.05)
+            .to(botBank, { yPercent: 168, opacity: 0, duration: 0.6, ease: "power1.inOut" }, 1.05)
+            .to(bg, { backgroundColor: BG_CALM, duration: 0.6, ease: "power1.inOut" }, 1.05);
+
+          // Play once when the section scrolls into view. NON-pinning trigger, so
+          // no pin spacer is created and the sections below keep their measurements.
+          const st = ScrollTrigger.create({
+            trigger: section,
+            start: "top 78%",
+            once: true,
+            onEnter: () => tl.play(),
+          });
+
+          return () => {
+            st.kill();
+            tl.kill();
+          };
         },
-        (ctx) => {
-          const isMobile = !!ctx.conditions?.isMobile;
-          const pinVh = isMobile ? PIN_VH_MOBILE : PIN_VH_DESKTOP;
+      );
+
+      // ——— Motion OK, DESKTOP (≥768px): the full pinned, scrubbed cloud theatre. ———
+      mm.add(
+        "(prefers-reduced-motion: no-preference) and (min-width: 768px)",
+        () => {
+          const pinVh = PIN_VH_DESKTOP;
 
           // Initial state — clouds already drifting IN from top/bottom (so the
           // entry frame is never an empty screen), assets hidden, no whiteout.

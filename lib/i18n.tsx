@@ -65,6 +65,7 @@ const DICTIONARY = {
     panels: {
       studyAbroad: {
         label: "Kaeru Ryugaku",
+        href: "https://www.kaeruryugaku.com",
         title: "See the world. Come home changed.",
         subtitle: "Study abroad, re-imagined.",
         ages: "Teens & Young Adults",
@@ -72,7 +73,8 @@ const DICTIONARY = {
           "A curated global exchange program pairing students with host communities across four continents. Language immersion, mentored projects, and the courage to belong anywhere.",
       },
       academy: {
-        label: "RaJA Academy",
+        label: "RaJA Global Academy",
+        href: "https://www.rga-ce.com",
         kicker: "Commencement · Class of 2026",
         // Authored line breaks — the headline is set in three short
         // lines so the ma (negative space) reads, never browser-wrapped.
@@ -91,6 +93,7 @@ const DICTIONARY = {
       },
       preschool: {
         label: "RaJA International Preschool",
+        href: "https://www.raja-preschool.com",
         title: "To a Wider,\nBrighter Future",
         subtitle: "Gentle care for ages 0 – 2.",
         ages: "Ages 0 – 2",
@@ -107,24 +110,40 @@ const DICTIONARY = {
         // in place of the trust pillars. `sub` carries the name in the
         // *other* script (kanji here, romaji in JA) so each locale shows
         // its primary reading with the secondary underneath.
-        campusesLabel: "Our two campuses",
+        campusesLabel: "Our campuses & facilities",
         branches: [
           {
             name: "Taniyama Campus",
             sub: "谷山キャンパス",
             line: "A bright, welcoming first home.",
+            addr: "〒891-0141 Taniyama-chuo 7-27-3, Kagoshima City",
+            tel: "099-204-9851",
+            hours: "Standard childcare",
             alt: "RaJA Preschool Taniyama Base — 〒891-0141 Taniyama-chuo 7-27-3, Kagoshima City. TEL 099-204-9851. Standard childcare.",
           },
           {
             name: "Shimo Arata Campus",
             sub: "下荒田キャンパス",
             line: "Where the littlest days begin.",
+            addr: "〒890-0056 Shimo Arata 1-38-32-1, Kagoshima City",
+            tel: "099-204-9149",
+            hours: "Standard & sick-child childcare",
             alt: "RaJA Preschool Shimoarata — 〒890-0056 Shimo Arata 1-38-32-1, Kagoshima City. TEL 099-204-9149. Standard & sick-child childcare.",
+          },
+          {
+            name: "RaJA Sick-Child Daycare",
+            sub: "病児保育園 · Shimoarata",
+            line: "Gentle care for days they can't go to class.",
+            addr: "〒890-0056 Shimo Arata 1-38-32-1, Kagoshima City",
+            tel: "099-204-9149",
+            hours: "Sick-child childcare · reservation required",
+            alt: "RaJA Sick-Child Daycare (Byoji Hoiku) at the Shimoarata location — 〒890-0056 Shimo Arata 1-38-32-1, Kagoshima City. TEL 099-204-9149. Sick-child childcare, reservation required.",
           },
         ],
       },
       clab: {
         label: "Clab + Education",
+        href: "#inquiry",
         kicker: "Carat — a gem's brilliance",
         // Authored line breaks so the headline keeps its "ma" and never
         // browser-wraps mid-phrase. Rendered as stacked lines, like academy.
@@ -183,6 +202,7 @@ const DICTIONARY = {
       },
       english: {
         label: "Let's Go English",
+        href: "https://www.raja-english.com",
         title: ["English you'll", "actually use."],
         tagline: "From “studying” English — to living it.",
         description:
@@ -221,6 +241,23 @@ const DICTIONARY = {
       allArticles: "All articles",
       posts: [
         {
+          slug: "forgood-ib-campaign",
+          date: "Jun 25 2026",
+          category: "Crowdfunding",
+          title: "From Kagoshima to the world — our IB crowdfunding campaign is live",
+          excerpt:
+            "A bid to become Kagoshima's first International Baccalaureate (IB) PYP certified school. Goal ¥5,000,000, now running on For Good.",
+        },
+        {
+          slug: "ib-pyp-candidate",
+          date: "Mar 12 2026",
+          category: "International Baccalaureate",
+          title: "RaJA Global Academy named an IB PYP candidate school",
+          excerpt:
+            "RaJA Global Academy is a candidate school for the IB Primary Years Programme, working toward authorization as an IB World School.",
+        },
+        {
+          slug: "",
           date: "Apr 18 2026",
           category: "Kaeru Ryugaku",
           title: "Spring cohort arrives in Auckland",
@@ -228,27 +265,73 @@ const DICTIONARY = {
             "Our newest study-abroad group begins their 12-week immersion with host families across the North Island.",
         },
         {
+          slug: "",
           date: "Apr 04 2026",
           category: "RaJA Academy",
           title: "Gardens-to-table week starts Monday",
           excerpt:
             "Children will harvest, cook, and share from our rooftop vegetable beds in a five-day sensory program.",
         },
-        {
-          date: "Mar 22 2026",
-          category: "Clab + Education",
-          title: "Young inventors showcase their robots",
-          excerpt:
-            "Ten weeks of tinkering turned into thirty prototypes at this season's Clab Fair. Replay coming soon.",
-        },
-        {
-          date: "Mar 09 2026",
-          category: "RaJA English",
-          title: "New conversation tables in Osaka",
-          excerpt:
-            "Weekly drop-in sessions for parents and caregivers launch this April — registration is open now.",
-        },
       ],
+    },
+    articles: {
+      "ib-pyp-candidate": {
+        date: "March 12, 2026",
+        publishedLabel: "Published",
+        category: "International Baccalaureate",
+        title: "RaJA Global Academy is an IB Primary Years Programme candidate school",
+        excerpt:
+          "RaJA Global Academy is a candidate school for the IB Primary Years Programme (PYP), working toward authorization as an IB World School.",
+        hero: {
+          src: "/academy/ib-pyp-feature.jpg",
+          alt: "The IB Primary Years Programme — children learning together with a teacher.",
+        },
+        intro:
+          "RaJA Global Academy is a candidate school for the International Baccalaureate (IB) Primary Years Programme (PYP). The school is pursuing authorization as an IB World School.",
+        body: [
+          "IB World Schools share a common philosophy — a commitment to high-quality, challenging international education. RaJA believes this kind of education is important for our children.",
+          "Only schools authorized by the IB Organization can offer any of its four programmes: the Primary Years Programme (PYP), the Middle Years Programme (MYP), the Diploma Programme (DP), and the Career-related Programme (CP). Candidate status gives no guarantee that authorization will be granted.",
+        ],
+        programmesTitle: "The four IB programmes",
+        programmes: [
+          { code: "PYP", name: "Primary Years Programme" },
+          { code: "MYP", name: "Middle Years Programme" },
+          { code: "DP", name: "Diploma Programme" },
+          { code: "CP", name: "Career-related Programme" },
+        ],
+        note: "* Candidate status is the period during which a school is working toward authorization. This status does not guarantee that authorization will be granted.",
+        moreText: "For further information about the IB and its programmes, please visit",
+        link: { label: "www.ibo.org", href: "https://www.ibo.org" },
+        backLabel: "Back to all news",
+      },
+      "forgood-ib-campaign": {
+        date: "June 25, 2026",
+        publishedLabel: "Published",
+        category: "Crowdfunding",
+        title: "From Kagoshima to the World — our IB certification campaign",
+        excerpt:
+          "A crowdfunding campaign to become Kagoshima's first International Baccalaureate (IB) PYP certified school. Goal ¥5,000,000, live on For Good.",
+        hero: {
+          src: "/academy/main-image.jpg",
+          alt: "Children learning together at RaJA Global Academy.",
+        },
+        intro:
+          "A bid to become Kagoshima's first International Baccalaureate (IB) PYP certified school. We're crowdfunding to bring a world-standard education to the children of this city.",
+        body: [
+          "RaJA Co., Ltd. cultivates the power to think, to express, and to live through RaJA STREAM — our original method — delivering a true international education that widens children's options 10 and 20 years into the future.",
+          "Our goal is ¥5,000,000. Through For Good (0% listing fee, operated by Borderless Japan), every yen you give goes toward building the learning environment needed for IB certification.",
+        ],
+        programmesTitle: "Project highlights",
+        programmes: [
+          { code: "IB", name: "A bid for PYP IB certification" },
+          { code: "Ask", name: "An environment that grows children who think and act" },
+          { code: "Fly", name: "For children ready to take flight from Kagoshima" },
+        ],
+        note: "* Supporter fee: ¥220 + 5% processing, which lets the organizer receive 100% of the funds. Reward delivery is planned for November 2026.",
+        moreText: "For full details and to back the project, please visit the For Good project page:",
+        link: { label: "for-good.net/project/1003662", href: "https://for-good.net/project/1003662" },
+        backLabel: "Back to all news",
+      },
     },
     inquiry: {
       kicker: "Inquiry & Admissions",
@@ -301,7 +384,7 @@ const DICTIONARY = {
         {
           name: "Kaeru Ryugaku",
           desc: "Study abroad",
-          href: "https://kaeruryugaku.com",
+          href: "https://www.kaeruryugaku.com",
           color: "var(--color-sky)",
         },
         {
@@ -319,7 +402,7 @@ const DICTIONARY = {
         {
           name: "C-Lab + Education",
           desc: "Skills lab",
-          href: "https://raja-international.com/clab",
+          href: "/#inquiry",
           color: "var(--color-leaf)",
         },
         {
@@ -391,6 +474,7 @@ const DICTIONARY = {
     panels: {
       studyAbroad: {
         label: "かえる留学",
+        href: "https://www.kaeruryugaku.com",
         title: "世界を見て、\n変わって帰ろう。",
         subtitle: "あたらしいカタチの留学。",
         ages: "ティーン ＆ 若者",
@@ -398,7 +482,8 @@ const DICTIONARY = {
           "4大陸のホストコミュニティと学生をつなぐ、厳選されたグローバル交換プログラム。語学漬けの毎日、メンターと取り組むプロジェクト、そして「どこでも自分の居場所にできる」勇気を。",
       },
       academy: {
-        label: "RaJA アカデミー",
+        label: "RaJA Global Academy",
+        href: "https://www.rga-ce.com",
         kicker: "卒園おめでとう · 2026年度",
         // 「環境の / プレゼント」— broken before the key noun so CJK never
         // wraps mid-word. Set tate-gaki (vertical) on desktop, or these two
@@ -417,6 +502,7 @@ const DICTIONARY = {
       },
       preschool: {
         label: "RaJA International Preschool",
+        href: "https://www.raja-preschool.com",
         title: "より広く、\nより輝ける未来へ。",
         subtitle: "0〜2歳の、やさしく寄りそう保育。",
         ages: "0 〜 2 歳",
@@ -428,24 +514,40 @@ const DICTIONARY = {
           { t: "温かい保育者", d: "いつも、そばにいる大人。" },
           { t: "五感を育む空間", d: "小さな手と、大きな好奇心のために。" },
         ],
-        campusesLabel: "ふたつの園",
+        campusesLabel: "園と施設",
         branches: [
           {
             name: "谷山キャンパス",
             sub: "Taniyama",
             line: "明るく、あたたかい、はじめのおうち。",
+            addr: "〒891-0141 鹿児島市谷山中央7丁目27-3",
+            tel: "099-204-9851",
+            hours: "通常保育",
             alt: "RaJA プリスクール 谷山キャンパス。〒891-0141 鹿児島市谷山中央7丁目27-3、TEL 099-204-9851、通常保育。",
           },
           {
             name: "下荒田キャンパス",
             sub: "Shimo Arata",
             line: "いちばん小さな毎日が、ここから。",
+            addr: "〒890-0056 鹿児島市下荒田1-38-32-1",
+            tel: "099-204-9149",
+            hours: "通常保育・病児保育",
             alt: "RaJA プリスクール 下荒田キャンパス。〒890-0056 鹿児島市下荒田1-38-32-1、TEL 099-204-9149、通常保育・病児保育。",
+          },
+          {
+            name: "RaJA病児保育園",
+            sub: "下荒田",
+            line: "登園できない日も、やさしく見守ります。",
+            addr: "〒890-0056 鹿児島市下荒田1-38-32-1",
+            tel: "099-204-9149",
+            hours: "病児保育・要予約",
+            alt: "RaJA病児保育園（下荒田）。〒890-0056 鹿児島市下荒田1-38-32-1、TEL 099-204-9149、病児保育・要予約。",
           },
         ],
       },
       clab: {
         label: "Clab ＋ 教育",
+        href: "#inquiry",
         kicker: "カラット — 宝石のかがやき",
         title: ["好奇心を、", "かがやきへ。"],
         lede: "金融教育・SDGs・地理・世界。数々の習い事が、ひとつの場所で完結。飽くなき探究心を、たしかなスキルへ変えていきます。",
@@ -501,6 +603,7 @@ const DICTIONARY = {
       },
       english: {
         label: "Let's Go English",
+        href: "https://www.raja-english.com",
         title: ["楽しく、", "使える英語。"],
         tagline: "「勉強する」から「使える自分」へ。",
         description:
@@ -534,6 +637,23 @@ const DICTIONARY = {
       allArticles: "すべての記事",
       posts: [
         {
+          slug: "forgood-ib-campaign",
+          date: "2026年6月25日",
+          category: "クラウドファンディング",
+          title: "鹿児島から世界へ — IB 認定校へのクラウドファンディング始動",
+          excerpt:
+            "鹿児島初の国際バカロレア（IB）PYP 認定校をめざして。目標 ¥5,000,000 のクラウドファンディングを For Good で実施中です。",
+        },
+        {
+          slug: "ib-pyp-candidate",
+          date: "2026年3月12日",
+          category: "国際バカロレア",
+          title: "RaJA GLOBAL ACADEMY、国際バカロレア（IB）PYP 候補校に",
+          excerpt:
+            "RaJA GLOBAL ACADEMY は国際バカロレア（IB）初等教育プログラム（PYP）の候補校として、IB ワールドスクールの認定取得を目指しています。",
+        },
+        {
+          slug: "",
           date: "2026年4月18日",
           category: "かえる留学",
           title: "春期コーホート、オークランドに到着",
@@ -541,27 +661,73 @@ const DICTIONARY = {
             "最新の留学グループが北島各地のホストファミリー宅で12週間のイマージョンをスタートします。",
         },
         {
+          slug: "",
           date: "2026年4月4日",
           category: "RaJA アカデミー",
           title: "「畑から食卓へ」ウィーク、月曜開始",
           excerpt:
             "子どもたちは屋上の菜園で収穫・調理・共有を行う5日間の五感プログラムに参加します。",
         },
-        {
-          date: "2026年3月22日",
-          category: "Clab ＋ 教育",
-          title: "若き発明家たちがロボットを発表",
-          excerpt:
-            "10週間のものづくりが30のプロトタイプに。今季の Clab フェア、リプレイは近日公開。",
-        },
-        {
-          date: "2026年3月9日",
-          category: "RaJA 英語",
-          title: "大阪で新しい会話テーブルがスタート",
-          excerpt:
-            "保護者・保育者向けの週次ドロップインセッションを4月に開講。ご登録を受付中です。",
-        },
       ],
+    },
+    articles: {
+      "ib-pyp-candidate": {
+        date: "2026年3月12日",
+        publishedLabel: "公開日",
+        category: "国際バカロレア",
+        title: "RaJA GLOBAL ACADEMY は国際バカロレア（IB）PYP の候補校です",
+        excerpt:
+          "RaJA GLOBAL ACADEMY は国際バカロレア（IB）初等教育プログラム（PYP）の候補校として、IB ワールドスクールの認定取得を目指しています。",
+        hero: {
+          src: "/academy/ib-pyp-feature.jpg",
+          alt: "国際バカロレア 初等教育プログラム（PYP）— 先生とともに学ぶ子どもたち。",
+        },
+        intro:
+          "RaJA GLOBAL ACADEMY は、国際バカロレア（IB）の初等教育プログラム（Primary Years Programme：PYP）の「候補校」です。本校は IB ワールドスクールとしての認定取得を目指しています。",
+        body: [
+          "IB ワールドスクールには、質の高い挑戦的な国際教育を提供するという共通の理念があります。RaJA は、この教育こそが子どもたちにとって大切だと考えています。",
+          "IB の認定を受けた学校だけが、4つの IB プログラム — 初等教育プログラム（PYP）、中等教育プログラム（MYP）、ディプロマプログラム（DP）、キャリア関連プログラム（CP）— を提供することができます。なお、候補校であることは、認定が確約されたものではありません。",
+        ],
+        programmesTitle: "4つの IB プログラム",
+        programmes: [
+          { code: "PYP", name: "初等教育プログラム" },
+          { code: "MYP", name: "中等教育プログラム" },
+          { code: "DP", name: "ディプロマプログラム" },
+          { code: "CP", name: "キャリア関連プログラム" },
+        ],
+        note: "※ 候補校とは、認定取得に向けた手続きを進めている学校を指します。この地位は、認定が確約されたものではありません。",
+        moreText: "国際バカロレア（IB）および各プログラムの詳細については、以下をご覧ください。",
+        link: { label: "www.ibo.org", href: "https://www.ibo.org" },
+        backLabel: "ニュース一覧へ戻る",
+      },
+      "forgood-ib-campaign": {
+        date: "2026年6月25日",
+        publishedLabel: "公開日",
+        category: "クラウドファンディング",
+        title: "鹿児島から世界へ — 国際バカロレア認定校への挑戦",
+        excerpt:
+          "鹿児島初の国際バカロレア（IB）PYP 認定校をめざすクラウドファンディング。目標 ¥5,000,000、For Good で実施中です。",
+        hero: {
+          src: "/academy/main-image.jpg",
+          alt: "ラジャグローバルアカデミーで学ぶ子どもたち。",
+        },
+        intro:
+          "鹿児島初となる国際バカロレア（IB）PYP 認定校へ。世界基準の教育をこの街の子どもたちに届けるため、クラウドファンディングを実施しています。",
+        body: [
+          "株式会社RaJA は、独自メソッド RaJA STREAM で「考える力・伝える力・生きる力」を育み、10年後・20年後の未来の選択肢を広げる真の国際教育を提供しています。",
+          "目標金額は ¥5,000,000。掲載手数料0%の For Good（株式会社ボーダレス・ジャパン運営）を通じて、いただいたご支援は認定校に向けた教育環境の整備に活用されます。",
+        ],
+        programmesTitle: "プロジェクトのポイント",
+        programmes: [
+          { code: "IB", name: "PYP 国際バカロレア認定校への挑戦" },
+          { code: "考", name: "自ら考え、行動する力を育む環境づくり" },
+          { code: "世", name: "鹿児島から世界へ羽ばたく子どもたちへ" },
+        ],
+        note: "※ 支援者負担：220円＋決済手数料5%。この仕組みにより、実行者が支援金を全額受け取れます。リターンのお届けは2026年11月予定です。",
+        moreText: "プロジェクトの詳細・ご支援は、For Good のプロジェクトページをご覧ください。",
+        link: { label: "for-good.net/project/1003662", href: "https://for-good.net/project/1003662" },
+        backLabel: "ニュース一覧へ戻る",
+      },
     },
     inquiry: {
       kicker: "お問い合わせ ・ 入学案内",
@@ -614,7 +780,7 @@ const DICTIONARY = {
         {
           name: "かえる留学",
           desc: "留学サポート",
-          href: "https://kaeruryugaku.com",
+          href: "https://www.kaeruryugaku.com",
           color: "var(--color-sky)",
         },
         {
@@ -632,7 +798,7 @@ const DICTIONARY = {
         {
           name: "C-Lab ＋ 教育",
           desc: "習い事ラボ",
-          href: "https://raja-international.com/clab",
+          href: "/#inquiry",
           color: "var(--color-leaf)",
         },
         {

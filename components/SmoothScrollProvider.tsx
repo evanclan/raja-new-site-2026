@@ -141,11 +141,25 @@ export function SmoothScrollProvider({ children }: { children: React.ReactNode }
     // viewport change. We gate on WIDTH so iOS Safari's URL-bar collapse
     // (a height-only "resize" fired on every scroll) doesn't yank the
     // user mid-scroll, and debounce so a drag-resize refreshes just once.
+    //
+    // The root font-size now also keys on viewport HEIGHT (see the height
+    // guard in globals.css), so a desktop window height-drag changes every
+    // section's height and the snap/fade measurements go stale. We therefore
+    // also refresh on a *large* height change (>80px) — but only on wide
+    // viewports (innerWidth >= 768). That preserves the mobile URL-bar
+    // exclusion (phones are narrow, and the guard never engages there) while
+    // keeping desktop live-resize correct.
     let resizeTimer: ReturnType<typeof setTimeout> | undefined;
     let lastW = window.innerWidth;
+    let lastH = window.innerHeight;
     const onResize = () => {
-      if (window.innerWidth === lastW) return;
-      lastW = window.innerWidth;
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      const widthChanged = w !== lastW;
+      const heightChanged = w >= 768 && Math.abs(h - lastH) > 80;
+      if (!widthChanged && !heightChanged) return;
+      lastW = w;
+      lastH = h;
       clearTimeout(resizeTimer);
       resizeTimer = setTimeout(() => ScrollTrigger.refresh(), 200);
     };

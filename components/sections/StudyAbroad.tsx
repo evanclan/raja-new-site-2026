@@ -519,7 +519,8 @@ function BigPanelsRow() {
 
     const mm = gsap.matchMedia();
 
-    mm.add("(prefers-reduced-motion: no-preference)", () => {
+    // Desktop + motion-ok: full entrance lift + idle bob.
+    mm.add("(min-width: 768px) and (prefers-reduced-motion: no-preference)", () => {
       gsap.set(cards, {
         opacity: 0,
         y: drop,
@@ -568,6 +569,18 @@ function BigPanelsRow() {
       };
     });
 
+    // Mobile + motion-ok: static snap shelf — cards fully visible immediately,
+    // resting tilt applied, no entrance/bob (off-screen cards in a horizontal
+    // snap shelf would never enter the ScrollTrigger viewport).
+    mm.add("(max-width: 767px) and (prefers-reduced-motion: no-preference)", () => {
+      gsap.set(cards, {
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        rotate: (i) => restTilt(i),
+      });
+    });
+
     mm.add("(prefers-reduced-motion: reduce)", () => {
       gsap.set(cards, {
         opacity: 1,
@@ -581,14 +594,14 @@ function BigPanelsRow() {
   return (
     <ul
       ref={rowRef}
-      className="relative shell-wide flex items-end justify-center gap-1 md:gap-0"
+      className="relative shell-wide flex items-end justify-center gap-1 md:gap-0 max-md:grid max-md:grid-cols-3 max-md:gap-x-3 max-md:gap-y-7 max-md:items-start"
       aria-label="Kaeru Ryugaku brochure"
     >
       {KAERU_PANELS.map((panel, i) => (
         <li
           key={panel.src}
           data-big-card
-          className="relative -mx-[0.35rem] flex-1"
+          className="relative -mx-[0.35rem] flex-1 max-md:mx-0 max-md:w-full"
           style={{
             aspectRatio: "148 / 262",
             maxWidth: "16rem",
@@ -659,7 +672,7 @@ export function StudyAbroad() {
               column stays narrow enough to read like a page
               (≈46ch) while leaving the marquee 55%+ of the
               viewport for scale. */}
-          <div className="relative flex flex-col justify-center px-gutter-lg pt-14 pb-8 md:w-[44%] md:py-10 md:pl-[max(3rem,6vw)]">
+          <div className="relative flex flex-col justify-center px-gutter-lg pt-14 pb-8 max-md:pt-10 md:w-[44%] md:py-10 md:pl-[max(3rem,6vw)]">
             <motion.div
               initial={{ opacity: 0, y: 18 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -699,7 +712,7 @@ export function StudyAbroad() {
                 delay: 0.22,
                 ease: [0.22, 1, 0.36, 1],
               }}
-              className="font-display mt-4 whitespace-pre-line text-display-1 tracking-tight"
+              className="font-display mt-4 whitespace-pre-line text-display-1 md:text-display-2 tracking-tight"
             >
               {p.title}
             </motion.h2>
@@ -743,7 +756,10 @@ export function StudyAbroad() {
               >
                 {p.ages}
               </span>
-              <button
+              <a
+                href={p.href}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="group inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-medium transition-transform duration-300 hover:-translate-y-0.5"
                 style={{
                   background: "var(--color-leaf)",
@@ -754,7 +770,7 @@ export function StudyAbroad() {
                 <span className="transition-transform duration-300 group-hover:translate-x-1">
                   →
                 </span>
-              </button>
+              </a>
             </motion.div>
           </div>
 

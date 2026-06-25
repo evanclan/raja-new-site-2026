@@ -539,7 +539,7 @@ export function PreschoolPhoto({
     <div
       className={
         fullHeight
-          ? "relative mx-auto h-full min-h-[64svh] w-full md:min-h-0"
+          ? "relative mx-auto h-full min-h-[64svh] max-md:min-h-[42svh] w-full md:min-h-0"
           : "relative mx-auto aspect-[1065/1265] w-full max-w-[clamp(18rem,40vw,27.5rem)]"
       }
     >
@@ -1167,7 +1167,7 @@ export function TeacherLineup() {
   return (
     <ul
       ref={rootRef}
-      className="grid grid-cols-2 gap-x-6 gap-y-12 md:flex md:items-end md:justify-center md:gap-8"
+      className="grid grid-cols-2 gap-x-6 gap-y-12 max-md:pt-10 max-sm:gap-x-4 md:flex md:items-end md:justify-center md:gap-8"
       aria-label="Let's Go English teachers"
     >
       {teachers.map((teacher, i) => {
