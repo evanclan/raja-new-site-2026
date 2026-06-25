@@ -93,13 +93,18 @@ export function SmoothScrollProvider({ children }: { children: React.ReactNode }
 
     // Compute each section's scroll-progress position. Using offsetTop
     // (not index * vh) means sections taller than the viewport still
-    // snap cleanly to their own top.
+    // snap cleanly to their own top. Returns null when the current page
+    // has no (or a single) snap section — e.g. the /news/* article routes,
+    // which are plain long-scroll documents and must NOT be snapped.
     const sectionProgress = () => {
       const sections = Array.from(
         document.querySelectorAll<HTMLElement>("[data-snap-section]")
       );
       const max = ScrollTrigger.maxScroll(window);
-      if (max <= 0 || sections.length === 0) return [0];
+      // Need at least two anchors for snapping to be meaningful. With zero
+      // sections the old code returned [0], which snapped every scroll back
+      // to the top of the page — breaking ordinary scrolling on article pages.
+      if (max <= 0 || sections.length < 2) return null;
       return sections
         .map((s) => s.offsetTop / max)
         .map((p) => Math.max(0, Math.min(1, p)));
@@ -115,6 +120,9 @@ export function SmoothScrollProvider({ children }: { children: React.ReactNode }
           snap: {
             snapTo: (value) => {
               const positions = sectionProgress();
+              // No snap targets on this page → leave the scroll position
+              // untouched (returning the incoming progress is a no-op snap).
+              if (!positions) return value;
               return gsap.utils.snap(positions, value);
             },
             // Wait briefly after the user stops — long enough to not

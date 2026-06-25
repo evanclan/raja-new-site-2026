@@ -256,22 +256,6 @@ const DICTIONARY = {
           excerpt:
             "RaJA Global Academy is a candidate school for the IB Primary Years Programme, working toward authorization as an IB World School.",
         },
-        {
-          slug: "",
-          date: "Apr 18 2026",
-          category: "Kaeru Ryugaku",
-          title: "Spring cohort arrives in Auckland",
-          excerpt:
-            "Our newest study-abroad group begins their 12-week immersion with host families across the North Island.",
-        },
-        {
-          slug: "",
-          date: "Apr 04 2026",
-          category: "RaJA Academy",
-          title: "Gardens-to-table week starts Monday",
-          excerpt:
-            "Children will harvest, cook, and share from our rooftop vegetable beds in a five-day sensory program.",
-        },
       ],
     },
     articles: {
@@ -283,7 +267,7 @@ const DICTIONARY = {
         excerpt:
           "RaJA Global Academy is a candidate school for the IB Primary Years Programme (PYP), working toward authorization as an IB World School.",
         hero: {
-          src: "/academy/ib-pyp-feature.jpg",
+          src: "/academy/raja_ib_article.jpg",
           alt: "The IB Primary Years Programme — children learning together with a teacher.",
         },
         intro:
@@ -652,22 +636,6 @@ const DICTIONARY = {
           excerpt:
             "RaJA GLOBAL ACADEMY は国際バカロレア（IB）初等教育プログラム（PYP）の候補校として、IB ワールドスクールの認定取得を目指しています。",
         },
-        {
-          slug: "",
-          date: "2026年4月18日",
-          category: "かえる留学",
-          title: "春期コーホート、オークランドに到着",
-          excerpt:
-            "最新の留学グループが北島各地のホストファミリー宅で12週間のイマージョンをスタートします。",
-        },
-        {
-          slug: "",
-          date: "2026年4月4日",
-          category: "RaJA アカデミー",
-          title: "「畑から食卓へ」ウィーク、月曜開始",
-          excerpt:
-            "子どもたちは屋上の菜園で収穫・調理・共有を行う5日間の五感プログラムに参加します。",
-        },
       ],
     },
     articles: {
@@ -679,7 +647,7 @@ const DICTIONARY = {
         excerpt:
           "RaJA GLOBAL ACADEMY は国際バカロレア（IB）初等教育プログラム（PYP）の候補校として、IB ワールドスクールの認定取得を目指しています。",
         hero: {
-          src: "/academy/ib-pyp-feature.jpg",
+          src: "/academy/raja_ib_article.jpg",
           alt: "国際バカロレア 初等教育プログラム（PYP）— 先生とともに学ぶ子どもたち。",
         },
         intro:

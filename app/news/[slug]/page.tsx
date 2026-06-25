@@ -12,7 +12,7 @@ const ARTICLES = {
       "RaJA Global Academy is an IB Primary Years Programme candidate school",
     description:
       "RaJA Global Academy is a candidate school for the IB Primary Years Programme (PYP), working toward authorization as an IB World School.",
-    image: "/academy/ib-pyp-feature.jpg",
+    image: "/academy/raja_ib_article.jpg",
   },
   "forgood-ib-campaign": {
     title:
