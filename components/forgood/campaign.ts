@@ -33,14 +33,40 @@ export const ARTICLE_META = {
   date: { ja: "2026年6月25日", en: "June 25, 2026" },
   publishedLabel: { ja: "公開日", en: "Published" },
   hero: {
-    src: "/academy/main-image.jpg",
+    src: "/forgood/hero-classroom-group.png",
     alt: {
-      ja: "ラジャグローバルアカデミーで学ぶ子どもたち。",
-      en: "Children learning together at RaJA Global Academy.",
+      ja: "ラジャグローバルアカデミーの先生と子どもたち。",
+      en: "RaJA Global Academy teachers and children together.",
+    },
+  },
+  // The official campaign key visual (the For Good banner) — featured as a
+  // standalone poster so the project's own creative leads the page.
+  keyVisual: {
+    src: "/forgood/key-visual.png",
+    alt: {
+      ja: "「鹿児島から世界へ！ 国際バカロレア認定校への挑戦」キービジュアル。",
+      en: "Campaign key visual — “From Kagoshima to the World: a challenge to become an IB certified school.”",
     },
   },
   backLabel: { ja: "ニュース一覧へ戻る", en: "Back to all news" },
 } as const;
+
+export type GalleryShot = { src: string; alt: Bi };
+
+export const GALLERY: ReadonlyArray<GalleryShot> = [
+  {
+    src: "/forgood/gallery-learning-moment.png",
+    alt: { ja: "先生と一緒に学ぶ子どもたち。", en: "Children learning alongside their teachers." },
+  },
+  {
+    src: "/forgood/gallery-presentation.png",
+    alt: { ja: "自分の作品を発表する園児。", en: "A child presenting their work to the class." },
+  },
+  {
+    src: "/forgood/gallery-counting-cubes.png",
+    alt: { ja: "教具を使って学ぶ子どもたち。", en: "Children learning with hands-on manipulatives." },
+  },
+];
 
 export const HERO = {
   status: { ja: "公開前", en: "Pre-launch" },
@@ -56,10 +82,12 @@ export const HERO = {
   },
 } as const;
 
-export const POINTS: ReadonlyArray<{ icon: string; t: Bi; d: Bi; color: string }> = [
+export const POINTS: ReadonlyArray<{ icon: string; t: Bi; d: Bi; color: string; img: string; imgAlt: Bi }> = [
   {
     icon: "globe",
     color: "var(--color-sky)",
+    img: "/forgood/point-inquiry-lesson.png",
+    imgAlt: { ja: "「サツマイモはどう育つ？」探究の授業。", en: "An inquiry lesson — “How do sweet potatoes grow?”" },
     t: { ja: "国際バカロレア（IB）PYPへの挑戦", en: "A bid for IB PYP certification" },
     d: {
       ja: "鹿児島初となるPYP国際バカロレア認定校をめざし、世界基準の探究型カリキュラムを導入します。",
@@ -69,6 +97,8 @@ export const POINTS: ReadonlyArray<{ icon: string; t: Bi; d: Bi; color: string }
   {
     icon: "spark",
     color: "var(--color-sun)",
+    img: "/forgood/point-math-blocks.png",
+    imgAlt: { ja: "教具を手に学ぶ子どもたち。", en: "Children learning hands-on with manipulatives." },
     t: { ja: "「自ら考え、行動する力」を育む", en: "Nurturing children who think and act for themselves" },
     d: {
       ja: "認定校に向けて、子どもたち一人ひとりが自ら問いを立て、考え、行動できる教育環境を整備します。",
@@ -78,6 +108,8 @@ export const POINTS: ReadonlyArray<{ icon: string; t: Bi; d: Bi; color: string }
   {
     icon: "wings",
     color: "var(--color-peach)",
+    img: "/forgood/point-child-writing.png",
+    imgAlt: { ja: "机に向かって集中して取り組む園児。", en: "A child focused on their work at the desk." },
     t: { ja: "鹿児島から世界へ羽ばたく子どもたちへ", en: "For children ready to take flight" },
     d: {
       ja: "10年後、20年後の未来の選択肢を広げる、真の国際教育。可能性を広げるチャレンジです。",
@@ -105,6 +137,13 @@ export const OVERVIEW: ReadonlyArray<{ k: Bi; v: Bi }> = [
 
 export const FOUNDER = {
   label: { ja: "代表プロフィール", en: "About the founder" },
+  photo: {
+    src: "/forgood/founder-salliee.png",
+    alt: {
+      ja: "株式会社RaJA 代表取締役CEO 福島 紗矢香（Salliee）。",
+      en: "Sayaka “Salliee” Fukushima, Founder & CEO of RaJA Co., Ltd.",
+    },
+  },
   name: { ja: "福島 紗矢香 Salliee", en: "Sayaka “Salliee” Fukushima" },
   role: { ja: "株式会社RaJA 代表取締役CEO ／ 熊本県人吉市出身", en: "Founder & CEO, RaJA Co., Ltd. · from Hitoyoshi, Kumamoto" },
   bio: {

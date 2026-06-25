@@ -14,6 +14,7 @@ import {
   OVERVIEW,
   FOUNDER,
   REWARDS,
+  GALLERY,
   type Bi,
 } from "./campaign";
 
@@ -128,6 +129,22 @@ export function ForGoodArticle() {
         </div>
       </header>
 
+      {/* ───────────── Official campaign key visual ───────────── */}
+      <section className="shell -mt-[6%] relative z-10 max-md:-mt-[12%]">
+        <Reveal>
+          <div className="overflow-hidden rounded-3xl shadow-[0_40px_90px_-40px_rgba(8,10,40,0.55)] ring-1 ring-black/5">
+            <Image
+              src={ARTICLE_META.keyVisual.src}
+              alt={pick(ARTICLE_META.keyVisual.alt, l)}
+              width={1600}
+              height={840}
+              sizes="(max-width: 1280px) 100vw, 1100px"
+              className="h-auto w-full"
+            />
+          </div>
+        </Reveal>
+      </section>
+
       {/* ───────────── Campaign dashboard: lead + funding card + points ───────────── */}
       <section className="relative overflow-hidden py-band">
         <div
@@ -155,17 +172,28 @@ export function ForGoodArticle() {
             <div className="mt-10 grid gap-5 sm:grid-cols-3">
               {POINTS.map((p, i) => (
                 <Reveal key={i} delay={0.1 + i * 0.08}>
-                  <div className="h-full rounded-3xl bg-white p-5 shadow-[0_18px_40px_-26px_rgba(8,10,40,0.4)] ring-1 ring-black/5">
-                    <span
-                      className="grid h-12 w-12 place-items-center rounded-2xl"
-                      style={{ background: `color-mix(in srgb, ${p.color} 18%, white)` }}
-                    >
-                      <PointIcon name={p.icon} color={p.color} />
-                    </span>
-                    <p className="font-display mt-4 text-base leading-snug">{pick(p.t, l)}</p>
-                    <p className="mt-2 text-sm leading-relaxed" style={{ opacity: 0.7 }}>
-                      {pick(p.d, l)}
-                    </p>
+                  <div className="flex h-full flex-col overflow-hidden rounded-3xl bg-white shadow-[0_18px_40px_-26px_rgba(8,10,40,0.4)] ring-1 ring-black/5">
+                    <div className="relative aspect-[4/3] w-full overflow-hidden">
+                      <Image
+                        src={p.img}
+                        alt={pick(p.imgAlt, l)}
+                        fill
+                        sizes="(max-width: 768px) 90vw, 30vw"
+                        className="object-cover"
+                      />
+                      <span
+                        className="absolute left-3 top-3 grid h-10 w-10 place-items-center rounded-2xl shadow-sm backdrop-blur-sm"
+                        style={{ background: `color-mix(in srgb, ${p.color} 30%, white)` }}
+                      >
+                        <PointIcon name={p.icon} color={p.color} />
+                      </span>
+                    </div>
+                    <div className="flex flex-1 flex-col p-5">
+                      <p className="font-display text-base leading-snug">{pick(p.t, l)}</p>
+                      <p className="mt-2 text-sm leading-relaxed" style={{ opacity: 0.7 }}>
+                        {pick(p.d, l)}
+                      </p>
+                    </div>
                   </div>
                 </Reveal>
               ))}
@@ -296,8 +324,21 @@ export function ForGoodArticle() {
                 <p className="text-xs uppercase tracking-[0.25em]" style={{ opacity: 0.5 }}>
                   {pick(FOUNDER.label, l)}
                 </p>
-                <h3 className="font-display mt-3 text-2xl md:text-3xl">{pick(FOUNDER.name, l)}</h3>
-                <p className="mt-1 text-sm" style={{ color: "var(--color-sky)" }}>{pick(FOUNDER.role, l)}</p>
+                <div className="mt-4 flex items-center gap-5">
+                  <div className="relative size-20 shrink-0 overflow-hidden rounded-2xl ring-1 ring-black/5 md:size-24">
+                    <Image
+                      src={FOUNDER.photo.src}
+                      alt={pick(FOUNDER.photo.alt, l)}
+                      fill
+                      sizes="96px"
+                      className="object-cover"
+                    />
+                  </div>
+                  <div>
+                    <h3 className="font-display text-2xl md:text-3xl">{pick(FOUNDER.name, l)}</h3>
+                    <p className="mt-1 text-sm" style={{ color: "var(--color-sky)" }}>{pick(FOUNDER.role, l)}</p>
+                  </div>
+                </div>
                 <p className="mt-5 text-base leading-relaxed" style={{ opacity: 0.82 }}>{pick(FOUNDER.bio, l)}</p>
 
                 <ul className="mt-6 grid gap-2 sm:grid-cols-2">
@@ -318,6 +359,35 @@ export function ForGoodArticle() {
                 </div>
               </div>
             </Reveal>
+          </div>
+        </div>
+      </section>
+
+      {/* ──────────────────── GALLERY ──────────────────── */}
+      <section className="pb-band">
+        <div className="shell">
+          <Reveal>
+            <p className="text-xs uppercase tracking-[0.25em]" style={{ opacity: 0.55 }}>
+              {l === "ja" ? "アカデミーの日々" : "Inside the academy"}
+            </p>
+            <h2 className="font-display mt-3 text-display-3">
+              {l === "ja" ? "子どもたちの、いま。" : "Where your support goes."}
+            </h2>
+          </Reveal>
+          <div className="mt-8 grid gap-4 sm:grid-cols-3">
+            {GALLERY.map((g, i) => (
+              <Reveal key={i} delay={i * 0.08}>
+                <div className="relative aspect-[4/3] overflow-hidden rounded-3xl ring-1 ring-black/5">
+                  <Image
+                    src={g.src}
+                    alt={pick(g.alt, l)}
+                    fill
+                    sizes="(max-width: 640px) 90vw, 30vw"
+                    className="object-cover transition-transform duration-500 hover:scale-[1.04]"
+                  />
+                </div>
+              </Reveal>
+            ))}
           </div>
         </div>
       </section>

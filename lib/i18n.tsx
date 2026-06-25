@@ -312,8 +312,8 @@ const DICTIONARY = {
         excerpt:
           "A crowdfunding campaign to become Kagoshima's first International Baccalaureate (IB) PYP certified school. Goal ¥5,000,000, live on For Good.",
         hero: {
-          src: "/academy/main-image.jpg",
-          alt: "Children learning together at RaJA Global Academy.",
+          src: "/forgood/key-visual.png",
+          alt: "Campaign key visual — From Kagoshima to the World: a challenge to become an IB certified school.",
         },
         intro:
           "A bid to become Kagoshima's first International Baccalaureate (IB) PYP certified school. We're crowdfunding to bring a world-standard education to the children of this city.",
@@ -708,8 +708,8 @@ const DICTIONARY = {
         excerpt:
           "鹿児島初の国際バカロレア（IB）PYP 認定校をめざすクラウドファンディング。目標 ¥5,000,000、For Good で実施中です。",
         hero: {
-          src: "/academy/main-image.jpg",
-          alt: "ラジャグローバルアカデミーで学ぶ子どもたち。",
+          src: "/forgood/key-visual.png",
+          alt: "キービジュアル — 鹿児島から世界へ！ 国際バカロレア認定校への挑戦。",
         },
         intro:
           "鹿児島初となる国際バカロレア（IB）PYP 認定校へ。世界基準の教育をこの街の子どもたちに届けるため、クラウドファンディングを実施しています。",
