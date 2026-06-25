@@ -34,6 +34,11 @@ const DICTIONARY = {
       cta: "Get in touch",
       homeAria: "RaJA International home",
     },
+    campaignBadge: {
+      label: "Campaign live",
+      aria: "RaJA Global Academy crowdfunding campaign is live — read more",
+      dismiss: "Dismiss campaign notice",
+    },
     preloader: {
       mark: "Ra·JA",
     },
@@ -428,6 +433,11 @@ const DICTIONARY = {
       contact: "お問い合わせ",
       cta: "お問い合わせ",
       homeAria: "RaJA International ホーム",
+    },
+    campaignBadge: {
+      label: "募集中",
+      aria: "RaJA グローバルアカデミーのクラウドファンディング募集中 — 詳しく見る",
+      dismiss: "キャンペーン表示を閉じる",
     },
     preloader: {
       mark: "Ra·JA",
