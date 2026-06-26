@@ -627,18 +627,6 @@ function BigPanelsRow() {
               className="block h-full w-full select-none"
             />
           </div>
-          {/* Destination pill under each card, colour-matched and
-              locale-swapped — same pattern as the marquee caption
-              so the two rows share a voice. */}
-          <span
-            className="pointer-events-none absolute left-1/2 top-[101%] -translate-x-1/2 whitespace-nowrap rounded-full bg-white px-2.5 py-[3px] text-[10px] font-medium leading-none shadow-sm md:text-[11px]"
-            style={{
-              color: panel.c,
-              border: `1.4px solid ${panel.c}`,
-            }}
-          >
-            {locale === "ja" ? panel.labelJa : panel.label}
-          </span>
         </li>
       ))}
     </ul>
@@ -712,7 +700,7 @@ export function StudyAbroad() {
                 delay: 0.22,
                 ease: [0.22, 1, 0.36, 1],
               }}
-              className="font-display mt-4 whitespace-pre-line text-display-1 md:text-display-2 tracking-tight"
+              className="font-display mt-4 whitespace-pre text-display-1 md:text-display-2 tracking-tight"
             >
               {p.title}
             </motion.h2>
@@ -746,16 +734,6 @@ export function StudyAbroad() {
               transition={{ duration: 0.6, delay: 0.6 }}
               className="mt-6 flex flex-wrap items-center gap-3"
             >
-              <span
-                className="rounded-full px-4 py-1.5 text-sm font-medium"
-                style={{
-                  background:
-                    "color-mix(in srgb, var(--color-ink) 10%, transparent)",
-                  color: "var(--color-ink)",
-                }}
-              >
-                {p.ages}
-              </span>
               <a
                 href={p.href}
                 target="_blank"

@@ -213,47 +213,47 @@ export function Hero() {
   const { t, locale } = useI18n();
   const { loaded, phase } = useLoading();
 
+  // Circular badge PNGs (all 1252×1252 squares), so every panel shares
+  // one size class — no per-panel adjustments needed. Size by WIDTH +
+  // aspect-square (not fixed height + w-auto) so the badges stay perfectly
+  // round when flex-shrink narrows the row on tighter widths.
+  const panelSize =
+    "w-[clamp(7rem,18.5vw,15rem)] max-md:w-[7.5rem] aspect-square min-w-0";
   const panels = [
     {
       id: "study-abroad",
       label: t.hero.panels.studyAbroad,
       color: "var(--color-sky)",
-      src: "/hero-main/navigation-svg/kaeruryugaku.svg",
-      sizeClass: "h-[clamp(7rem,18.5vw,15rem)] max-md:h-[7.5rem]",
+      src: "/hero-main/badges/study-abroad.png",
+      sizeClass: panelSize,
     },
     {
       id: "academy",
       label: t.hero.panels.academy,
       color: "var(--color-sun)",
-      src: "/hero-main/navigation-svg/academy.svg",
-      sizeClass: "h-[clamp(7rem,18.5vw,15rem)] max-md:h-[7.5rem]",
+      src: "/hero-main/badges/academy.png",
+      sizeClass: panelSize,
     },
     {
-      // Preschool SVG has extra vertical padding in its viewBox, so
-      // matching on the default height reads visually smaller than its
-      // siblings. We bump its height class by ~15% so the illustrated
-      // content lines up in weight with the rest of the row. The
-      // `items-end` row aligns bottoms, so the extra height just extends
-      // upward — no layout disruption.
       id: "preschool",
       label: t.hero.panels.preschool,
       color: "var(--color-peach)",
-      src: "/hero-main/navigation-svg/preschool.svg",
-      sizeClass: "h-[clamp(8rem,21vw,17.25rem)] max-md:h-[8.5rem]",
+      src: "/hero-main/badges/preschool.png",
+      sizeClass: panelSize,
     },
     {
       id: "clab",
       label: t.hero.panels.clab,
       color: "var(--color-leaf)",
-      src: "/hero-main/navigation-svg/clab.svg",
-      sizeClass: "h-[clamp(7rem,18.5vw,15rem)] max-md:h-[7.5rem]",
+      src: "/hero-main/badges/clab.png",
+      sizeClass: panelSize,
     },
     {
       id: "english",
       label: t.hero.panels.english,
       color: "var(--color-berry)",
-      src: "/hero-main/navigation-svg/letsgoenglish.svg",
-      sizeClass: "h-[clamp(7rem,18.5vw,15rem)] max-md:h-[7.5rem]",
+      src: "/hero-main/badges/lets-go-english.png",
+      sizeClass: panelSize,
     },
   ];
 
@@ -873,7 +873,7 @@ export function Hero() {
                   data-panel-btn
                   onClick={() => scrollTo(`#${p.id}`)}
                   aria-label={p.label}
-                  className="relative block focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-white/40 rounded-xl"
+                  className="relative block focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-white/40 rounded-full"
                   style={{ willChange: "transform" }}
                 >
                   {/* Soft color halo — GSAP blooms this on hover and on
@@ -882,7 +882,7 @@ export function Hero() {
                   <span
                     aria-hidden
                     data-panel-halo
-                    className="pointer-events-none absolute inset-0 -z-10 rounded-[28px] blur-2xl"
+                    className="pointer-events-none absolute inset-0 -z-10 rounded-full blur-2xl"
                     style={{
                       background: p.color,
                       opacity: 0,
@@ -894,7 +894,7 @@ export function Hero() {
                     src={p.src}
                     alt=""
                     draggable={false}
-                    className={`relative w-auto select-none ${p.sizeClass}`}
+                    className={`relative select-none ${p.sizeClass}`}
                     style={{
                       filter:
                         "drop-shadow(0 10px 24px rgba(0,0,0,0.35)) drop-shadow(0 2px 4px rgba(0,0,0,0.25))",

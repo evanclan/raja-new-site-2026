@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
@@ -193,9 +192,9 @@ export function Academy() {
             {/* Section logo — uniform size across all sections, on its own
                 line beneath the badge. */}
             <SectionLogo
-              src="/academy/academy-logo.svg"
-              width={375}
-              height={300}
+              src="/academy/newacademysectionlogo.png"
+              width={1565}
+              height={1250}
               className="mt-5"
               large
               sizeClassName="h-[clamp(14rem,21vw,30rem)]"
@@ -273,35 +272,6 @@ export function Academy() {
             the right edge so the split reads 5 / 7, not a static 50 / 50. */}
         <div className="md:col-span-7 md:col-start-6">
           <AcademyKeepsake />
-        </div>
-
-        {/* IB candidacy — the official lockup, anchored to the section's
-            bottom-left corner (in-flow on mobile). A quiet trust signal.
-            (IB brand rules: never recolour or rotate the lockup.) */}
-        <div
-          data-academy="copy"
-          className="mt-8 md:absolute md:bottom-[var(--space-band)] md:left-[var(--space-gutter)] md:mt-0"
-        >
-          <span
-            className="text-[10px] uppercase tracking-[0.22em]"
-            style={{
-              color: "rgba(255,247,230,0.6)",
-              ...(locale === "ja"
-                ? { textTransform: "none" as const, letterSpacing: "0.1em" }
-                : {}),
-            }}
-          >
-            {p.ibLabel}
-          </span>
-          <Image
-            src="/academy/ib-candidate.webp"
-            alt={p.ibAlt}
-            width={1600}
-            height={600}
-            sizes="(max-width: 768px) 80vw, 460px"
-            quality={90}
-            className="mt-[13px] h-auto w-[clamp(23rem,38vw,33rem)] max-md:w-[clamp(14rem,16rem,18rem)]"
-          />
         </div>
       </div>
     </Section>

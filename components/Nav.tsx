@@ -49,8 +49,8 @@ export function Nav() {
 
   const links = [
     { id: "study-abroad", label: t.nav.studyAbroad },
-    { id: "academy", label: t.nav.academy },
     { id: "preschool", label: t.nav.preschool },
+    { id: "academy", label: t.nav.academy },
     { id: "clab", label: t.nav.clab },
     { id: "english", label: t.nav.english },
     { id: "news", label: t.nav.news },

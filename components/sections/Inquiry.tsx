@@ -6,11 +6,11 @@ import { Section } from "../Section";
 import { useT, useI18n } from "@/lib/i18n";
 
 // Each program wears its own brand accent (order mirrors t.inquiry.programs:
-// Kaeru Ryugaku · Academy · Preschool · Clab · English).
+// Kaeru Ryugaku · Preschool · Academy · Clab · English).
 const PROGRAM_COLORS = [
   "var(--color-sky)",
-  "var(--color-sun)",
   "var(--color-peach)",
+  "var(--color-sun)",
   "var(--color-leaf)",
   "var(--color-berry)",
 ];
@@ -109,8 +109,14 @@ export function Inquiry() {
           </span>
           <h2 className="font-display mt-5 text-display-2 leading-[0.98] tracking-tight">
             {t.inquiry.titleA}
-            <br />
-            <span className="text-[var(--color-sun)] whitespace-pre-line">{t.inquiry.titleB}</span>
+            {t.inquiry.titleB && (
+              <>
+                <br />
+                <span className="text-[var(--color-sun)] whitespace-pre-line">
+                  {t.inquiry.titleB}
+                </span>
+              </>
+            )}
           </h2>
         </motion.div>
 

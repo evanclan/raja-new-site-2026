@@ -11,12 +11,10 @@ import { useT } from "@/lib/i18n";
 // address/phone/hours in white text on a transparent half), shown whole on
 // a deep-blue card — so the dimensions matter for the correct aspect ratio.
 const BRANCH_IMAGES = [
-  { src: "/Taniyama_branch.png", w: 1266, h: 503 },
   { src: "/shimoaratabranch.png", w: 1185, h: 503 },
-  // RaJA 病児保育園 — sick-child daycare at the Shimoarata location.
-  // Interior room photo, center-cropped to the same 1185×503 frame as the
-  // other branch cards so all three rows read uniform.
-  { src: "/shimoarata_byouji.png", w: 1185, h: 503 },
+  // RaJA 病児保育園 — its own sick-care photo (co-located at the Shimoarata site).
+  { src: "/preschool/sickcare.avif", w: 1024, h: 768 },
+  { src: "/Taniyama_branch.png", w: 1266, h: 503 },
 ];
 
 export function Preschool() {
