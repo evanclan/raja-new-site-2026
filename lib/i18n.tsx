@@ -336,6 +336,9 @@ const DICTIONARY = {
         messagePh: "Tell us about your child or what you're looking for…",
       },
       submit: "Send inquiry",
+      sending: "Sending…",
+      sent: "Thank you — your inquiry has been sent. We'll be in touch soon.",
+      errorMsg: "Sorry, something went wrong. Please try again or email us directly.",
       programs: [
         "Kaeru Ryugaku",
         "RaJA Academy",
@@ -721,6 +724,9 @@ const DICTIONARY = {
         messagePh: "お子さまのこと、ご希望など、お気軽にお書きください…",
       },
       submit: "送信する",
+      sending: "送信中…",
+      sent: "お問い合わせありがとうございます。担当者より追ってご連絡いたします。",
+      errorMsg: "送信に失敗しました。お手数ですが再度お試しいただくか、直接メールをお送りください。",
       programs: [
         "かえる留学",
         "RaJA アカデミー",

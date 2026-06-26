@@ -30,9 +30,9 @@ const notoJp = Noto_Sans_JP({
 });
 
 export const metadata: Metadata = {
-  title: "RaJA International — Global Education for Every Child",
+  title: "RaJA International — すべての子どもに世界への扉を",
   description:
-    "RaJA International — study abroad programs, preschool, academy, creative lab, and English for every age. A global family of learning.",
+    "RaJA International 留学プログラム、プリスクール、アカデミー、クリエイティブラボ、英語教室。あらゆる年齢のために。",
 };
 
 export default function RootLayout({
@@ -42,11 +42,11 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="en"
+      lang="ja"
       className={`${inter.variable} ${fredoka.variable} ${notoJp.variable} h-full`}
     >
       <body className="min-h-full bg-[var(--color-cream)] text-[var(--color-ink)]">
-        <LanguageProvider>
+        <LanguageProvider defaultLocale="ja">
           <LoadingProvider>
             <Preloader />
             <SmoothScrollProvider>
