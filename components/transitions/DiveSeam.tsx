@@ -90,10 +90,41 @@ export function DiveSeam() {
     offset: ["start end", "start start"],
   });
 
-  // Viewport Y of the seam line, fed straight into the fixed layer's top.
-  const seamTop = useTransform(p, [0, 1], ["100vh", "0vh"]);
   // Visible across the crossing, clears at rest.
   const dividerOpacity = useTransform(p, [0.08, 0.3, 0.74, 0.95], [0, 1, 1, 0]);
+
+  // Live VISUAL viewport height. Starts at 0 so the server and the first
+  // client render agree (avoids a hydration mismatch — `window` doesn't
+  // exist on the server); the effect fills it in after mount and keeps it
+  // current. `visualViewport.height` is the real, URL-bar-aware height on
+  // phones — exactly what the seam math needs.
+  const [vh, setVh] = useState(0);
+  useEffect(() => {
+    const update = () =>
+      setVh(window.visualViewport?.height ?? window.innerHeight);
+    update();
+    window.addEventListener("resize", update);
+    window.addEventListener("orientationchange", update);
+    window.visualViewport?.addEventListener("resize", update);
+    return () => {
+      window.removeEventListener("resize", update);
+      window.removeEventListener("orientationchange", update);
+      window.visualViewport?.removeEventListener("resize", update);
+    };
+  }, []);
+
+  // Viewport Y of the seam line, fed straight into the fixed layer's top.
+  //
+  // With offset ["start end","start start"], Academy's top travels linearly
+  // from the viewport BOTTOM (p=0) to the viewport TOP (p=1), so its viewport
+  // Y is (1 − p) · viewportHeight. The fix vs the old code is using the LIVE
+  // measured `vh` here instead of the CSS unit `100vh`: on phones `100vh` is
+  // the tall (URL-bar-collapsed) viewport, so as the address bar showed/hid,
+  // the old `(1 − p)·100vh` drifted off the real seam and jumped when the bar
+  // snapped — the "weird" wobble. The measured visual-viewport height tracks
+  // the real chrome, and `p` stays layout-accurate, so the wave stays glued
+  // to the boundary on every device with no cached geometry to go stale.
+  const seamTop = useTransform(p, (v) => `${(1 - v) * vh}px`);
 
   // Roll props — disabled under reduced motion OR on mobile (<768px).
   // On mobile the wave renders statically (still colour-bridges the seam)

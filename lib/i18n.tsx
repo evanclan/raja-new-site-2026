@@ -482,10 +482,10 @@ const DICTIONARY = {
         label: "RaJA Global Academy",
         href: "https://www.rga-ce.com",
         kicker: "卒園おめでとう · 2026年度",
-        // 「環境の / プレゼント」— broken before the key noun so CJK never
-        // wraps mid-word. Set tate-gaki (vertical) on desktop, or these two
-        // lines stacked on mobile / short panels.
-        title: ["環境の", "プレゼント"],
+        // 「環境のプレゼント」— one phrase. Set tate-gaki (vertical) on tall
+        // desktop; rendered on a single horizontal line on mobile / short
+        // panels (it fits the copy column at the fluid display size).
+        title: ["環境のプレゼント"],
         subtitle: "わかるって嬉しい！\n学ぶって楽しい！\n難しいって面白い！",
         // RaJA の実際のタグライン。
         body: "県下最大級の未就学児向けインターナショナルスクールです。長年の企業主導型保育事業で培った確かな保育の上に、「英語で過ごし、英語で学ぶ」探究の環境をデザインしています。",

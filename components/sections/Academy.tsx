@@ -139,7 +139,17 @@ export function Academy() {
       className="font-display text-display-1 tracking-tight"
       style={
         locale === "ja"
-          ? { letterSpacing: "0.04em", wordBreak: "keep-all", lineHeight: 1.4 }
+          ? {
+              letterSpacing: "0.04em",
+              wordBreak: "keep-all",
+              lineHeight: 1.4,
+              // 「環境のプレゼント」is now ONE line. At the display-1 min size it
+              // ran to the screen edge on phones, so lower just the mobile
+              // floor (2.1rem vs display-1's 2.6rem); the vw/max terms are
+              // unchanged, so desktop is identical and only narrow viewports
+              // shrink enough to keep the phrase inside the copy column.
+              fontSize: "clamp(2.1rem, 5.4vw, 5.5rem)",
+            }
           : undefined
       }
     >

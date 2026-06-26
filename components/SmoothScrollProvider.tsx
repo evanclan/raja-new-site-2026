@@ -112,8 +112,26 @@ export function SmoothScrollProvider({ children }: { children: React.ReactNode }
       // injects a phantom snap point at the top of the page. rect.top + scrollY
       // is immune to offsetParent, so every target is correct under pinning.
       const scrollY = window.scrollY;
-      return sections
-        .map((s) => (s.getBoundingClientRect().top + scrollY) / max)
+      const vh = window.innerHeight;
+      const anchors: number[] = [];
+      for (const s of sections) {
+        const rect = s.getBoundingClientRect();
+        const top = rect.top + scrollY;
+        anchors.push(top); // top-aligned rest
+        // A section TALLER than the viewport hides its lower portion below
+        // the fold, and a single top anchor makes that overflow unreachable:
+        // pause partway down and directional snap yanks you to the next
+        // section's top. So for any oversized section add a SECOND rest where
+        // its bottom edge meets the viewport bottom. Directional snap then
+        // walks top → bottom → next top, and the lower half is both reachable
+        // and a settle point — the exact thing that breaks on short laptops /
+        // small monitors (fluid rem content overflows min-h-screen there).
+        // Sections that fit get no extra anchor, so tall/large screens are
+        // byte-for-byte unchanged.
+        if (rect.height > vh + 1) anchors.push(top + rect.height - vh);
+      }
+      return anchors
+        .map((px) => px / max)
         .map((p) => Math.max(0, Math.min(1, p)));
     };
 
@@ -143,7 +161,18 @@ export function SmoothScrollProvider({ children }: { children: React.ReactNode }
             // No snap targets on this page → leave the scroll position
             // untouched (returning the incoming progress is a no-op snap).
             if (!positions) return value;
-            return gsap.utils.snap(positions, value);
+            const snapped = gsap.utils.snap(positions, value);
+            // Proximity guard: if the nearest anchor is more than ~half a
+            // viewport away, the user is parked deep inside an over-tall
+            // section (one whose top+bottom anchors don't cover its middle,
+            // e.g. a ~2.5×-viewport stack). Snapping there would rip them off
+            // the content mid-read, so leave them be. Sections that fit sit
+            // 1vh apart — always inside the guard — so ordinary
+            // section-to-section snapping is untouched.
+            const guard =
+              (window.innerHeight * 0.55) / ScrollTrigger.maxScroll(window);
+            if (Math.abs(snapped - value) > guard) return value;
+            return snapped;
           },
           // Wait briefly after the user stops — long enough to not
           // interrupt them, short enough to feel intentional.
