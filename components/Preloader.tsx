@@ -145,7 +145,13 @@ export function Preloader() {
   // hairline enough time to establish a rhythm, then fire the reveal.
   useEffect(() => {
     if (phase !== "loading") return;
-    const id = setTimeout(() => beginReveal(), 2000);
+    // This is a brand moment, not a real load gate — nothing here waits on
+    // the network. Hold just long enough for the lock-up to establish, then
+    // hand off. Phones get a noticeably shorter hold: a ~2s splash before you
+    // can scroll reads as "slow loading" on mobile even when nothing is loading.
+    const coarse = window.matchMedia("(pointer: coarse)").matches;
+    const hold = coarse ? 850 : 1400;
+    const id = setTimeout(() => beginReveal(), hold);
     return () => clearTimeout(id);
   }, [phase, beginReveal]);
 

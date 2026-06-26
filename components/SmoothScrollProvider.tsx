@@ -105,35 +105,58 @@ export function SmoothScrollProvider({ children }: { children: React.ReactNode }
       // sections the old code returned [0], which snapped every scroll back
       // to the top of the page — breaking ordinary scrolling on article pages.
       if (max <= 0 || sections.length < 2) return null;
+      // Use each section's TRUE document position. offsetTop is relative to
+      // the nearest *positioned* ancestor — which is WRONG for any section
+      // wrapped in a GSAP pin-spacer (e.g. Intro's CloudTheater pin): there
+      // offsetTop collapses to ~0 and both corrupts that section's target and
+      // injects a phantom snap point at the top of the page. rect.top + scrollY
+      // is immune to offsetParent, so every target is correct under pinning.
+      const scrollY = window.scrollY;
       return sections
-        .map((s) => s.offsetTop / max)
+        .map((s) => (s.getBoundingClientRect().top + scrollY) / max)
         .map((p) => Math.max(0, Math.min(1, p)));
     };
 
-    const snapTrigger = prefersReducedMotion
-      ? null
-      : ScrollTrigger.create({
-          id: "page-section-snap",
-          trigger: document.body,
-          start: 0,
-          end: "max",
-          snap: {
-            snapTo: (value) => {
-              const positions = sectionProgress();
-              // No snap targets on this page → leave the scroll position
-              // untouched (returning the incoming progress is a no-op snap).
-              if (!positions) return value;
-              return gsap.utils.snap(positions, value);
-            },
-            // Wait briefly after the user stops — long enough to not
-            // interrupt them, short enough to feel intentional.
-            delay: 0.08,
-            duration: { min: 0.25, max: 0.7 },
-            ease: "power2.out",
-            directional: true,
-            inertia: false,
+    // Section snapping is a DESKTOP-with-a-mouse affordance only. On touch
+    // devices, full-viewport per-section snapping fights finger momentum:
+    // you scroll down to read the lower half of a tall stacked section
+    // (Academy onward, where the mobile columns stack taller than the
+    // screen), pause — and the directional snap yanks you to the next
+    // section's top. So we gate the whole snap behind a fine pointer + wide
+    // viewport, and rebuild it if that changes (mouse plugged in, window
+    // dragged across the breakpoint, tablet rotated).
+    const snapMQ = window.matchMedia("(min-width: 768px) and (pointer: fine)");
+
+    let snapTrigger: ScrollTrigger | null = null;
+    const buildSnap = () => {
+      snapTrigger?.kill();
+      snapTrigger = null;
+      if (prefersReducedMotion || !snapMQ.matches) return;
+      snapTrigger = ScrollTrigger.create({
+        id: "page-section-snap",
+        trigger: document.body,
+        start: 0,
+        end: "max",
+        snap: {
+          snapTo: (value) => {
+            const positions = sectionProgress();
+            // No snap targets on this page → leave the scroll position
+            // untouched (returning the incoming progress is a no-op snap).
+            if (!positions) return value;
+            return gsap.utils.snap(positions, value);
           },
-        });
+          // Wait briefly after the user stops — long enough to not
+          // interrupt them, short enough to feel intentional.
+          delay: 0.08,
+          duration: { min: 0.25, max: 0.7 },
+          ease: "power2.out",
+          directional: true,
+          inertia: false,
+        },
+      });
+    };
+    buildSnap();
+    snapMQ.addEventListener("change", buildSnap);
 
     // Recompute after fonts/images/dynamic content settle so the snap
     // positions match the final layout.
@@ -179,6 +202,7 @@ export function SmoothScrollProvider({ children }: { children: React.ReactNode }
       window.removeEventListener("resize", onResize);
       window.removeEventListener("orientationchange", onResize);
       clearTimeout(resizeTimer);
+      snapMQ.removeEventListener("change", buildSnap);
       snapTrigger?.kill();
       gsap.ticker.remove(tick);
       lenis.destroy();

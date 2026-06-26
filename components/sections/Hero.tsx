@@ -218,7 +218,7 @@ export function Hero() {
   // aspect-square (not fixed height + w-auto) so the badges stay perfectly
   // round when flex-shrink narrows the row on tighter widths.
   const panelSize =
-    "w-[clamp(7rem,18.5vw,15rem)] max-md:w-[7.5rem] aspect-square min-w-0";
+    "w-[clamp(7rem,24vw,22rem)] max-md:w-[32vw] aspect-square min-w-0";
   const panels = [
     {
       id: "study-abroad",
@@ -228,17 +228,17 @@ export function Hero() {
       sizeClass: panelSize,
     },
     {
-      id: "academy",
-      label: t.hero.panels.academy,
-      color: "var(--color-sun)",
-      src: "/hero-main/badges/academy.png",
-      sizeClass: panelSize,
-    },
-    {
       id: "preschool",
       label: t.hero.panels.preschool,
       color: "var(--color-peach)",
       src: "/hero-main/badges/preschool.png",
+      sizeClass: panelSize,
+    },
+    {
+      id: "academy",
+      label: t.hero.panels.academy,
+      color: "var(--color-sun)",
+      src: "/hero-main/badges/academy.png",
       sizeClass: panelSize,
     },
     {
@@ -842,7 +842,7 @@ export function Hero() {
           </div>
         </div>
 
-        <div className="grid gap-10 md:grid-cols-[1fr_auto] md:items-end">
+        <div className="flex flex-col gap-8 md:gap-12">
           <motion.p
             key={`desc-${locale}`}
             initial={{ opacity: 0, y: 30 }}
@@ -856,14 +856,21 @@ export function Hero() {
           <ul
             key={`panels-${locale}`}
             ref={panelsRef}
-            className="flex flex-wrap items-end gap-3 md:flex-nowrap md:gap-6 max-md:justify-center max-md:gap-x-5 max-md:gap-y-4"
+            // Desktop: a static row of all five badges.
+            // Mobile: a full-bleed horizontal SNAP-SCROLL row — ~3 larger
+            // badges sit in view at once and the other two scroll in. The
+            // negative margin-inline breaks the row out of the section gutter
+            // so it scrolls edge-to-edge; scroll-padding realigns the first
+            // badge with the content column. Scrollbar hidden; py keeps the
+            // drop-shadows + idle float from being clipped by overflow.
+            className="flex items-end gap-3 md:flex-nowrap md:gap-4 max-md:flex-nowrap max-md:items-center max-md:gap-2 max-md:overflow-x-auto max-md:py-3 max-md:snap-x max-md:snap-mandatory max-md:[margin-inline:calc(-1*var(--space-gutter))] max-md:[padding-inline:1rem] max-md:[scroll-padding-inline:1rem] max-md:[scrollbar-width:none] max-md:[&::-webkit-scrollbar]:hidden"
             aria-label={t.hero.overline}
           >
             {panels.map((p) => (
               <li
                 key={p.id}
                 data-panel
-                className="relative"
+                className="relative max-md:shrink-0 max-md:snap-start"
                 style={{
                   opacity: 0,
                   willChange: "transform, opacity, filter",
