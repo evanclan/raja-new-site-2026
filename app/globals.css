@@ -163,6 +163,30 @@ html {
   margin-inline: auto;
   padding-inline: var(--space-gutter);
 }
+/* ============================================================
+   ARTICLE FRAME — long-form /news/[slug] pages cap at 1440 and
+   stop scaling on widescreen (the rest of the site keeps filling
+   the viewport; articles read better with a fixed measure).
+
+   Two levers, both keyed off the `.article-frame` wrapper:
+   1. Freeze the fluid root scaler at its 1440 value (16px). The
+      width term `0.625rem + 0.4167vw` reaches 1rem at ~1440px,
+      then the clamp ceiling holds it there — so rem-based type,
+      spacing AND the display headings' rem ceilings stop growing.
+      (Drops the height guard from the global scaler; fine for a
+      tall scrolling article.) Below 1440 it scales down as before.
+   2. Cap the content shells at 1440px (90rem at the frozen 16px);
+      full-bleed section backgrounds still span the viewport, only
+      the inner content column is held to 1440 and centred.
+   ============================================================ */
+html:has(.article-frame) {
+  font-size: clamp(0.875rem, 0.625rem + 0.4167vw, 1rem);
+}
+.article-frame {
+  --shell-max: 90rem; /* 1440px at the frozen root */
+  --shell-wide-max: 90rem;
+}
+
 /* Inner reading-width cap for prose/forms — sits within a shell's gutter. */
 @utility measure {
   max-width: var(--measure);
