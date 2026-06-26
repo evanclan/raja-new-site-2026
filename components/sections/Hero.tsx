@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import gsap from "gsap";
@@ -530,6 +530,84 @@ export function Hero() {
     },
     { scope: panelsRef, dependencies: [entered, locale] },
   );
+
+  // ————————————————————————————————————————
+  // Mobile "swipe me" hint
+  // ————————————————————————————————————————
+  // The badge row shows 3 at once on phones and scrolls to reveal the
+  // other 2 — but a perfectly-fitted row gives no sign it's scrollable.
+  // When it first comes into view we give it ONE gentle nudge (slide out
+  // to expose the next badge, then ease back), which reads instantly as
+  // "this swipes". Fires once; bails on desktop (no overflow), under
+  // reduced-motion, or if the user already scrolled it themselves.
+  useEffect(() => {
+    // Wait for the preloader to fully hand off (phase "ready") so the hint
+    // plays on the visible hero, not behind the reveal curtain.
+    if (phase !== "ready") return;
+    const ul = panelsRef.current;
+    if (!ul) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    let done = false;
+    let raf = 0;
+
+    const nudge = () => {
+      if (done) return;
+      // Nothing to hint if the row doesn't overflow (desktop) or the user
+      // has already discovered the scroll.
+      if (ul.scrollWidth <= ul.clientWidth + 4 || ul.scrollLeft > 2) {
+        done = true;
+        return;
+      }
+      done = true;
+
+      const peek = Math.min(72, ul.clientWidth * 0.2);
+      const OUT = 560,
+        HOLD = 240,
+        BACK = 680;
+      // Scroll-snap would fight a partial tween — relax it for the hint,
+      // then restore (scrollLeft lands back on 0, a valid snap point).
+      const prevSnap = ul.style.scrollSnapType;
+      ul.style.scrollSnapType = "none";
+      const ease = (t: number) => 1 - Math.pow(1 - t, 3); // easeOutCubic
+      const start = performance.now();
+      const tick = (now: number) => {
+        const e = now - start;
+        let x: number;
+        if (e < OUT) x = peek * ease(e / OUT);
+        else if (e < OUT + HOLD) x = peek;
+        else if (e < OUT + HOLD + BACK)
+          x = peek * (1 - ease((e - OUT - HOLD) / BACK));
+        else {
+          ul.scrollLeft = 0;
+          ul.style.scrollSnapType = prevSnap;
+          return;
+        }
+        ul.scrollLeft = x;
+        raf = requestAnimationFrame(tick);
+      };
+      raf = requestAnimationFrame(tick);
+    };
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) {
+            io.disconnect();
+            // Let the entrance settle first so the hint reads as its own beat.
+            window.setTimeout(nudge, 600);
+          }
+        }
+      },
+      { threshold: 0.6 }
+    );
+    io.observe(ul);
+
+    return () => {
+      io.disconnect();
+      cancelAnimationFrame(raf);
+    };
+  }, [phase]);
 
   return (
     <Section id="hero" background="#0b0c10" noFade>
