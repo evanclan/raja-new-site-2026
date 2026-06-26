@@ -31,8 +31,12 @@ const CUSTOM_ARTICLES: Partial<Record<keyof typeof ARTICLES, () => React.ReactNo
 
 type Slug = keyof typeof ARTICLES;
 
+// Exposed so app/sitemap.ts stays in sync with the article registry above —
+// add an article to ARTICLES and it appears in the sitemap automatically.
+export const NEWS_SLUGS = Object.keys(ARTICLES) as Slug[];
+
 export function generateStaticParams() {
-  return (Object.keys(ARTICLES) as Slug[]).map((slug) => ({ slug }));
+  return NEWS_SLUGS.map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({
@@ -63,6 +67,13 @@ export default async function ArticlePage({
   const { slug } = await params;
   if (!(slug in ARTICLES)) notFound();
   const custom = CUSTOM_ARTICLES[slug as Slug];
-  if (custom) return custom();
-  return <ArticleView slug={slug as Slug} />;
+  // `article-frame` opts every article page (current + future) into the
+  // 1440-capped reading layout: it freezes the fluid root scaler at its
+  // 1440 value (so type/spacing stop growing on widescreen) and caps the
+  // content shells at 1440px. See app/globals.css → "ARTICLE FRAME".
+  return (
+    <div className="article-frame">
+      {custom ? custom() : <ArticleView slug={slug as Slug} />}
+    </div>
+  );
 }

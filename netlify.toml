@@ -4,6 +4,20 @@
 
 [build.environment]
   NODE_VERSION = "22"
+  # Canonical origin (non-www) consumed by app/sitemap.ts and app/robots.ts.
+  # Committed here so production builds don't depend on the Netlify UI env.
+  NEXT_PUBLIC_SITE_URL = "https://raja-international.com"
+
+# Force www -> non-www at the CDN edge with a 301, BEFORE the request reaches
+# Next.js. Guarantees the canonical redirect even if the "primary domain"
+# setting in Netlify's Domain management is missed. Domain-level redirects
+# can ONLY be done here — next.config/proxy.ts cannot redirect across hosts.
+# :splat preserves the path so legacy URLs still reach proxy.ts on the apex.
+[[redirects]]
+  from = "https://www.raja-international.com/*"
+  to = "https://raja-international.com/:splat"
+  status = 301
+  force = true
 
 # Official Next.js runtime — handles SSR, image optimization, and routing.
 # Auto-installed by Netlify, pinned here + in devDependencies for reproducible builds.
