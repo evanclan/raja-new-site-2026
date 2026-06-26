@@ -85,7 +85,7 @@ export function English() {
               className="font-display mt-5 text-display-1 tracking-tight text-balance max-md:mt-4 max-md:leading-[1.05]"
             >
               {e.title.map((line, i) => (
-                <span key={i} className="block">
+                <span key={i} className="block whitespace-nowrap">
                   {line}
                 </span>
               ))}
