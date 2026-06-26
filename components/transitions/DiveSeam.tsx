@@ -126,60 +126,71 @@ export function DiveSeam() {
   // to the boundary on every device with no cached geometry to go stale.
   const seamTop = useTransform(p, (v) => `${(1 - v) * vh}px`);
 
-  // Roll props — disabled under reduced motion OR on mobile (<768px).
-  // On mobile the wave renders statically (still colour-bridges the seam)
-  // without the infinite Framer loop and its paint cost.
+  // Roll props — disabled under reduced motion. (Desktop only renders the
+  // wave at all; see the mobile bail-out below.)
   const roll = (dur: number) =>
-    reduce || !isDesktop
+    reduce
       ? {}
       : {
           animate: { x: [0, -ROLL_X] as number[] },
           transition: { duration: dur, repeat: Infinity, ease: "linear" as const },
         };
 
+  // The measurement target (`ref`) stays mounted on every breakpoint so
+  // `useScroll` always has a hydrated DOM node — returning null here would
+  // leave its target ref unattached and Framer would throw
+  // "Target ref is defined but not hydrated". The VISIBLE wave, however, is
+  // desktop-only: the fixed, scroll-driven divider tracked the seam poorly on
+  // phones (the URL-bar show/hide kept nudging the visual viewport, so it
+  // wobbled and sat off the boundary). On mobile we simply don't paint it —
+  // the sky→sea colour change across the section gradients reads cleanly on
+  // its own. `isDesktop` defaults false on SSR/first paint, so the mobile/
+  // static branch is hydration-safe.
   return (
     <div ref={ref} className="absolute inset-0">
       {/* Fixed layer pinned to the seam's viewport position; the inner
           band is shifted up by half its height so its MIDDLE lands on the
-          seam line, straddling both sections. */}
-      <motion.div
-        aria-hidden
-        className="pointer-events-none fixed inset-x-0 z-[35]"
-        style={{ top: seamTop, opacity: dividerOpacity }}
-      >
-        <div className="absolute inset-x-0 h-24 -translate-y-1/2 md:h-32">
-          <svg
-            className="absolute inset-0 h-full w-full"
-            viewBox="0 0 1200 200"
-            preserveAspectRatio="none"
-          >
-            <defs>
-              {/* Colour bridge: ocean blue at the surface → Academy indigo
-                  at the bottom, so the sky→sea hand-off flows. */}
-              <linearGradient id="diveWave" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#16a3e6" />
-                <stop offset="42%" stopColor="#0a63b4" />
-                <stop offset="100%" stopColor="#2e3192" />
-              </linearGradient>
-            </defs>
+          seam line, straddling both sections. Desktop only. */}
+      {isDesktop && (
+        <motion.div
+          aria-hidden
+          className="pointer-events-none fixed inset-x-0 z-[35]"
+          style={{ top: seamTop, opacity: dividerOpacity }}
+        >
+          <div className="absolute inset-x-0 h-24 -translate-y-1/2 md:h-32">
+            <svg
+              className="absolute inset-0 h-full w-full"
+              viewBox="0 0 1200 200"
+              preserveAspectRatio="none"
+            >
+              <defs>
+                {/* Colour bridge: ocean blue at the surface → Academy indigo
+                    at the bottom, so the sky→sea hand-off flows. */}
+                <linearGradient id="diveWave" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="#16a3e6" />
+                  <stop offset="42%" stopColor="#0a63b4" />
+                  <stop offset="100%" stopColor="#2e3192" />
+                </linearGradient>
+              </defs>
 
-            {/* Gradient body — the water, waving up from Academy's indigo. */}
-            <motion.path d={BODY_PATH} fill="url(#diveWave)" {...roll(18)} />
+              {/* Gradient body — the water, waving up from Academy's indigo. */}
+              <motion.path d={BODY_PATH} fill="url(#diveWave)" {...roll(18)} />
 
-            {/* Thin crest lines — white foam, light blue, blue. */}
-            {DIVIDER_LINES.map((l, i) => (
-              <motion.path
-                key={i}
-                d={l.d}
-                fill="none"
-                stroke={l.stroke}
-                strokeWidth={l.w}
-                {...roll(l.dur)}
-              />
-            ))}
-          </svg>
-        </div>
-      </motion.div>
+              {/* Thin crest lines — white foam, light blue, blue. */}
+              {DIVIDER_LINES.map((l, i) => (
+                <motion.path
+                  key={i}
+                  d={l.d}
+                  fill="none"
+                  stroke={l.stroke}
+                  strokeWidth={l.w}
+                  {...roll(l.dur)}
+                />
+              ))}
+            </svg>
+          </div>
+        </motion.div>
+      )}
     </div>
   );
 }

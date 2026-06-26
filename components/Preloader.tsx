@@ -147,10 +147,12 @@ export function Preloader() {
     if (phase !== "loading") return;
     // This is a brand moment, not a real load gate — nothing here waits on
     // the network. Hold just long enough for the lock-up to establish, then
-    // hand off. Phones get a noticeably shorter hold: a ~2s splash before you
-    // can scroll reads as "slow loading" on mobile even when nothing is loading.
+    // hand off. Phones get a much shorter hold: any splash before you can
+    // scroll reads as "slow loading" on mobile even when nothing is loading,
+    // so the phone hold is trimmed to the minimum that still lets the lock-up
+    // register. Desktop hold is unchanged.
     const coarse = window.matchMedia("(pointer: coarse)").matches;
-    const hold = coarse ? 850 : 1400;
+    const hold = coarse ? 350 : 1400;
     const id = setTimeout(() => beginReveal(), hold);
     return () => clearTimeout(id);
   }, [phase, beginReveal]);
@@ -268,6 +270,15 @@ export function Preloader() {
             setTimeout(() => setUnmount(true), 60);
           },
         });
+
+        // Mobile only: run the whole reveal faster. Scaling the timeline (not
+        // individual tweens) keeps every beat in proportion, so the FLIP
+        // handoff stays in sync — it just plays quicker. Scroll unlocks
+        // (markReady, scheduled at 1.38s below) ~1.5x sooner on phones, which
+        // is the bulk of the perceived "slow loading". Desktop plays at 1x.
+        if (window.matchMedia("(pointer: coarse)").matches) {
+          tl.timeScale(1.5);
+        }
 
         // — Beat 1: radiant hairline collapses inward and dissolves
         if (hairlineEl) {
