@@ -75,7 +75,7 @@ const DICTIONARY = {
         subtitle: "Study abroad, re-imagined.",
         ages: "Teens & Young Adults",
         description:
-          "A curated global exchange program pairing students with host communities across four continents. Language immersion, mentored projects, and the courage to belong anywhere.",
+          "At Ryugaku Support Kagoshima, we draw out the study abroad path that fits your goals through conversation, building a plan that's uniquely yours, together. The world is your campus. We support a study abroad experience that shines brighter through a life lived off the beaten track.",
       },
       academy: {
         label: "RaJA Global Academy",
@@ -85,7 +85,7 @@ const DICTIONARY = {
         // lines so the ma (negative space) reads, never browser-wrapped.
         title: ["A Gift", "from Nature."],
         // Age folded into the subtitle (no standalone pill).
-        subtitle: "An English-immersion academy · ages 3–6.",
+        subtitle: "An English-immersion academy · ages 3–5.",
         body: "A real cap-and-gown milestone that says: you can belong anywhere.",
         cta: "Visit the Academy",
         // Shared EN/JA — the engraved seal caption reads the same in both.
@@ -476,7 +476,7 @@ const DICTIONARY = {
         subtitle: "あたらしいカタチの留学。",
         ages: "ティーン ＆ 若者",
         description:
-          "4大陸のホストコミュニティと学生をつなぐ、厳選されたグローバル交換プログラム。語学漬けの毎日、メンターと取り組むプロジェクト、そして「どこでも自分の居場所にできる」勇気を。",
+          "留学サポート鹿児島では、お客様の目的・目標に応じた留学の在り方を対話の中から引き出し、自分だけの留学プランを一緒に作り上げていきます。学びのキャンパスは世界！レールに乗らない人生の選択で、輝きを増す留学をサポートさせていただきます。",
       },
       academy: {
         label: "RaJA Global Academy",
@@ -486,7 +486,7 @@ const DICTIONARY = {
         // wraps mid-word. Set tate-gaki (vertical) on desktop, or these two
         // lines stacked on mobile / short panels.
         title: ["環境の", "プレゼント"],
-        subtitle: "英語でまなぶ、こども国際教養施設。3〜6歳。",
+        subtitle: "英語でまなぶ、\nこども国際教養施設。\n3〜5歳。",
         // RaJA の実際のタグライン。
         body: "愛するこどもたちへ、言語環境のプレゼントを。",
         cta: "アカデミーを見る",
@@ -713,7 +713,7 @@ const DICTIONARY = {
     inquiry: {
       kicker: "お問い合わせ ・ 入学案内",
       titleA: "やさしい",
-      titleB: "はじまりを、ご一緒に。",
+      titleB: "はじまりを、\nご一緒に。",
       fields: {
         name: "保護者のお名前",
         namePh: "お名前をご記入ください",

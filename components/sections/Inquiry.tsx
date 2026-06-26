@@ -107,10 +107,10 @@ export function Inquiry() {
             </span>
             {t.inquiry.kicker}
           </span>
-          <h2 className="font-display mt-5 text-display-1 leading-[0.98] tracking-tight">
+          <h2 className="font-display mt-5 text-display-2 leading-[0.98] tracking-tight">
             {t.inquiry.titleA}
             <br />
-            <span className="text-[var(--color-sun)]">{t.inquiry.titleB}</span>
+            <span className="text-[var(--color-sun)] whitespace-pre-line">{t.inquiry.titleB}</span>
           </h2>
         </motion.div>
 

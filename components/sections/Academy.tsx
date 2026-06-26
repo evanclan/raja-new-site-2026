@@ -208,7 +208,7 @@ export function Academy() {
             {/* Subtitle — one line, sun-amber; age is folded in. */}
             <p
               data-academy="copy"
-              className="mt-6 text-2xl font-medium"
+              className="mt-6 text-2xl font-medium whitespace-pre-line"
               style={{
                 color: "#ffd23d",
                 ...(locale === "ja" ? { letterSpacing: "0.04em" } : {}),
