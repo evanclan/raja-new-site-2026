@@ -488,7 +488,7 @@ const DICTIONARY = {
         title: ["環境の", "プレゼント"],
         subtitle: "英語でまなぶ、\nこども国際教養施設。\n3〜5歳。",
         // RaJA の実際のタグライン。
-        body: "愛するこどもたちへ、言語環境のプレゼントを。",
+        body: "愛するこどもたちへ、言語環境のプレゼントを。\n自分を知り、自分を世界へ表現する力を。",
         cta: "アカデミーを見る",
         dateStamp: "2026.3 · RaJA 卒園式",
         photoAlt:
@@ -501,7 +501,7 @@ const DICTIONARY = {
         label: "RaJA International Preschool",
         href: "https://www.raja-preschool.com",
         title: "より広く、\nより輝ける未来へ。",
-        subtitle: "0〜2歳の、やさしく寄りそう保育。",
+        subtitle: "0〜2歳の、やさしく寄り誘う保育。",
         ages: "0 〜 2 歳",
         description:
           "ラジャ・インターナショナル保育園は、国際色豊かで多様性に富む環境が魅力です。遊びの中で楽しく学び、こどもたちが ひとりの人として、真の国際性を築いていくための土台作りをしています。",
@@ -546,9 +546,9 @@ const DICTIONARY = {
         label: "Clab ＋ 教育",
         href: "#inquiry",
         kicker: "カラット — 宝石のかがやき",
-        title: ["好奇心を、", "かがやきへ。"],
+        title: ["好奇心を、", "かがやきへ"],
         lede: "金融教育・SDGs・地理・世界。数々の習い事が、ひとつの場所で完結。飽くなき探究心を、たしかなスキルへ変えていきます。",
-        ages: "未就学児 〜 小学校低学年 · 鹿児島",
+        ages: "未就学児 〜 小学校低学年 · 他",
         instructorLabel: "講師",
         cta: "詳しく見る",
         programs: [

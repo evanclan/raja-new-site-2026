@@ -147,7 +147,7 @@ export const FOUNDER = {
   name: { ja: "福島 紗矢香 Salliee", en: "Sayaka “Salliee” Fukushima" },
   role: { ja: "株式会社RaJA 代表取締役CEO ／ 熊本県人吉市出身", en: "Founder & CEO, RaJA Co., Ltd. · from Hitoyoshi, Kumamoto" },
   bio: {
-    ja: "14歳で単身渡米。ハーバード大学教育大学院修了。企業主導型保育園2園、インターナショナルスクール、英語学童、カルチャースクール、留学支援事業を展開し、3法人を経営。子どもから大人まで一貫した学びを提供する複合型教育モデルを構築しています。",
+    ja: "14歳で単身渡米。ハーバード大学教育学部大学院にて、幼保教育に関するコースを修了。企業主導型保育園２園、インターナショナルスクール、英語学童、カルチャースクール、留学支援事業を展開し、３法人を経営。子どもから大人まで一貫した学びを提供する複合型教育モデルを構築しています。",
     en: "Moved to the U.S. alone at 14 and completed a graduate program at the Harvard Graduate School of Education. She runs three companies spanning two corporate-led nurseries, an international school, an after-school English program, a culture school, and study-abroad services — an integrated model of learning from childhood through adulthood.",
   },
   highlights: [

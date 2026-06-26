@@ -97,7 +97,7 @@ export function ForGoodArticle() {
           className="object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-[rgba(20,22,38,0.92)] via-[rgba(20,22,38,0.45)] to-[rgba(20,22,38,0.5)]" />
-        <div className="shell relative z-10 pb-band pt-[8rem]">
+        <div className="shell relative z-10 pb-[clamp(7rem,12vw,11rem)] max-md:pb-[26vw] pt-[8rem]">
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
@@ -341,7 +341,7 @@ export function ForGoodArticle() {
                 </div>
                 <p className="mt-5 text-base leading-relaxed" style={{ opacity: 0.82 }}>{pick(FOUNDER.bio, l)}</p>
 
-                <ul className="mt-6 grid gap-2 sm:grid-cols-2">
+                <ul className="mt-6 grid gap-2">
                   {FOUNDER.highlights.map((h, i) => (
                     <li key={i} className="flex items-start gap-2 text-sm">
                       <svg viewBox="0 0 24 24" className="mt-0.5 h-4 w-4 shrink-0" fill="none" stroke="var(--color-leaf)" strokeWidth={3} strokeLinecap="round" strokeLinejoin="round" aria-hidden>

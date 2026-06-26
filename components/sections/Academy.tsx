@@ -220,7 +220,7 @@ export function Academy() {
             {/* Body — a single sentence. */}
             <p
               data-academy="copy"
-              className="mt-5 text-lg leading-relaxed"
+              className="mt-5 text-lg leading-relaxed whitespace-pre-line"
               style={{
                 opacity: 0.8,
                 ...(locale === "ja"
