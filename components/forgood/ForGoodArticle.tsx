@@ -463,6 +463,27 @@ export function ForGoodArticle() {
         </div>
       </section>
 
+      {/* ──────────────────── BARCODE ──────────────────── */}
+      <section className="py-band">
+        <div className="shell-tight">
+          <Reveal className="flex flex-col items-center text-center">
+            <p className="text-xs uppercase tracking-[0.25em]" style={{ opacity: 0.55 }}>
+              {l === "ja" ? "支援はこちらから" : "Scan to support"}
+            </p>
+            <div className="mt-6 overflow-hidden rounded-3xl bg-white p-4 ring-1 ring-black/5 shadow-[0_30px_70px_-34px_rgba(8,10,40,0.5)]">
+              <Image
+                src="/forgood/barcode.png"
+                alt={l === "ja" ? "For Good キャンペーンのバーコード" : "For Good campaign barcode"}
+                width={3508}
+                height={2481}
+                sizes="(max-width: 768px) 88vw, 640px"
+                className="h-auto w-full max-w-2xl rounded-2xl"
+              />
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
       {/* ──────────────────── FINAL CTA ──────────────────── */}
       <section className="py-band-lg">
         <div className="shell-tight text-center">
