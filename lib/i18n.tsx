@@ -366,6 +366,149 @@ const DICTIONARY = {
       },
       copyright: "© 2026 株式会社RaJA (RaJA Co., Ltd.)\nAll rights reserved",
     },
+    // Legal page for the Happy Island mobile app (App Store / Play Store
+    // require a public, permanent URL): /happy-island-privacy-policy.
+    privacy: {
+      eyebrow: "Mobile app · Legal",
+      app: "Happy Island",
+      title: "Privacy Policy",
+      lede: "How the Happy Island app collects, uses, and protects information — for the families, teachers, and administrators of our schools.",
+      updatedLabel: "Last updated",
+      updated: "March 4, 2026",
+      tocLabel: "Contents",
+      backLabel: "Back to RaJA International",
+      sections: [
+        {
+          id: "introduction",
+          title: "Introduction",
+          lead: "Happy Island is a school management and communication app for international schools and preschools in Japan. We facilitate communication between parents, teachers, and administrators while protecting your privacy in accordance with Japan's Act on the Protection of Personal Information (個人情報の保護に関する法律).",
+        },
+        {
+          id: "information-we-collect",
+          title: "Information We Collect",
+          groups: [
+            {
+              title: "Account information",
+              items: [
+                { term: "Email address", desc: "For account creation and login." },
+                { term: "Name", desc: "Display name within the app." },
+                { term: "Profile photo", desc: "Optional." },
+              ],
+            },
+            {
+              title: "Student information",
+              items: [
+                {
+                  term: "Child's name, date of birth, enrollment",
+                  desc: "For school records.",
+                },
+                {
+                  term: "Relationship to child",
+                  desc: "To establish guardianship.",
+                },
+              ],
+            },
+            {
+              title: "Communication data",
+              items: [
+                { term: "Messages", desc: "Direct messages between users." },
+                { term: "Contact book entries", desc: "Daily notes and photos." },
+                { term: "Announcements", desc: "School notices." },
+                { term: "Event responses", desc: "RSVPs and confirmations." },
+              ],
+            },
+          ],
+        },
+        {
+          id: "how-we-use-your-information",
+          title: "How We Use Your Information",
+          ordered: true,
+          items: [
+            {
+              term: "Provide core services",
+              desc: "Communication between parents, teachers, and administrators.",
+            },
+            {
+              term: "Manage school operations",
+              desc: "Attendance, events, and student records.",
+            },
+            {
+              term: "Send notifications",
+              desc: "Important updates and reminders.",
+            },
+            {
+              term: "Improve the app",
+              desc: "Fix issues and enhance features.",
+            },
+            {
+              term: "Comply with legal obligations",
+              desc: "When required by law.",
+            },
+          ],
+          note: "We do NOT sell your personal information. We do NOT use your data for advertising or marketing unrelated to your school.",
+        },
+        {
+          id: "data-storage-and-security",
+          title: "Data Storage & Security",
+          items: [
+            {
+              term: "Storage",
+              desc: "Secure Supabase servers in Japan (Tokyo).",
+            },
+            {
+              term: "Encryption",
+              desc: "Industry-standard HTTPS/TLS encryption.",
+            },
+            {
+              term: "Access control",
+              desc: "Row Level Security (RLS) and role-based access.",
+            },
+          ],
+        },
+        {
+          id: "data-sharing",
+          title: "Data Sharing",
+          lead: "We share your information only in these limited circumstances:",
+          items: [
+            {
+              term: "Your school",
+              desc: "Teachers and administrators, for service provision.",
+            },
+            {
+              term: "Service providers",
+              desc: "Supabase and Expo, under strict agreements.",
+            },
+            { term: "Legal authorities", desc: "When required by law." },
+          ],
+        },
+        {
+          id: "your-rights",
+          title: "Your Rights",
+          items: [
+            { term: "Access", desc: "Request a copy of your data." },
+            { term: "Correction", desc: "Request correction of inaccurate data." },
+            { term: "Deletion", desc: "Request deletion of your data." },
+            {
+              term: "Object / Restrict",
+              desc: "Object to certain processing.",
+            },
+          ],
+        },
+        {
+          id: "contact-us",
+          title: "Contact Us",
+          items: [
+            { term: "In-app", desc: "Settings → Help & Support" },
+            { term: "Company", desc: "RaJA Co., Ltd. (株式会社RaJA)" },
+            {
+              term: "Email",
+              desc: "tech@raja-international.com",
+              href: "mailto:tech@raja-international.com",
+            },
+          ],
+        },
+      ],
+    },
     footer: {
       tagline: "Connecting Japan and the world with radiance.",
       blurb:
@@ -753,6 +896,147 @@ const DICTIONARY = {
         },
       },
       copyright: "© 2026 株式会社RaJA（RaJA Co., Ltd.）\nAll rights reserved",
+    },
+    privacy: {
+      eyebrow: "モバイルアプリ ・ 法的事項",
+      app: "Happy Island",
+      title: "プライバシーポリシー",
+      lede: "Happy Island アプリにおける情報の取得・利用・保護について。保護者、教員、管理者のみなさまへ。",
+      updatedLabel: "最終更新日",
+      updated: "2026年3月4日",
+      tocLabel: "目次",
+      backLabel: "RaJA International トップへ",
+      sections: [
+        {
+          id: "introduction",
+          title: "はじめに",
+          lead: "Happy Island は、日本のインターナショナルスクール・プリスクール向けの学校管理・コミュニケーションアプリです。保護者、教員、管理者間のコミュニケーションを支援し、「個人情報の保護に関する法律」に従いプライバシーを保護します。",
+        },
+        {
+          id: "information-we-collect",
+          title: "収集する情報",
+          groups: [
+            {
+              title: "アカウント情報",
+              items: [
+                { term: "メールアドレス", desc: "アカウント作成・ログイン用。" },
+                { term: "氏名", desc: "アプリ内の表示名。" },
+                { term: "プロフィール写真", desc: "任意。" },
+              ],
+            },
+            {
+              title: "児童の情報",
+              items: [
+                {
+                  term: "お子様の氏名、生年月日、在籍情報",
+                  desc: "学校の記録用。",
+                },
+                {
+                  term: "お子様との続柄",
+                  desc: "保護者関係の確認用。",
+                },
+              ],
+            },
+            {
+              title: "コミュニケーションデータ",
+              items: [
+                { term: "メッセージ", desc: "ユーザー間のダイレクトメッセージ。" },
+                { term: "連絡帳記入", desc: "日々の記録・写真。" },
+                { term: "お知らせ", desc: "学校からの通知。" },
+                { term: "イベント出欠回答", desc: "出欠確認。" },
+              ],
+            },
+          ],
+        },
+        {
+          id: "how-we-use-your-information",
+          title: "情報の利用目的",
+          ordered: true,
+          items: [
+            {
+              term: "基本サービスの提供",
+              desc: "保護者、教員、管理者間のコミュニケーション。",
+            },
+            {
+              term: "学校運営の管理",
+              desc: "出欠、イベント、児童記録。",
+            },
+            {
+              term: "通知の送信",
+              desc: "重要な更新とリマインダー。",
+            },
+            {
+              term: "アプリの改善",
+              desc: "不具合修正・機能向上。",
+            },
+            {
+              term: "法的義務の遵守",
+              desc: "法律で要求される場合。",
+            },
+          ],
+          note: "当社は個人情報を販売しません。学校と無関係の広告・マーケティングにデータを使用することはありません。",
+        },
+        {
+          id: "data-storage-and-security",
+          title: "データ保存とセキュリティ",
+          items: [
+            {
+              term: "保存場所",
+              desc: "日本（東京）のセキュアな Supabase サーバー。",
+            },
+            {
+              term: "暗号化",
+              desc: "業界標準の HTTPS/TLS 暗号化。",
+            },
+            {
+              term: "アクセス制御",
+              desc: "行レベルセキュリティ（RLS）と役割ベースのアクセス制御。",
+            },
+          ],
+        },
+        {
+          id: "data-sharing",
+          title: "データの共有",
+          lead: "当社は以下の限定的な状況でのみ情報を共有します。",
+          items: [
+            {
+              term: "在籍する学校",
+              desc: "サービス提供のための教員・管理者。",
+            },
+            {
+              term: "サービスプロバイダー",
+              desc: "厳密な契約に基づく Supabase・Expo。",
+            },
+            { term: "公的機関", desc: "法律で要求される場合。" },
+          ],
+        },
+        {
+          id: "your-rights",
+          title: "お客様の権利",
+          items: [
+            { term: "アクセス権", desc: "個人データのコピーを要求できます。" },
+            { term: "訂正権", desc: "不正確なデータの訂正を要求できます。" },
+            { term: "削除権", desc: "個人データの削除を要求できます。" },
+            {
+              term: "異議・制限",
+              desc: "特定の処理に異議を申し立てできます。",
+            },
+          ],
+        },
+        {
+          id: "contact-us",
+          title: "お問い合わせ",
+          items: [
+            { term: "アプリ内", desc: "設定 → ヘルプ・サポート" },
+            { term: "運営会社", desc: "株式会社RaJA（RaJA Co., Ltd.）" },
+            {
+              term: "メール",
+              desc: "tech@raja-international.com",
+              href: "mailto:tech@raja-international.com",
+            },
+          ],
+        },
+      ],
     },
     footer: {
       tagline: "日本と世界を輝きで繋ぐ企業",

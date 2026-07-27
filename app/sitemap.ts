@@ -23,5 +23,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly" as const,
       priority: 0.7,
     })),
+    {
+      url: `${BASE}/happy-island-privacy-policy`,
+      lastModified: "2026-03-04",
+      changeFrequency: "yearly",
+      priority: 0.3,
+    },
   ];
 }

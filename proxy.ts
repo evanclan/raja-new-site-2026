@@ -17,6 +17,7 @@ import type { NextRequest } from "next/server";
 // The new site's OWN routes — never redirect these.
 const NEW_ROUTES = [
   "/news",
+  "/happy-island-privacy-policy",
   "/preview-clab",
   "/preview-english",
   "/preview-study-abroad",
