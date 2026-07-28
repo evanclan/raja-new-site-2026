@@ -246,6 +246,14 @@ const DICTIONARY = {
       allArticles: "All articles",
       posts: [
         {
+          slug: "nyuen-setsumeikai-2027",
+          date: "Jul 28 2026",
+          category: "Admissions",
+          title: "AY2027 Admissions Information Session — Aug 29 (Sat)",
+          excerpt:
+            "An information session for families considering enrollment in AY2027. Two identical sessions: 10:30–11:30 and 13:30–14:30. Held in Japanese.",
+        },
+        {
           slug: "forgood-ib-campaign",
           date: "Jun 25 2026",
           category: "Crowdfunding",
@@ -264,6 +272,37 @@ const DICTIONARY = {
       ],
     },
     articles: {
+      // The article body is a bespoke Japanese-only component
+      // (SetsumeikaiArticle); this record exists for the News card +
+      // the uniform articles shape ArticleView's typing relies on.
+      "nyuen-setsumeikai-2027": {
+        date: "July 28, 2026",
+        publishedLabel: "Published",
+        category: "Admissions",
+        title: "AY2027 Admissions Information Session — August 29 (Sat)",
+        excerpt:
+          "An information session for families considering enrollment in AY2027. Two identical sessions: 10:30–11:30 and 13:30–14:30. Held in Japanese.",
+        hero: {
+          src: "/setsumeikai-2027/01-hero-flyer.jpg",
+          alt: "RaJA Global Academy AY2027 admissions information session flyer — August 29 (Sat), 10:30–11:30 / 13:30–14:30, two children laughing in graduation gowns and caps.",
+        },
+        intro:
+          "RaJA Global Academy, an English-immersion international preschool in Kagoshima, holds an admissions information session for families considering enrollment in AY2027.",
+        body: [
+          "The session covers the academy's educational approach, curriculum, daily life at the school, and its inquiry-based learning as an IB Primary Years Programme (PYP) candidate school.",
+          "Held on August 29 (Sat) in two identical sessions — 10:30–11:30 and 13:30–14:30 — for children entering nensho, nenchu, and nencho in AY2027, together with their parents. The session is held in Japanese.",
+        ],
+        programmesTitle: "Three questions the session answers",
+        programmes: [
+          { code: "EN", name: "What is an English-immersion environment like?" },
+          { code: "GR", name: "How do the children grow?" },
+          { code: "IB", name: "What is IB PYP education?" },
+        ],
+        note: "* RaJA Global Academy is a candidate school for the IB Primary Years Programme (PYP). Candidate status does not guarantee that authorization will be granted.",
+        moreText: "Official school website (search 'かごしま ラジャ'):",
+        link: { label: "www.rga-ce.com", href: "https://www.rga-ce.com/" },
+        backLabel: "Back to all news",
+      },
       "ib-pyp-candidate": {
         date: "March 12, 2026",
         publishedLabel: "Published",
@@ -777,6 +816,14 @@ const DICTIONARY = {
       allArticles: "すべての記事",
       posts: [
         {
+          slug: "nyuen-setsumeikai-2027",
+          date: "2026年7月28日",
+          category: "お知らせ",
+          title: "【2027年度】入園説明会を開催します（8月29日・土）",
+          excerpt:
+            "2027年度入園をご検討中のご家庭を対象に、入園説明会を開催します。① 10:30〜11:30 ／ ② 13:30〜14:30 の2部制・内容は同じです。",
+        },
+        {
           slug: "forgood-ib-campaign",
           date: "2026年6月25日",
           category: "クラウドファンディング",
@@ -795,6 +842,36 @@ const DICTIONARY = {
       ],
     },
     articles: {
+      // 本文はカスタムコンポーネント（SetsumeikaiArticle・日本語のみ）。
+      // このレコードはニュースカードと articles の統一シェイプのために存在する。
+      "nyuen-setsumeikai-2027": {
+        date: "2026年7月28日",
+        publishedLabel: "公開日",
+        category: "お知らせ",
+        title: "【2027年度】入園説明会を開催します｜8月29日（土）｜RaJA Global Academy",
+        excerpt:
+          "2027年度入園をご検討中のご家庭を対象に、入園説明会を開催します。① 10:30〜11:30 ／ ② 13:30〜14:30 の2部制・内容は同じです。",
+        hero: {
+          src: "/setsumeikai-2027/01-hero-flyer.jpg",
+          alt: "RaJA Global Academy 2027年度入園説明会の告知バナー。2026年8月29日（土）10:30-11:30／13:30-14:30開催。卒園ガウンと角帽を身につけて笑い合う園児2名",
+        },
+        intro:
+          "鹿児島のインターナショナルプリスクール RaJA Global Academy では、2027年度の入園をご検討中のご家庭を対象に、入園説明会を開催します。",
+        body: [
+          "当日は、アカデミーの教育方針やカリキュラム、園での一日の様子、そして国際バカロレア（IB）PYP候補校としての探究型の学びをご紹介します。",
+          "開催は2026年8月29日（土）、① 10:30〜11:30 ／ ② 13:30〜14:30 の2部制（内容は同じ）。対象は2027年度 新年少・年中・年長のお子さまと保護者さまです。",
+        ],
+        programmesTitle: "説明会でお答えする3つの疑問",
+        programmes: [
+          { code: "英", name: "英語で学ぶ環境って、どんなところ？" },
+          { code: "育", name: "子どもたちは、どのように成長するの？" },
+          { code: "IB", name: "IB PYPの教育とは？" },
+        ],
+        note: "※ RaJA Global Academyは国際バカロレア（IB）PYPの候補校です。候補校であることは、認定が確約されたものではありません。",
+        moreText: "公式サイト（「かごしま ラジャ」で検索）：",
+        link: { label: "www.rga-ce.com", href: "https://www.rga-ce.com/" },
+        backLabel: "ニュース一覧へ戻る",
+      },
       "ib-pyp-candidate": {
         date: "2026年3月12日",
         publishedLabel: "公開日",

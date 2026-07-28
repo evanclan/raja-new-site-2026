@@ -3,7 +3,7 @@ import { Fredoka, Inter, Noto_Sans_JP } from "next/font/google";
 import "./globals.css";
 
 import { SmoothScrollProvider } from "@/components/SmoothScrollProvider";
-import { Preloader } from "@/components/Preloader";
+import { RoutePreloader } from "@/components/RoutePreloader";
 import { Nav } from "@/components/Nav";
 import { CampaignBadge } from "@/components/CampaignBadge";
 import { LoadingProvider } from "@/components/LoadingProvider";
@@ -48,7 +48,7 @@ export default function RootLayout({
       <body className="min-h-full bg-[var(--color-cream)] text-[var(--color-ink)]">
         <LanguageProvider defaultLocale="ja">
           <LoadingProvider>
-            <Preloader />
+            <RoutePreloader />
             <SmoothScrollProvider>
               <Nav />
               <main>{children}</main>

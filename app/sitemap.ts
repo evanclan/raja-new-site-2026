@@ -7,7 +7,7 @@ const BASE =
   "https://raja-international.com";
 
 // Static date keeps this route cacheable and deterministic. Bump on big changes.
-const LAST_MODIFIED = "2026-06-26";
+const LAST_MODIFIED = "2026-07-28";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
