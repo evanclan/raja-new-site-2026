@@ -35,9 +35,12 @@ export const HERO = {
   // manifest it appears here only, never again in the body.
   src: "/setsumeikai-2027/01-hero-flyer.jpg",
   alt: "RaJA Global Academy 2027年度入園説明会の告知バナー。2026年8月29日（土）10:30-11:30／13:30-14:30開催。卒園ガウンと角帽を身につけて笑い合う園児2名",
-  title: "2027年度 入園説明会を開催します",
-  subtitle:
-    "鹿児島のインターナショナルプリスクール RaJA Global Academy｜2026年8月29日（土）2部制",
+  title: "2027年度 入園説明会",
+  subtitleLines: [
+    "鹿児島のインターナショナルスクール",
+    "RaJA Global Academy",
+    "2026年8月29日（土）",
+  ],
 } as const;
 
 // Body images — alt text is copied verbatim from the school's manifest.

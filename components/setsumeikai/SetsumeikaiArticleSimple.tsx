@@ -88,11 +88,12 @@ export function SetsumeikaiArticleSimple() {
             <h1 className="font-display mt-5 text-display-1 leading-[1.05] tracking-tight">
               {HERO.title}
             </h1>
-            <p className="mt-4 max-w-2xl text-lg font-medium text-[var(--color-cream)]/90">
-              {HERO.subtitle}
-            </p>
-            <p className="mt-5 text-sm tracking-widest text-[var(--color-cream)]/70">
-              {META.publishedLabel} · {META.date} · raja-international.com
+            <p className="mt-4 max-w-2xl text-lg leading-snug font-medium text-[var(--color-cream)]/90">
+              {HERO.subtitleLines.map((line, i) => (
+                <span key={i} className="block">
+                  {line}
+                </span>
+              ))}
             </p>
           </motion.div>
         </div>
