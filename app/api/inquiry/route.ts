@@ -5,6 +5,13 @@ const FROM = "RaJA International <inquiry@info.raja-international.com>";
 // Staff notifications go to the company inbox plus a personal copy.
 const COMPANY = "info@raja-international.com";
 const TO = [COMPANY, "eoalferez@gmail.com"];
+// Preschool inquiries are additionally routed to the preschool team.
+// Matches the option label in both locales: "RaJA Preschool" (en) and
+// "Preschool（０～２歳）" (ja).
+const PRESCHOOL_TO = [
+  "preschool@raja-international.com",
+  "raja.t@raja-international.com",
+];
 
 type Payload = {
   name?: string;
@@ -131,9 +138,10 @@ export async function POST(request: Request) {
   const resend = new Resend(key);
 
   // 1) Notify staff. This is the one that must succeed.
+  const staffTo = /preschool/i.test(program) ? [...TO, ...PRESCHOOL_TO] : TO;
   const { data, error } = await resend.emails.send({
     from: FROM,
-    to: TO,
+    to: staffTo,
     replyTo: email,
     subject: `New inquiry — ${program} — ${name}`,
     text: `Name: ${name}\nEmail: ${email}\nProgram: ${program}\n\n${message}`,
