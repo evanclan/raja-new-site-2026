@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Section } from "../Section";
 import { useT, useI18n } from "@/lib/i18n";
 
@@ -36,11 +36,65 @@ const ChatIcon = (
 
 type Status = "idle" | "sending" | "sent" | "error";
 
+// Cloudflare Turnstile (invisible bot check). Inactive until the site key env
+// var is set — pair it with TURNSTILE_SECRET_KEY on the server.
+const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
+type Turnstile = {
+  render: (el: HTMLElement, opts: Record<string, unknown>) => string;
+  reset: (id: string) => void;
+  remove: (id: string) => void;
+};
+declare global {
+  interface Window {
+    turnstile?: Turnstile;
+  }
+}
+let turnstileScript: Promise<Turnstile> | null = null;
+function loadTurnstile() {
+  turnstileScript ??= new Promise((resolve, reject) => {
+    const s = document.createElement("script");
+    s.src = "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit";
+    s.async = true;
+    s.onload = () => resolve(window.turnstile!);
+    s.onerror = reject;
+    document.head.appendChild(s);
+  });
+  return turnstileScript;
+}
+
 export function Inquiry() {
   const t = useT();
   const { locale } = useI18n();
   const [programIdx, setProgramIdx] = useState(1);
   const [status, setStatus] = useState<Status>("idle");
+  // Fill-time trap: bots submit instantly (or skip the form entirely).
+  const mountedAt = useRef(0);
+  const tsBox = useRef<HTMLDivElement>(null);
+  const tsWidget = useRef<string | null>(null);
+  const tsToken = useRef<string>("");
+
+  useEffect(() => {
+    mountedAt.current = Date.now();
+    if (!TURNSTILE_SITE_KEY) return;
+    let cancelled = false;
+    loadTurnstile()
+      .then((ts) => {
+        if (cancelled || !tsBox.current) return;
+        tsWidget.current = ts.render(tsBox.current, {
+          sitekey: TURNSTILE_SITE_KEY,
+          theme: "dark",
+          appearance: "interaction-only",
+          callback: (token: string) => (tsToken.current = token),
+          "expired-callback": () => (tsToken.current = ""),
+        });
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+      if (tsWidget.current) window.turnstile?.remove(tsWidget.current);
+      tsWidget.current = null;
+    };
+  }, []);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -59,8 +113,15 @@ export function Inquiry() {
           program: t.inquiry.programs[programIdx],
           locale,
           company: fd.get("company"), // honeypot
+          elapsedMs: Date.now() - mountedAt.current,
+          turnstileToken: tsToken.current,
         }),
       });
+      // Turnstile tokens are single-use; get a fresh one for the next send.
+      if (tsWidget.current) {
+        tsToken.current = "";
+        window.turnstile?.reset(tsWidget.current);
+      }
       if (!res.ok) throw new Error("request failed");
       setStatus("sent");
       form.reset();
@@ -179,6 +240,8 @@ export function Inquiry() {
           <div className="mt-5">
             <Field name="message" required label={t.inquiry.fields.message} placeholder={t.inquiry.fields.messagePh} as="textarea" icon={ChatIcon} />
           </div>
+
+          {TURNSTILE_SITE_KEY && <div ref={tsBox} className="mt-5 flex justify-center empty:hidden" />}
 
           <motion.button
             whileHover={status === "sending" ? undefined : { y: -2 }}
