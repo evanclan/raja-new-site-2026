@@ -257,9 +257,9 @@ const DICTIONARY = {
           slug: "forgood-ib-campaign",
           date: "Jun 25 2026",
           category: "Crowdfunding",
-          title: "From Kagoshima to the world — our IB crowdfunding campaign is live",
+          title: "Our IB crowdfunding campaign has ended — thank you for your support!",
           excerpt:
-            "A bid to become Kagoshima's first International Baccalaureate (IB) PYP certified school. Goal ¥5,000,000, now running on For Good.",
+            "Our crowdfunding campaign to become an International Baccalaureate certified school has closed. Heartfelt thanks to everyone who backed, shared and cheered us on.",
         },
         {
           slug: "ib-pyp-candidate",
@@ -338,10 +338,10 @@ const DICTIONARY = {
         category: "Crowdfunding",
         title: "From Kagoshima to the World — our IB certification campaign",
         excerpt:
-          "A crowdfunding campaign to become Kagoshima's first International Baccalaureate (IB) PYP certified school. Goal ¥5,000,000, live on For Good.",
+          "Our crowdfunding campaign to become an International Baccalaureate certified school has ended. Thank you to everyone who supported, shared and cheered us on.",
         hero: {
-          src: "/forgood/key-visual.png",
-          alt: "Campaign key visual — From Kagoshima to the World: a challenge to become an IB certified school.",
+          src: "/forgood/thank-you.jpg",
+          alt: "Thank you for your support! — RaJA Global Academy's notice that the IB crowdfunding campaign has ended.",
         },
         intro:
           "A bid to become Kagoshima's first International Baccalaureate (IB) PYP certified school. We're crowdfunding to bring a world-standard education to the children of this city.",
@@ -827,9 +827,9 @@ const DICTIONARY = {
           slug: "forgood-ib-campaign",
           date: "2026年6月25日",
           category: "クラウドファンディング",
-          title: "鹿児島から世界へ — IB 認定校へのクラウドファンディング始動",
+          title: "【終了のご報告】国際バカロレア認定校をめざすクラウドファンディング",
           excerpt:
-            "鹿児島初の国際バカロレア（IB）PYP 認定校をめざして。目標 ¥5,000,000 のクラウドファンディングを For Good で実施中です。",
+            "クラウドファンディングは終了いたしました。ご支援くださった皆さま、情報のシェアや応援してくださった皆さまに心より感謝申し上げます。",
         },
         {
           slug: "ib-pyp-candidate",
@@ -907,10 +907,10 @@ const DICTIONARY = {
         category: "クラウドファンディング",
         title: "鹿児島から世界へ — 国際バカロレア認定校への挑戦",
         excerpt:
-          "鹿児島初の国際バカロレア（IB）PYP 認定校をめざすクラウドファンディング。目標 ¥5,000,000、For Good で実施中です。",
+          "国際バカロレア認定校をめざすクラウドファンディングは終了いたしました。ご支援・応援くださった皆さまに心より感謝申し上げます。",
         hero: {
-          src: "/forgood/key-visual.png",
-          alt: "キービジュアル — 鹿児島から世界へ！ 国際バカロレア認定校への挑戦。",
+          src: "/forgood/thank-you.jpg",
+          alt: "Thank you for your support! — 国際バカロレア認定校をめざすクラウドファンディング終了のお知らせ。",
         },
         intro:
           "鹿児島初となる国際バカロレア（IB）PYP 認定校へ。世界基準の教育をこの街の子どもたちに届けるため、クラウドファンディングを実施しています。",

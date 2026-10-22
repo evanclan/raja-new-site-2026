@@ -5,7 +5,6 @@ import "./globals.css";
 import { SmoothScrollProvider } from "@/components/SmoothScrollProvider";
 import { RoutePreloader } from "@/components/RoutePreloader";
 import { Nav } from "@/components/Nav";
-import { CampaignBadge } from "@/components/CampaignBadge";
 import { LoadingProvider } from "@/components/LoadingProvider";
 import { LanguageProvider } from "@/lib/i18n";
 
@@ -52,7 +51,6 @@ export default function RootLayout({
             <SmoothScrollProvider>
               <Nav />
               <main>{children}</main>
-              <CampaignBadge />
             </SmoothScrollProvider>
           </LoadingProvider>
         </LanguageProvider>

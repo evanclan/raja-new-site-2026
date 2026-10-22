@@ -32,6 +32,7 @@ export const ARTICLE_META = {
   category: { ja: "クラウドファンディング", en: "Crowdfunding" },
   date: { ja: "2026年6月25日", en: "June 25, 2026" },
   publishedLabel: { ja: "公開日", en: "Published" },
+  updated: { ja: "更新日 2026年10月22日", en: "Updated October 22, 2026" },
   hero: {
     src: "/forgood/hero-classroom-group.png",
     alt: {
@@ -69,16 +70,41 @@ export const GALLERY: ReadonlyArray<GalleryShot> = [
 ];
 
 export const HERO = {
-  status: { ja: "公開前", en: "Pre-launch" },
-  kicker: { ja: "クラウドファンディング実施中", en: "Crowdfunding campaign" },
+  status: { ja: "終了", en: "Campaign ended" },
+  kicker: { ja: "クラウドファンディング終了", en: "Crowdfunding campaign · ended" },
   title: { ja: "鹿児島から、世界へ。", en: "From Kagoshima, to the world." },
   subtitle: {
     ja: "ラジャグローバルアカデミー「国際バカロレア」認定校への挑戦",
     en: "RaJA Global Academy's challenge to become an International Baccalaureate certified school",
   },
   lead: {
-    ja: "鹿児島初となる国際バカロレア（IB）PYP認定校へ。世界基準の教育を、この街の子どもたちに。未来の選択肢を広げるこの挑戦を、あなたの力で支えてください。",
-    en: "A bid to become Kagoshima's first International Baccalaureate (IB) PYP certified school — bringing a world-standard education to the children of this city. Help us widen what their future can hold.",
+    ja: "鹿児島初となる国際バカロレア（IB）PYP認定校へ。世界基準の教育を、この街の子どもたちに。未来の選択肢を広げるこの挑戦を、たくさんの皆さまに支えていただきました。",
+    en: "A bid to become Kagoshima's first International Baccalaureate (IB) PYP certified school — bringing a world-standard education to the children of this city. So many of you stood behind this challenge.",
+  },
+} as const;
+
+// End-of-campaign announcement. The image is the academy's official
+// thank-you notice; the body mirrors its wording.
+export const THANKS = {
+  label: { ja: "Thank you for your support!", en: "Thank you for your support!" },
+  title: {
+    ja: "クラウドファンディングは終了いたしました",
+    en: "Our crowdfunding campaign has ended",
+  },
+  body: {
+    ja: "国際バカロレア認定校を目指すクラウドファンディングは終了いたしました。ご支援くださった皆さま、情報のシェアや応援してくださった皆さまに心より感謝申し上げます。",
+    en: "Our crowdfunding campaign to become an International Baccalaureate certified school has come to a close. To everyone who backed the project, shared it and cheered us on — thank you, from the bottom of our hearts.",
+  },
+  next: {
+    ja: "いただいた応援を力に、国際バカロレアPYP認定校をめざして歩みを続けてまいります。リターンは2026年11月より順次お届けします。",
+    en: "With your encouragement behind us, we'll keep working toward IB PYP authorization. Rewards will be delivered from November 2026.",
+  },
+  image: {
+    src: "/forgood/thank-you.jpg",
+    alt: {
+      ja: "「国際バカロレア認定校を目指すクラウドファンディングは終了いたしました。ご支援くださった皆さま、情報のシェアや応援してくださった皆さまに心より感謝申し上げます」— ラジャグローバルアカデミーからのお礼の告知。",
+      en: "RaJA Global Academy's thank-you notice: the IB crowdfunding campaign has ended, with heartfelt thanks to everyone who supported, shared and cheered it on.",
+    },
   },
 } as const;
 

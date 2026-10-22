@@ -15,6 +15,7 @@ import {
   FOUNDER,
   REWARDS,
   GALLERY,
+  THANKS,
   type Bi,
 } from "./campaign";
 
@@ -81,7 +82,6 @@ function PointIcon({ name, color }: { name: string; color: string }) {
 
 export function ForGoodArticle() {
   const { locale: l } = useI18n();
-  const pct = Math.min(100, Math.round((PROJECT.raised / PROJECT.goal) * 100));
 
   return (
     <article className="bg-[var(--color-cream)] text-[var(--color-ink)]">
@@ -123,24 +123,42 @@ export function ForGoodArticle() {
               {pick(HERO.subtitle, l)}
             </p>
             <p className="mt-5 text-sm tracking-widest text-[var(--color-cream)]/70">
-              {pick(ARTICLE_META.publishedLabel, l)} · {pick(ARTICLE_META.date, l)} · raja-international.com
+              {pick(ARTICLE_META.publishedLabel, l)} · {pick(ARTICLE_META.date, l)} · {pick(ARTICLE_META.updated, l)}
             </p>
           </motion.div>
         </div>
       </header>
 
-      {/* ───────────── Official campaign key visual ───────────── */}
+      {/* ───────────── Campaign ended — thank-you announcement ───────────── */}
       <section className="shell -mt-[6%] relative z-10 max-md:-mt-[12%]">
         <Reveal>
-          <div className="overflow-hidden rounded-3xl shadow-[0_40px_90px_-40px_rgba(8,10,40,0.55)] ring-1 ring-black/5">
-            <Image
-              src={ARTICLE_META.keyVisual.src}
-              alt={pick(ARTICLE_META.keyVisual.alt, l)}
-              width={1600}
-              height={840}
-              sizes="(max-width: 1280px) 100vw, 1100px"
-              className="h-auto w-full"
-            />
+          <div className="grid overflow-hidden rounded-3xl bg-white shadow-[0_40px_90px_-40px_rgba(8,10,40,0.55)] ring-1 ring-black/5 md:grid-cols-12">
+            <div className="md:col-span-5" style={{ background: "#1b2a5c" }}>
+              <Image
+                src={THANKS.image.src}
+                alt={pick(THANKS.image.alt, l)}
+                width={1116}
+                height={1467}
+                sizes="(max-width: 768px) 100vw, 480px"
+                className="h-auto w-full"
+              />
+            </div>
+            <div className="flex flex-col justify-center p-7 md:col-span-7 md:p-12">
+              <span
+                className="inline-flex items-center gap-2 self-start rounded-full px-3 py-1 text-xs font-semibold text-[var(--color-cream)]"
+                style={{ background: "var(--color-berry)" }}
+              >
+                {pick(THANKS.label, l)}
+              </span>
+              <h2 className="font-display mt-5 text-display-3 leading-snug">{pick(THANKS.title, l)}</h2>
+              <p className="mt-5 text-lg leading-relaxed font-medium">{pick(THANKS.body, l)}</p>
+              <p className="mt-4 text-base leading-relaxed" style={{ opacity: 0.72 }}>
+                {pick(THANKS.next, l)}
+              </p>
+              <p className="mt-5 text-sm leading-relaxed" style={{ opacity: 0.5 }}>
+                {sub(THANKS.body, l)}
+              </p>
+            </div>
           </div>
         </Reveal>
       </section>
@@ -205,44 +223,28 @@ export function ForGoodArticle() {
             <Reveal delay={0.1}>
               <div className="md:sticky md:top-28">
                 <div className="rounded-3xl bg-white p-7 shadow-[0_30px_70px_-30px_rgba(8,10,40,0.4)] ring-1 ring-black/5">
-                  <div className="flex items-end justify-between gap-3">
-                    <div>
-                      <p className="text-xs uppercase tracking-[0.2em]" style={{ opacity: 0.55 }}>
-                        {l === "ja" ? "現在の支援総額" : "Raised so far"}
-                      </p>
-                      <p className="font-display mt-1 text-display-3 leading-none">{yen(PROJECT.raised)}</p>
-                    </div>
+                  <div className="flex items-start justify-between gap-3">
+                    <p className="font-display text-display-3 leading-tight">
+                      {l === "ja" ? "ご支援ありがとうございました" : "Thank you for your support"}
+                    </p>
                     <span
-                      className="rounded-full px-3 py-1 text-xs font-semibold"
+                      className="shrink-0 rounded-full px-3 py-1 text-xs font-semibold"
                       style={{ background: "color-mix(in srgb, var(--color-peach) 20%, transparent)", color: "var(--color-ink)" }}
                     >
                       {pick(HERO.status, l)}
                     </span>
                   </div>
-
-                  {/* Progress bar */}
-                  <div className="mt-5 h-3 w-full overflow-hidden rounded-full bg-black/[0.06]">
-                    <motion.div
-                      initial={{ width: 0 }}
-                      whileInView={{ width: `${Math.max(pct, 2)}%` }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 1.1, ease: EASE, delay: 0.3 }}
-                      className="h-full rounded-full"
-                      style={{ background: "linear-gradient(90deg, var(--color-sky), var(--color-sun))" }}
-                    />
-                  </div>
-                  <div className="mt-2 flex items-center justify-between text-sm">
-                    <span style={{ opacity: 0.7 }}>
-                      {l === "ja" ? "目標 " : "of "} <strong className="font-display">{yen(PROJECT.goal)}</strong>
-                    </span>
-                    <span className="font-display">{pct}%</span>
-                  </div>
+                  <p className="mt-4 text-sm leading-relaxed" style={{ opacity: 0.7 }}>
+                    {l === "ja"
+                      ? "本プロジェクトの支援受付は終了しました。"
+                      : "This project is no longer accepting support."}
+                  </p>
 
                   {/* Stats row */}
                   <div className="mt-6 grid grid-cols-2 gap-3 text-center">
                     <div className="rounded-2xl bg-[var(--color-cream)] py-3">
-                      <p className="font-display text-2xl leading-none">{PROJECT.supporters}</p>
-                      <p className="mt-1 text-xs" style={{ opacity: 0.6 }}>{l === "ja" ? "支援者" : "Supporters"}</p>
+                      <p className="font-display text-2xl leading-none">{yen(PROJECT.goal)}</p>
+                      <p className="mt-1 text-xs" style={{ opacity: 0.6 }}>{l === "ja" ? "目標金額" : "Goal"}</p>
                     </div>
                     <div className="rounded-2xl bg-[var(--color-cream)] py-3">
                       <p className="font-display text-2xl leading-none">2026.6.25</p>
@@ -250,21 +252,16 @@ export function ForGoodArticle() {
                     </div>
                   </div>
 
-                  {/* CTA */}
                   <a
                     href={PROJECT.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group mt-6 flex w-full items-center justify-center gap-2 rounded-full px-6 py-4 font-display text-base text-[var(--color-ink)] shadow-[0_14px_30px_-12px_rgba(8,10,40,0.5)] transition-transform duration-300 hover:-translate-y-0.5"
-                    style={{ background: "var(--color-sun)" }}
+                    className="mt-6 flex w-full items-center justify-center gap-2 rounded-full px-6 py-3.5 text-sm font-medium ring-1 ring-black/10 transition-colors hover:bg-black/[0.04]"
                   >
-                    {l === "ja" ? "For Good で支援する" : "Support on For Good"}
-                    <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+                    {l === "ja" ? "For Good プロジェクトページ ↗" : "For Good project page ↗"}
                   </a>
                   <p className="mt-3 text-center text-xs leading-relaxed" style={{ opacity: 0.55 }}>
                     {pick(PROJECT.platform, l)}
-                    <br />
-                    {pick(PROJECT.feeNote, l)}
                   </p>
                 </div>
               </div>
@@ -399,7 +396,7 @@ export function ForGoodArticle() {
             <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
               <div>
                 <p className="text-xs uppercase tracking-[0.25em]" style={{ opacity: 0.55 }}>
-                  {l === "ja" ? "リターン一覧" : "Reward tiers"}
+                  {l === "ja" ? "リターン一覧（受付終了）" : "Reward tiers (closed)"}
                 </p>
                 <h2 className="font-display mt-3 text-display-2">{l === "ja" ? "あなたの応援が、未来をつくる" : "Your support builds the future"}</h2>
               </div>
@@ -446,41 +443,10 @@ export function ForGoodArticle() {
 
                   <p className="mt-4 text-sm leading-relaxed" style={{ opacity: 0.62 }}>{pick(r.blurb, l)}</p>
 
-                  <a
-                    href={PROJECT.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group mt-6 inline-flex items-center gap-1.5 self-start rounded-full px-5 py-2.5 text-sm font-medium text-[var(--color-ink)] transition-transform duration-300 hover:-translate-y-0.5"
-                    style={{ background: r.featured ? "var(--color-sun)" : "color-mix(in srgb, var(--color-sky) 24%, transparent)" }}
-                  >
-                    {l === "ja" ? "このリターンで支援" : "Back this tier"}
-                    <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
-                  </a>
                 </div>
               </Reveal>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* ──────────────────── BARCODE ──────────────────── */}
-      <section className="py-band">
-        <div className="shell-tight">
-          <Reveal className="flex flex-col items-center text-center">
-            <p className="text-xs uppercase tracking-[0.25em]" style={{ opacity: 0.55 }}>
-              {l === "ja" ? "支援はこちらから" : "Scan to support"}
-            </p>
-            <div className="mt-6 overflow-hidden rounded-3xl bg-white p-4 ring-1 ring-black/5 shadow-[0_30px_70px_-34px_rgba(8,10,40,0.5)]">
-              <Image
-                src="/forgood/barcode.png"
-                alt={l === "ja" ? "For Good キャンペーンのバーコード" : "For Good campaign barcode"}
-                width={3508}
-                height={2481}
-                sizes="(max-width: 768px) 88vw, 640px"
-                className="h-auto w-full max-w-2xl rounded-2xl"
-              />
-            </div>
-          </Reveal>
         </div>
       </section>
 
@@ -493,23 +459,13 @@ export function ForGoodArticle() {
             </h2>
             <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed" style={{ opacity: 0.78 }}>
               {l === "ja"
-                ? "子どもたちが世界基準の教育を受け、未来の選択肢を広げる——その第一歩を、あなたと一緒に。"
-                : "Giving children a world-standard education and a wider future — let's take the first step together."}
+                ? "子どもたちが世界基準の教育を受け、未来の選択肢を広げる——皆さまからいただいた応援を胸に、これからも挑戦を続けてまいります。本当にありがとうございました。"
+                : "A world-standard education and a wider future for our children — carrying your encouragement with us, we'll keep pursuing this challenge. Thank you, truly."}
             </p>
-            <a
-              href={PROJECT.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group mt-8 inline-flex items-center gap-2 rounded-full px-8 py-4 font-display text-base text-[var(--color-ink)] shadow-[0_18px_40px_-16px_rgba(8,10,40,0.5)] transition-transform duration-300 hover:-translate-y-0.5"
-              style={{ background: "var(--color-sun)" }}
-            >
-              {l === "ja" ? "For Good で支援する" : "Support on For Good"}
-              <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
-            </a>
             <p className="mt-6 text-xs leading-relaxed" style={{ opacity: 0.5 }}>
               {l === "ja"
-                ? "運営：For Good（株式会社ボーダレス・ジャパン）。支援者さまのシステム利用料（220円＋決済手数料5%）により、実行者が支援金を全額受け取れる仕組みです。"
-                : "Operated by For Good (Borderless Japan). A supporter fee (¥220 + 5%) lets the organizer receive 100% of the funds raised."}
+                ? "運営：For Good（株式会社ボーダレス・ジャパン）"
+                : "Operated by For Good (Borderless Japan)"}
               <br />
               {l === "ja" ? "出典：" : "Source: "}
               <a href={PROJECT.url} target="_blank" rel="noopener noreferrer" className="underline">

@@ -28,8 +28,8 @@ const ARTICLES = {
     title:
       "From Kagoshima to the World — RaJA Global Academy's IB crowdfunding campaign",
     description:
-      "Back RaJA Global Academy's For Good crowdfunding campaign — a bid to become Kagoshima's first International Baccalaureate (IB) PYP certified school. Goal ¥5,000,000.",
-    image: "/forgood/key-visual.png",
+      "RaJA Global Academy's For Good crowdfunding campaign to become an International Baccalaureate (IB) PYP certified school has ended — thank you to everyone who supported us.",
+    image: "/forgood/thank-you.jpg",
   },
 } as const;
 
