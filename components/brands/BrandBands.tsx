@@ -7,6 +7,7 @@ import { useSmoothScroll } from "../SmoothScrollProvider";
 import { useI18n, useT } from "@/lib/i18n";
 import { FAMILY, PHILOSOPHY, linkFor } from "@/lib/raja-world/family";
 import { PeekingOctopus } from "./PeekingOctopus";
+import { FamilyMap } from "./FamilyMap";
 
 // The seven brands as full-width colour bands, one per brand, logo and
 // pictures alternating sides down the page (after shin-ei-animation.jp's
@@ -51,12 +52,16 @@ type Band = {
   ink: string;
   /** primary button colours, from the brand's own palette */
   accent: [bg: string, fg: string];
+  /** the age map at the top: short name, age columns (0–5) and their label */
+  map: { name: string; span: [number, number]; label: string };
 };
 
 const COPY = {
   ja: {
     title: "RaJA ファミリー",
     lede: "0歳から留学まで。鹿児島で、こどもの成長に寄り添う7つの場所。",
+    ages: ["0〜2歳", "3〜5歳", "小1〜3", "小4〜6", "中高生", "大人"],
+    find: "お子さまの年齢から、ぴったりの場所へ。",
     section: "このページで見る",
     site: "公式サイト",
     t: { who: "対象", where: "場所", what: "特色", hours: "時間", teach: "講師", to: "留学先", status: "状況" },
@@ -64,6 +69,8 @@ const COPY = {
   en: {
     title: "The RaJA family",
     lede: "From age 0 to study abroad: seven places in Kagoshima that grow with your child.",
+    ages: ["0–2", "3–5", "G1–3", "G4–6", "Teens", "Adults"],
+    find: "Find the right place by your child's age.",
     section: "See it here",
     site: "Official site",
     t: { who: "Ages", where: "Where", what: "Known for", hours: "Hours", teach: "Teachers", to: "Destinations", status: "Status" },
@@ -83,6 +90,7 @@ export function BrandBands() {
   const bands: Band[] = [
     {
       key: "preschool",
+      map: { name: ja ? "保育園" : "Preschool", span: [0, 0], label: ja ? "0〜2歳" : "0–2" },
       to: "preschool",
       brand: "preschool",
       label: "RaJA INTERNATIONAL PRESCHOOL",
@@ -107,6 +115,7 @@ export function BrandBands() {
     },
     {
       key: "academy",
+      map: { name: ja ? "アカデミー" : "Academy", span: [1, 1], label: ja ? "3〜5歳" : "3–5" },
       to: "academy",
       brand: "academy",
       label: "RaJA GLOBAL ACADEMY",
@@ -130,6 +139,7 @@ export function BrandBands() {
     },
     {
       key: "clab",
+      map: { name: "C-Lab", span: [1, 3], label: ja ? "年少〜小6" : "Age 3 to G6" },
       to: "clab",
       brand: "clab",
       label: "C-LAB",
@@ -148,10 +158,11 @@ export function BrandBands() {
       ],
       bg: "linear-gradient(155deg, #ece1f3 0%, #e3f0dc 50%, #fae1ec 100%)",
       ink: "var(--color-ink)",
-      accent: ["#2f8a4e", "#ffffff"],
+      accent: ["#7357b8", "#ffffff"],
     },
     {
       key: "edu",
+      map: { name: "+Education", span: [1, 5], label: ja ? "年少〜大人（教室による）" : "Age 3 to adults, by lesson" },
       to: "clab",
       brand: "edu",
       label: "+EDUCATION",
@@ -175,6 +186,7 @@ export function BrandBands() {
     },
     {
       key: "english",
+      map: { name: "Let's Go English!", span: [1, 5], label: ja ? "幼児〜大人" : "Toddlers to adults" },
       to: "english",
       brand: "lge",
       label: ja ? "RaJA 英会話スクール" : "RaJA ENGLISH SCHOOL",
@@ -195,10 +207,11 @@ export function BrandBands() {
       ],
       bg: "linear-gradient(155deg, #ffd79a 0%, #fff1c7 45%, #bfe3cf 100%)",
       ink: "var(--color-ink)",
-      accent: ["#2f8a4e", "#ffffff"],
+      accent: ["#c4471a", "#ffffff"],
     },
     {
       key: "kaeru",
+      map: { name: ja ? "かえる留学" : "Kaeru Ryugaku", span: [4, 5], label: ja ? "中高生〜社会人" : "Teens to adults" },
       to: "study-abroad",
       brand: "kaeru",
       label: "KAERU RYUGAKU",
@@ -224,6 +237,7 @@ export function BrandBands() {
     },
     {
       key: "advance",
+      map: { name: "RaJA Advance", span: [3, 5], label: ja ? "小4〜・準備中" : "G4+ · coming soon" },
       label: "RaJA ADVANCE",
       name: "RaJA Advance",
       line: ja ? "小学4年生からの英会話。まもなく RaJA ファミリーの仲間に。" : "English conversation from grade 4. Joining the RaJA family soon.",
@@ -242,10 +256,29 @@ export function BrandBands() {
   return (
     <>
       <Section id="family" background="var(--color-cream)" compact noFade>
-        <div className="shell-tight py-[clamp(2.5rem,6vw,4.5rem)] text-center">
-          <h2 className="font-display text-[clamp(1.9rem,3.6vw,3rem)] font-semibold text-[var(--color-ink)]">{c.title}</h2>
-          <p className="mx-auto mt-3 max-w-2xl text-[clamp(0.95rem,1.2vw,1.1rem)] text-[var(--color-ink-soft)]">{c.lede}</p>
-          <p className="mt-1 text-sm text-[var(--color-ink-soft)]/80">{PHILOSOPHY[locale]}</p>
+        <div className="mx-auto grid max-w-[88rem] gap-[clamp(1.75rem,4vw,4rem)] px-[clamp(1.25rem,5vw,5rem)] py-[clamp(2.75rem,6vw,5rem)] md:grid-cols-[minmax(0,0.8fr)_minmax(0,1.7fr)] md:items-center">
+          <div>
+            <h2 className="whitespace-nowrap font-display text-[clamp(2.2rem,3.5vw,3.3rem)] font-semibold leading-[1.05] text-[var(--color-ink)]">{c.title}</h2>
+            <p className="mt-4 text-[clamp(1rem,1.3vw,1.2rem)] font-medium leading-relaxed text-[var(--color-ink)] [word-break:keep-all] [overflow-wrap:anywhere]">{c.lede}</p>
+            <p className="mt-4 flex items-center gap-3 text-[13px] text-[var(--color-ink-soft)]">
+              <span aria-hidden className="h-px w-8 bg-[var(--color-sun)]" />
+              {PHILOSOPHY[locale]}
+            </p>
+            <p className="mt-6 text-[13px] font-medium text-[var(--color-ink-soft)]">{c.find}</p>
+          </div>
+          <FamilyMap
+            ages={c.ages}
+            rows={bands.map((b, i) => ({
+              key: b.key,
+              n: i + 1,
+              name: b.map.name,
+              logo: b.logo,
+              span: b.map.span,
+              label: b.map.label,
+              color: b.accent,
+              soon: !b.to,
+            }))}
+          />
         </div>
       </Section>
 
