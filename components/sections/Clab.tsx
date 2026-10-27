@@ -10,7 +10,6 @@ import { Section } from "../Section";
 import { ClabBackdrop } from "../backdrops/SectionBackdrops";
 import { ClabCarat } from "../visuals/ClabCarat";
 import { useI18n, useT } from "@/lib/i18n";
-import { useSmoothScroll } from "../SmoothScrollProvider";
 import { useParallaxPx, remPx } from "@/lib/useViewportPx";
 import { SectionLogo } from "../SectionLogo";
 
@@ -37,7 +36,6 @@ export function Clab() {
   const t = useT();
   const { locale } = useI18n();
   const reduce = useReducedMotion();
-  const { scrollTo } = useSmoothScroll();
   const p = t.panels.clab;
 
   const rootRef = useRef<HTMLDivElement | null>(null);
@@ -231,7 +229,7 @@ export function Clab() {
             >
               {p.ages}
             </span>
-            <button type="button" onClick={() => scrollTo(p.href)} className="group inline-flex items-center gap-2 text-sm font-medium max-md:min-h-11" style={{ color: "var(--color-ink)" }}>
+            <a href={p.href} target="_blank" rel="noopener noreferrer" className="group inline-flex items-center gap-2 text-sm font-medium max-md:min-h-11" style={{ color: "var(--color-ink)" }}>
               <span
                 className="border-b pb-0.5 transition-colors group-hover:border-[var(--color-leaf)]"
                 style={{ borderColor: "color-mix(in srgb, var(--color-leaf) 55%, transparent)" }}
@@ -239,7 +237,7 @@ export function Clab() {
                 {p.cta}
               </span>
               <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
-            </button>
+            </a>
           </div>
         </div>
 

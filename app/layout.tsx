@@ -7,6 +7,7 @@ import { RoutePreloader } from "@/components/RoutePreloader";
 import { Nav } from "@/components/Nav";
 import { LoadingProvider } from "@/components/LoadingProvider";
 import { LanguageProvider } from "@/lib/i18n";
+import { SITE_URL } from "@/lib/seo/organization-jsonld";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -28,10 +29,24 @@ const notoJp = Noto_Sans_JP({
   display: "swap",
 });
 
+const TITLE = "RaJA International（株式会社RaJA）｜鹿児島 0歳から留学まで";
+const DESCRIPTION =
+  "空より広く、海より深く、太陽よりあたたかい。鹿児島の株式会社RaJAは、0〜2歳の保育園、3〜5歳のインターナショナルスクール RaJA Global Academy（C-Lab・+Education）、そしてかえる留学まで、子どもの成長に寄り添います。";
+
+// metadataBase lets each page declare its canonical as a path. Pages set
+// their own `alternates.canonical`; the layout sets none, so a page that
+// forgets can't inherit the homepage's.
 export const metadata: Metadata = {
-  title: "RaJA International — すべての子どもに世界への扉を",
-  description:
-    "RaJA International 留学プログラム、プリスクール、アカデミー、クリエイティブラボ、英語教室。あらゆる年齢のために。",
+  metadataBase: new URL(SITE_URL),
+  title: TITLE,
+  description: DESCRIPTION,
+  openGraph: {
+    title: TITLE,
+    description: DESCRIPTION,
+    siteName: "RaJA International",
+    locale: "ja_JP",
+    type: "website",
+  },
 };
 
 export default function RootLayout({
