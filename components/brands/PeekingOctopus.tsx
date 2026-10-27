@@ -1,3 +1,7 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+
 // A teaser octopus for RaJA Advance (not the company logo, which doesn't
 // exist yet): it hides below the band's bottom edge, peeks up to eye level,
 // rises with a tentacle hand on the edge and one curled tentacle waving
@@ -15,8 +19,19 @@ const BLUSH = "#F8C9D6";
 const SUCKER = "#F7CDDA";
 
 export function PeekingOctopus({ className = "" }: { className?: string }) {
+  // pause the loop while the band is off-screen
+  const ref = useRef<HTMLDivElement>(null);
+  const [seen, setSeen] = useState(false);
+  useEffect(() => {
+    const el = ref.current?.parentElement;
+    if (!el) return;
+    const io = new IntersectionObserver(([e]) => setSeen(e.isIntersecting));
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
   return (
-    <div className={`po-peek ${className}`} aria-hidden>
+    <div ref={ref} className={`po-peek ${seen ? "" : "po-paused"} ${className}`} aria-hidden>
       <style>{CSS}</style>
       <svg viewBox="0 0 200 200" className="block h-full w-full overflow-visible">
         <g className="po-tilt">
@@ -93,6 +108,7 @@ const CSS = `
 .po-tentacle{transform-origin:15% 100%;animation:po-wave 8s ease-in-out infinite}
 @keyframes po-wave{0%,40%{transform:translateY(40px) rotate(8deg)}48%{transform:translateY(0) rotate(-4deg)}54%{transform:rotate(7deg)}60%{transform:rotate(-5deg)}66%{transform:rotate(6deg)}72%{transform:rotate(0)}82%,100%{transform:translateY(40px) rotate(8deg)}}
 @keyframes po-hand{0%,40%{transform:translateY(30px)}46%,72%{transform:translateY(0) rotate(-3deg)}58%{transform:translateY(-2px) rotate(3deg)}80%,100%{transform:translateY(30px)}}
+.po-paused,.po-paused *{animation-play-state:paused!important}
 @media (prefers-reduced-motion:reduce){
   .po-peek,.po-peek *{animation:none!important}
   .po-peek{transform:translateY(4%)}

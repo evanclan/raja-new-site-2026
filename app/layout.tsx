@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Fredoka, Inter, Noto_Sans_JP } from "next/font/google";
+import { Fredoka, Inter } from "next/font/google";
 import "./globals.css";
 
 import { SmoothScrollProvider } from "@/components/SmoothScrollProvider";
@@ -18,16 +18,9 @@ const inter = Inter({
 const fredoka = Fredoka({
   variable: "--font-fredoka",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
   display: "swap",
 });
 
-const notoJp = Noto_Sans_JP({
-  variable: "--font-noto-jp",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  display: "swap",
-});
 
 const TITLE = "RaJA International（株式会社RaJA）｜鹿児島 0歳から留学まで";
 const DESCRIPTION =
@@ -57,7 +50,7 @@ export default function RootLayout({
   return (
     <html
       lang="ja"
-      className={`${inter.variable} ${fredoka.variable} ${notoJp.variable} h-full`}
+      className={`${inter.variable} ${fredoka.variable} h-full`}
     >
       <body className="min-h-full bg-[var(--color-cream)] text-[var(--color-ink)]">
         <LanguageProvider defaultLocale="ja">

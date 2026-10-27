@@ -16,6 +16,22 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 export function PinnedHero({ children }: { children: ReactNode }) {
   const ref = useRef<HTMLDivElement>(null);
   const [geo, setGeo] = useState({ top: 0, height: 0 });
+  const [covered, setCovered] = useState(false);
+
+  // Once the sheet fully covers the hero, stop painting it: its blurred glow
+  // and badge shadows otherwise keep costing frames on phones while unseen.
+  useEffect(() => {
+    const sheet = document.querySelector("[data-over-hero]");
+    if (!sheet) return;
+    const io = new IntersectionObserver(([e]) => setCovered(e.boundingClientRect.top <= 0), { threshold: [0, 1] });
+    io.observe(sheet);
+    const onScroll = () => setCovered(sheet.getBoundingClientRect().top <= 0);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      io.disconnect();
+      window.removeEventListener("scroll", onScroll);
+    };
+  }, []);
 
   useEffect(() => {
     document.getElementById("hero")?.removeAttribute("data-snap-section");
@@ -38,7 +54,7 @@ export function PinnedHero({ children }: { children: ReactNode }) {
   return (
     <>
       <div data-snap-section aria-hidden className="pointer-events-none absolute left-0 top-0 w-px" style={{ height: geo.height }} />
-      <div ref={ref} className="sticky z-0" style={{ top: geo.top }}>
+      <div ref={ref} className="sticky z-0" style={{ top: geo.top, visibility: covered ? "hidden" : undefined }}>
         {children}
       </div>
     </>
@@ -48,7 +64,7 @@ export function PinnedHero({ children }: { children: ReactNode }) {
 /** The sheet that slides over the pinned hero: a lifted top edge. */
 export function OverHero({ children }: { children: ReactNode }) {
   return (
-    <div className="relative z-10 overflow-hidden rounded-t-[clamp(20px,3vw,36px)] shadow-[0_-18px_50px_rgba(10,12,30,0.35)]">
+    <div data-over-hero className="relative z-10 overflow-hidden rounded-t-[clamp(20px,3vw,36px)] shadow-[0_-18px_50px_rgba(10,12,30,0.35)]">
       {children}
     </div>
   );
