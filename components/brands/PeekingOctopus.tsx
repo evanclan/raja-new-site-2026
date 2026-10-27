@@ -1,7 +1,8 @@
 // A teaser octopus for RaJA Advance (not the company logo, which doesn't
 // exist yet): it hides below the band's bottom edge, peeks up to eye level,
-// rises with two tentacle hands gripping the edge, looks left and right with
-// a curious tilt, blinks, then ducks back down. One 8s loop, transform and
+// rises with a tentacle hand on the edge and one curled tentacle waving
+// beside its head (so it reads as an octopus at a glance), looks left and
+// right with a curious tilt, blinks, then ducks back down. One 8s loop, transform and
 // opacity only; frozen in the full-peek pose under prefers-reduced-motion.
 // The parent must clip (overflow: hidden) at the edge it peeks over.
 
@@ -11,6 +12,7 @@ const SPOT = "#F2A9C0";
 const EYE = "#FFFDF6";
 const INK = "#20233A";
 const BLUSH = "#F8C9D6";
+const SUCKER = "#F7CDDA";
 
 export function PeekingOctopus({ className = "" }: { className?: string }) {
   return (
@@ -49,9 +51,22 @@ export function PeekingOctopus({ className = "" }: { className?: string }) {
           <path fill={BODY} d="M18,206 C14,186 18,170 30,166 C42,162 50,170 46,178 C43,184 36,183 35,178 C34,174 30,176 30,182 C30,192 34,200 38,206 Z" />
           <path fill={SPOT} d="M27,190 c2,-1 4,0 4,2 c0,2 -3,3 -4,1 c-1,-1 -1,-2 0,-3 Z" />
         </g>
-        <g className="po-hand po-hand-r">
-          <path fill={BODY} d="M182,206 C186,186 182,170 170,166 C158,162 150,170 154,178 C157,184 164,183 165,178 C166,174 170,176 170,182 C170,192 166,200 162,206 Z" />
-          <path fill={SPOT} d="M171,190 c2,-1 4,0 4,2 c0,2 -3,3 -4,1 c-1,-1 -1,-2 0,-3 Z" />
+        {/* one real tentacle: rises beside the head, suckers showing, tip curled */}
+        <g className="po-tentacle">
+          <g fill="none" stroke={BODY} strokeLinecap="round">
+            <path strokeWidth="21" d="M162,212 C164,190 170,177 181,166" />
+            <path strokeWidth="16" d="M181,166 C193,154 201,146 203,131" />
+            <path strokeWidth="11" d="M203,131 C205,117 195,108 186,111 C178,114 179,125 187,125" />
+          </g>
+          {/* suction cups along the inner curve, shrinking toward the tip */}
+          <g fill={SUCKER}>
+            <ellipse cx="166" cy="192" rx="3.6" ry="3" />
+            <ellipse cx="172" cy="179" rx="3.3" ry="2.8" />
+            <ellipse cx="181" cy="168" rx="3" ry="2.5" />
+            <ellipse cx="190" cy="159" rx="2.6" ry="2.2" />
+            <ellipse cx="197" cy="148" rx="2.2" ry="1.9" />
+            <ellipse cx="200" cy="137" rx="1.8" ry="1.6" />
+          </g>
         </g>
       </svg>
     </div>
@@ -75,11 +90,12 @@ const CSS = `
 .po-eye{transform-origin:50% 55%;animation:po-blink 8s infinite}
 @keyframes po-blink{0%,66%,69.5%,100%{transform:scaleY(1)}67.6%{transform:scaleY(.1)}}
 .po-hand{transform-origin:50% 100%;animation:po-hand 8s ease-in-out infinite}
-.po-hand-r{animation-delay:-.35s}
+.po-tentacle{transform-origin:15% 100%;animation:po-wave 8s ease-in-out infinite}
+@keyframes po-wave{0%,40%{transform:translateY(40px) rotate(8deg)}48%{transform:translateY(0) rotate(-4deg)}54%{transform:rotate(7deg)}60%{transform:rotate(-5deg)}66%{transform:rotate(6deg)}72%{transform:rotate(0)}82%,100%{transform:translateY(40px) rotate(8deg)}}
 @keyframes po-hand{0%,40%{transform:translateY(30px)}46%,72%{transform:translateY(0) rotate(-3deg)}58%{transform:translateY(-2px) rotate(3deg)}80%,100%{transform:translateY(30px)}}
 @media (prefers-reduced-motion:reduce){
   .po-peek,.po-peek *{animation:none!important}
   .po-peek{transform:translateY(4%)}
-  .po-hand{transform:none}
+  .po-hand,.po-tentacle{transform:none}
 }
 `;
