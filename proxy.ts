@@ -21,6 +21,7 @@ const NEW_ROUTES = [
   "/preview-clab",
   "/preview-english",
   "/preview-study-abroad",
+  "/preview-brands",
 ];
 
 // Old WordPress URL prefixes → closest section on the new single-page site.
