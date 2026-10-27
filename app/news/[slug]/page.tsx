@@ -64,7 +64,9 @@ export async function generateMetadata({
   return {
     title: `${meta.title} — RaJA International`,
     description: meta.description,
+    alternates: { canonical: `/news/${slug}` },
     openGraph: {
+      url: `/news/${slug}`,
       title: meta.title,
       description: meta.description,
       images: [meta.image],

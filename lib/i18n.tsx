@@ -12,15 +12,31 @@ import {
 export type Locale = "en" | "ja";
 
 // ---------------------------------------------------------------
+// Family URLs — where the hub sends people.
+// rga-ce.com is still the old Jimdo site, so C-Lab, +Education, the
+// company profile and careers use its live Japanese slugs. The renewal
+// 301s each of them (→ /clab/, /edu/, /company/, /staff/), so these keep
+// working after the switch; shorten them, and point careers at /recruit/,
+// once the renewal is live.
+// ---------------------------------------------------------------
+const URLS = {
+  kaeru: "https://www.raja-r.com/",
+  clab: "https://www.rga-ce.com/c-lab-%E3%81%88%E3%81%84%E3%81%94%E5%AD%A6%E7%AB%A5/",
+  edu: "https://www.rga-ce.com/edu-%E5%90%84%E7%A8%AE%E7%BF%92%E3%81%84%E4%BA%8B/",
+  company: "https://www.rga-ce.com/about/",
+  careers: "https://www.rga-ce.com/%E3%82%B9%E3%82%BF%E3%83%83%E3%83%95%E7%B4%B9%E4%BB%8B/",
+} as const;
+
+// ---------------------------------------------------------------
 // Dictionary
 // Every piece of user-facing copy lives here, once per locale.
 // ---------------------------------------------------------------
 const DICTIONARY = {
   en: {
     meta: {
-      title: "RaJA International — Global Education for Every Child",
+      title: "RaJA International (RaJA Co., Ltd.) — Kagoshima, from age 0 to study abroad",
       description:
-        "RaJA International — study abroad programs, preschool, academy, creative lab, and English for every age.",
+        "Wider than the sky, deeper than the sea, warmer than the sun. RaJA Co., Ltd. in Kagoshima runs a preschool for ages 0–2, RaJA Global Academy for ages 3–5 with C-Lab and +Education, and Kaeru Ryugaku study abroad.",
     },
     nav: {
       home: "Home",
@@ -70,7 +86,7 @@ const DICTIONARY = {
     panels: {
       studyAbroad: {
         label: "Kaeru Ryugaku",
-        href: "https://www.kaeruryugaku.com",
+        href: URLS.kaeru,
         title: "See the world. Come home changed.",
         subtitle: "Study abroad, re-imagined.",
         ages: "Teens & Young Adults",
@@ -148,7 +164,7 @@ const DICTIONARY = {
       },
       clab: {
         label: "Clab + Education",
-        href: "#inquiry",
+        href: URLS.edu,
         kicker: "Carat — a gem's brilliance",
         // Authored line breaks so the headline keeps its "ma" and never
         // browser-wraps mid-phrase. Rendered as stacked lines, like academy.
@@ -379,11 +395,12 @@ const DICTIONARY = {
       sent: "Thank you — your inquiry has been sent. We'll be in touch soon.",
       errorMsg: "Sorry, something went wrong. Please try again or email us directly.",
       programs: [
-        "Kaeru Ryugaku",
-        "RaJA Academy",
-        "RaJA Preschool",
-        "Clab + Education",
-        "RaJA English",
+        "RaJA Preschool (ages 0–2)",
+        "RaJA Global Academy (ages 3–5)",
+        "C-Lab (English after-school)",
+        "+Education (English, coding & more)",
+        "Kaeru Ryugaku (study abroad)",
+        "Company / careers",
       ],
       info: {
         hq: {
@@ -554,36 +571,43 @@ const DICTIONARY = {
         "RaJA — Radiant Japan Association. World-standard education and childcare in Kagoshima, from infancy through study abroad.",
       brandsTitle: "Our family of brands",
       contactTitle: "Contact",
+      // Journey order: preschool → Academy (with C-Lab, +Education) → study abroad.
       brands: [
         {
-          name: "Kaeru Ryugaku",
-          desc: "Study abroad",
-          href: "https://www.kaeruryugaku.com",
-          color: "var(--color-sky)",
-        },
-        {
           name: "RaJA Preschool",
-          desc: "Ages 0–6",
+          desc: "Ages 0–2",
           href: "https://www.raja-preschool.com/",
           color: "var(--color-peach)",
         },
         {
           name: "RaJA Global Academy",
-          desc: "RGACE",
+          desc: "Ages 3–5",
           href: "https://www.rga-ce.com/",
           color: "var(--color-sun)",
         },
         {
-          name: "C-Lab + Education",
-          desc: "Skills lab",
-          href: "/#inquiry",
+          name: "C-Lab",
+          desc: "English after-school · age 3 to grade 6",
+          href: URLS.clab,
           color: "var(--color-leaf)",
         },
         {
-          name: "RaJA English",
-          desc: "Let's Go English",
+          name: "+Education",
+          desc: "Lessons",
+          href: URLS.edu,
+          color: "var(--color-leaf)",
+        },
+        {
+          name: "Let's Go English!",
+          desc: "English school · part of +Education",
           href: "https://www.raja-english.com/",
           color: "var(--color-berry)",
+        },
+        {
+          name: "Kaeru Ryugaku",
+          desc: "Study abroad",
+          href: URLS.kaeru,
+          color: "var(--color-sky)",
         },
       ],
       address: "40-39 Korai-cho, Kagoshima City,\nKagoshima, JAPAN 890-0051",
@@ -594,18 +618,18 @@ const DICTIONARY = {
       mapHref:
         "https://www.google.com/maps/search/?api=1&query=40-39+Korai-cho+Kagoshima-shi+Kagoshima",
       about: "About",
-      aboutHref: "https://raja-international.com/home/about/",
+      aboutHref: URLS.company,
       recruit: "Recruit",
-      recruitHref: "https://raja-international.com/home/recruit/",
+      recruitHref: URLS.careers,
       backToTop: "Back to top",
       copyright: "© 2026 株式会社RaJA (RaJA Co., Ltd.) · All rights reserved.",
     },
   },
   ja: {
     meta: {
-      title: "RaJA International — すべての子どもに世界への扉を",
+      title: "RaJA International（株式会社RaJA）｜鹿児島 0歳から留学まで",
       description:
-        "RaJA International 留学プログラム、プリスクール、アカデミー、クリエイティブラボ、英語教室。あらゆる年齢のために。",
+        "空より広く、海より深く、太陽よりあたたかい。鹿児島の株式会社RaJAは、0〜2歳の保育園、3〜5歳のインターナショナルスクール RaJA Global Academy（C-Lab・+Education）、そしてかえる留学まで、子どもの成長に寄り添います。",
     },
     nav: {
       home: "ホーム",
@@ -653,7 +677,7 @@ const DICTIONARY = {
     panels: {
       studyAbroad: {
         label: "かえる留学",
-        href: "https://www.kaeruryugaku.com",
+        href: URLS.kaeru,
         title: "一歩踏み出した人から、\n新たな価値がうまれる。",
         subtitle: "わたしだけの「オーダーメイド留学」",
         ages: "ティーン ＆ 若者",
@@ -726,7 +750,7 @@ const DICTIONARY = {
       },
       clab: {
         label: "Clab ＋ 教育",
-        href: "#inquiry",
+        href: URLS.edu,
         kicker: "カラット — 宝石のかがやき",
         title: ["好奇心を、", "かがやきへ"],
         lede: "金融教育・SDGs・地理・世界。数々の習い事が、ひとつの場所で完結。飽くなき探究心を、たしかなスキルへ変えていきます。",
@@ -948,11 +972,12 @@ const DICTIONARY = {
       sent: "お問い合わせありがとうございます。担当者より追ってご連絡いたします。",
       errorMsg: "送信に失敗しました。お手数ですが再度お試しいただくか、直接メールをお送りください。",
       programs: [
-        "かえる留学",
         "Preschool（０～２歳）",
         "ACADEMY（３～５歳）",
-        "C-Lab＋習い事",
-        "英会話",
+        "C-Lab（えいご学童）",
+        "+Education（英会話・プログラミング等）",
+        "かえる留学",
+        "会社・採用について",
       ],
       info: {
         hq: {
@@ -1121,13 +1146,8 @@ const DICTIONARY = {
         "RaJA（Radiant Japan Association）。鹿児島から、乳幼児期から留学まで、世界基準の教育と保育を。",
       brandsTitle: "RaJA ファミリー",
       contactTitle: "お問い合わせ先",
+      // Journey order: preschool → Academy (with C-Lab, +Education) → study abroad.
       brands: [
-        {
-          name: "かえる留学",
-          desc: "全世代対応　留学サポート",
-          href: "https://www.kaeruryugaku.com",
-          color: "var(--color-sky)",
-        },
         {
           name: "Preschool",
           desc: "０～２歳",
@@ -1141,16 +1161,28 @@ const DICTIONARY = {
           color: "var(--color-sun)",
         },
         {
-          name: "C-Lab＋習い事",
-          desc: "",
-          href: "/#inquiry",
+          name: "C-Lab",
+          desc: "えいご学童（年少〜小6）",
+          href: URLS.clab,
           color: "var(--color-leaf)",
         },
         {
-          name: "英会話",
-          desc: "Let's go English",
+          name: "+Education",
+          desc: "習い事",
+          href: URLS.edu,
+          color: "var(--color-leaf)",
+        },
+        {
+          name: "Let's Go English!",
+          desc: "英会話（+Education）",
           href: "https://www.raja-english.com/",
           color: "var(--color-berry)",
+        },
+        {
+          name: "かえる留学",
+          desc: "全世代対応　留学サポート",
+          href: URLS.kaeru,
+          color: "var(--color-sky)",
         },
       ],
       address: "〒890-0051\n鹿児島県鹿児島市高麗町40-39",
@@ -1161,9 +1193,9 @@ const DICTIONARY = {
       mapHref:
         "https://www.google.com/maps/search/?api=1&query=40-39+Korai-cho+Kagoshima-shi+Kagoshima",
       about: "会社案内",
-      aboutHref: "https://raja-international.com/home/about/",
+      aboutHref: URLS.company,
       recruit: "採用情報",
-      recruitHref: "https://raja-international.com/home/recruit/",
+      recruitHref: URLS.careers,
       backToTop: "トップへ戻る",
       copyright: "© 2026 株式会社RaJA（RaJA Co., Ltd.）· All rights reserved.",
     },

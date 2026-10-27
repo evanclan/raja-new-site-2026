@@ -6,13 +6,14 @@ import { Section } from "../Section";
 import { useT, useI18n } from "@/lib/i18n";
 
 // Each program wears its own brand accent (order mirrors t.inquiry.programs:
-// Kaeru Ryugaku · Preschool · Academy · Clab · English).
+// Preschool · Academy · C-Lab · +Education · Kaeru Ryugaku · Company).
 const PROGRAM_COLORS = [
-  "var(--color-sky)",
   "var(--color-peach)",
   "var(--color-sun)",
   "var(--color-leaf)",
   "var(--color-berry)",
+  "var(--color-sky)",
+  "var(--color-cream)",
 ];
 
 const iconCls = "h-[18px] w-[18px]";
@@ -65,7 +66,7 @@ function loadTurnstile() {
 export function Inquiry() {
   const t = useT();
   const { locale } = useI18n();
-  const [programIdx, setProgramIdx] = useState(1);
+  const [programIdx, setProgramIdx] = useState(0);
   const [status, setStatus] = useState<Status>("idle");
   // Fill-time trap: bots submit instantly (or skip the form entirely).
   const mountedAt = useRef(0);
