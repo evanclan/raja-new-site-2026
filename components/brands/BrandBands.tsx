@@ -6,6 +6,7 @@ import { Section } from "../Section";
 import { useSmoothScroll } from "../SmoothScrollProvider";
 import { useI18n, useT } from "@/lib/i18n";
 import { FAMILY, PHILOSOPHY, linkFor } from "@/lib/raja-world/family";
+import { PeekingOctopus } from "./PeekingOctopus";
 
 // The seven brands as full-width colour bands, one per brand, logo and
 // pictures alternating sides down the page (after shin-ei-animation.jp's
@@ -370,7 +371,14 @@ export function BrandBands() {
                   );
                 })}
                 {b.tiles.length === 0 && (
-                  <p className="m-auto whitespace-nowrap py-6 font-display text-[clamp(2.2rem,4.5vw,4rem)] font-semibold text-[#E07A9A]/40">Coming soon</p>
+                  // no photos yet: the new company peeks up at its own sign
+                  <div className="relative h-full min-h-[200px] w-full md:min-h-[240px]">
+                    <PeekingOctopus className="absolute bottom-0 left-1/2 aspect-square w-[clamp(165px,20vw,280px)] -translate-x-1/2" />
+                    {/* the sign sits in front, so the octopus peeks from behind it */}
+                    <p className="absolute inset-x-0 top-[12%] whitespace-nowrap text-center font-display text-[clamp(2.2rem,4.5vw,4rem)] font-semibold text-[#E07A9A]/60">
+                      Coming soon
+                    </p>
+                  </div>
                 )}
               </div>
             </div>
