@@ -190,7 +190,7 @@ export function BrandBands() {
         { src: "/brands/lge-hug.webp", pos: "50% 40%" },
         { src: "/brands/lge-whiteboard.webp", pos: "50% 45%" },
         { src: "/brands/lge-writing.webp", pos: "45% 50%" },
-        { src: "/brands/lge-teachers.webp", pos: "50% 35%" },
+        { src: "/brands/lge-student-girl.webp", pos: "42% 12%" },
       ],
       bg: "linear-gradient(155deg, #ffd79a 0%, #fff1c7 45%, #bfe3cf 100%)",
       ink: "var(--color-ink)",
@@ -213,7 +213,7 @@ export function BrandBands() {
       // (raja-r.com's reviews, from kaeru-site-ayano)
       tiles: [
         { src: "/brands/kaeru-canada.webp", pos: "50% 40%" },
-        { src: "/brands/kaeru-australia.webp", pos: "50% 25%" },
+        { src: "/brands/kaeru-australia-girl.webp", pos: "36% 20%" },
         { src: "/brands/kaeru-uk.webp", pos: "40% 40%" },
         { src: "/brands/kaeru-philippines-flag.webp", pos: "18% 25%" },
       ],
