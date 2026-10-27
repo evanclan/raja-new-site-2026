@@ -10,7 +10,7 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: "*",
       allow: "/",
       // Internal preview routes + API shouldn't be indexed.
-      disallow: ["/api/", "/preview-clab", "/preview-english", "/preview-study-abroad", "/preview-brands"],
+      disallow: ["/api/", "/preview-clab", "/preview-english", "/preview-study-abroad"],
     },
     sitemap: `${BASE}/sitemap.xml`,
   };
