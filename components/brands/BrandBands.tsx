@@ -16,16 +16,18 @@ import { FAMILY, PHILOSOPHY, linkFor } from "@/lib/raja-world/family";
 // rga-ce.com, then two ways on: the section on this page, or the brand's
 // own site. Journey order: sky → sea → land.
 //
-// Pictures are never cropped: each keeps its own shape at a height of
-// min(px, vw). The vw factor is set per band so the whole row fits its half
-// of the band at any width (it scales down instead of being cut off).
+// The picture half is a full-bleed gallery strip: three or four real photos
+// in slanted tiles, edge to edge, with a diagonal edge facing the text and
+// a straight edge on the page side. Tiles crop a little at the slant.
 
-type Pic = {
+type Tile = {
   src: string;
-  w: number;
-  h: number;
-  /** transparent cut-out: stands on the band's bottom edge, no card */
+  /** object-position, to keep faces in frame */
+  pos?: string;
+  /** transparent cut-out: stands on the tile's floor over its backdrop */
   cut?: boolean;
+  /** what a cut-out stands in front of (image path); defaults to the band colour */
+  backdrop?: string;
 };
 
 type Spec = [term: string, detail: string];
@@ -43,11 +45,7 @@ type Band = {
   /** short tags under the spec table (e.g. +Education's lessons) */
   tags?: string[];
   logo?: { src: string; w: number; h: number };
-  pics: Pic[];
-  /** picture height: [px cap, vw on desktop, vw on phones] */
-  size: [number, number, number];
-  /** decorative backdrop behind the pictures (the section's own) */
-  backdrop?: string;
+  tiles: Tile[];
   bg: string;
   ink: string;
   /** primary button colours, from the brand's own palette */
@@ -95,11 +93,12 @@ export function BrandBands() {
         [L.what, ja ? "企業主導型保育／病児保育（下荒田に併設）" : "Company-led childcare · sick-child care at Shimoarata"],
       ],
       logo: { src: "/preschool/preschool_logoo.png", w: 1600, h: 1600 },
-      pics: [
-        { src: "/preschool/gallery/LINE_ALBUM_2026.04_260624_3.jpg", w: 1108, h: 1477 },
-        { src: "/preschool/gallery/LINE_ALBUM_2026.04_260624_6.jpg", w: 1477, h: 1108 },
+      tiles: [
+        { src: "/preschool/gallery/LINE_ALBUM_2026.04_260624_3.jpg", pos: "50% 35%" },
+        { src: "/preschool/gallery/LINE_ALBUM_2026.04_260624_7.jpg", pos: "50% 30%" },
+        { src: "/preschool/gallery/LINE_ALBUM_2026.04_260624_2.jpg", pos: "50% 40%" },
+        { src: "/preschool/gallery/LINE_ALBUM_2026.04_260624_5.jpg", pos: "50% 60%" },
       ],
-      size: [280, 17, 36],
       // the light top of the Preschool section's sky gradient, so ink text reads
       bg: "linear-gradient(180deg, #b8e8fa 0%, #7fd6f5 100%)",
       ink: "var(--color-ink)",
@@ -118,12 +117,12 @@ export function BrandBands() {
         [L.what, ja ? "国際バカロレア PYP 候補校／英検Jr. 全園児受験" : "IB PYP candidate school · every child sits Eiken Jr."],
       ],
       logo: { src: "/academy/newacademysectionlogo.png", w: 1565, h: 1250 },
-      pics: [
-        { src: "/academy/gallery/student-1.jpg", w: 900, h: 1600 },
-        { src: "/academy/academy-hero-main-last.png", w: 1062, h: 1600, cut: true },
-        { src: "/academy/gallery/student-3.jpg", w: 1280, h: 1280 },
+      tiles: [
+        { src: "/brands/academy-life05.webp", pos: "50% 30%" },
+        { src: "/academy/gallery/student-6.jpg", pos: "50% 35%" },
+        { src: "/brands/academy-life03.webp", pos: "50% 30%" },
+        { src: "/academy/gallery/student-5.jpg", pos: "50% 30%" },
       ],
-      size: [300, 16, 30],
       bg: "linear-gradient(160deg, #3c44a8 0%, #2e3192 50%, #191d5c 100%)",
       ink: "#ffffff",
       accent: ["#F5B83D", "#20233A"],
@@ -141,10 +140,11 @@ export function BrandBands() {
         [L.what, ja ? "Geography・金融教育・SDGs／こども家庭庁モデル事業 採択" : "Geography, money and SDGs · selected for a national model project"],
       ],
       logo: { src: "/clab/Clab Logo.png", w: 609, h: 453 },
-      // the C-Lab section's own staging: Shawn in front of its backdrop
-      pics: [{ src: "/clab/shawn-cutout.png", w: 956, h: 903, cut: true }],
-      size: [300, 19, 46],
-      backdrop: "/clab/Clab background.png",
+      // RGA's own C-Lab photo, then the C-Lab section's staging: Shawn in front of its backdrop
+      tiles: [
+        { src: "/brands/clab-wondercode.webp", pos: "50% 55%" },
+        { src: "/clab/shawn-cutout.png", cut: true, backdrop: "/clab/Clab background.png" },
+      ],
       bg: "linear-gradient(155deg, #ece1f3 0%, #e3f0dc 50%, #fae1ec 100%)",
       ink: "var(--color-ink)",
       accent: ["#2f8a4e", "#ffffff"],
@@ -163,12 +163,11 @@ export function BrandBands() {
       tags: ja
         ? ["英語でプログラミング", "学習塾", "小学校受験対策", "英会話", "ミュージック", "送迎付きスイミング", "RIT", "そろばん"]
         : ["Coding in English", "Tutoring", "Entrance prep", "English", "Music", "Swimming with transport", "RIT", "Abacus"],
-      pics: [
-        { src: "/clab/Piano.jpg", w: 813, h: 813 },
-        { src: "/clab/Swimming.jpg", w: 813, h: 813 },
-        { src: "/clab/RIT.jpg", w: 1392, h: 1236 },
+      tiles: [
+        { src: "/clab/Piano.jpg", pos: "50% 40%" },
+        { src: "/clab/Swimming.jpg", pos: "50% 50%" },
+        { src: "/clab/RIT.jpg", pos: "60% 50%" },
       ],
-      size: [240, 12, 25],
       bg: "linear-gradient(155deg, #e3f0dc 0%, #fae1ec 60%, #ece1f3 100%)",
       ink: "var(--color-ink)",
       accent: ["#c2447a", "#ffffff"],
@@ -186,12 +185,12 @@ export function BrandBands() {
         [L.what, ja ? "少人数制クラス／英検Jr. 公式会場／無料体験レッスン" : "Small classes · official Eiken Jr. venue · free trial lesson"],
       ],
       logo: { src: "/lets-go-english/letsgonewlogo.png", w: 750, h: 750 },
-      pics: [
-        { src: "/lets-go-english/chris.png", w: 1080, h: 1350, cut: true },
-        { src: "/lets-go-english/main-hero-image.avif", w: 600, h: 1000, cut: true },
-        { src: "/lets-go-english/erika.png", w: 1080, h: 1350, cut: true },
+      tiles: [
+        { src: "/brands/lets-go-english-class.webp", pos: "50% 40%" },
+        { src: "/lets-go-english/main-hero-image.avif", cut: true },
+        { src: "/lets-go-english/chris.png", cut: true },
+        { src: "/lets-go-english/erika.png", cut: true },
       ],
-      size: [300, 18, 36],
       bg: "linear-gradient(155deg, #ffd79a 0%, #fff1c7 45%, #bfe3cf 100%)",
       ink: "var(--color-ink)",
       accent: ["#2f8a4e", "#ffffff"],
@@ -209,12 +208,12 @@ export function BrandBands() {
         [L.to, ja ? "ニュージーランド・イギリス・カナダ・オーストラリア・フィリピン・マルタ ほか" : "New Zealand, UK, Canada, Australia, Philippines, Malta and more"],
       ],
       logo: { src: "/kaeruryugaku/home-assets/Logo.svg", w: 400, h: 400 },
-      pics: [
-        { src: "/kaeruryugaku/destinations/new-zealand.webp", w: 720, h: 977 },
-        { src: "/kaeruryugaku/destinations/canada.webp", w: 720, h: 977 },
-        { src: "/kaeruryugaku/destinations/malta.webp", w: 720, h: 977 },
+      tiles: [
+        { src: "/brands/kaeru-certificate.webp", pos: "50% 40%" },
+        { src: "/kaeruryugaku/destinations/new-zealand.webp" },
+        { src: "/kaeruryugaku/destinations/canada.webp" },
+        { src: "/kaeruryugaku/destinations/malta.webp" },
       ],
-      size: [280, 17, 34],
       bg: "linear-gradient(165deg, #ffffff 0%, #f4faf1 50%, #d5ecd8 100%)",
       ink: "var(--color-ink)",
       accent: ["#107F4B", "#ffffff"],
@@ -225,8 +224,7 @@ export function BrandBands() {
       name: "RaJA Advance",
       line: ja ? "新しい会社が、まもなく RaJA ファミリーの仲間に。" : "A new company is joining the RaJA family soon.",
       specs: [[L.status, ja ? "ただいま準備中" : "Coming soon"]],
-      pics: [],
-      size: [0, 0, 0],
+      tiles: [],
       bg: "linear-gradient(160deg, #fbe7ee 0%, #f8dce6 100%)",
       ink: "var(--color-ink)",
       accent: ["#E07A9A", "#ffffff"],
@@ -245,16 +243,11 @@ export function BrandBands() {
 
       {bands.map((b, i) => {
         const flip = i % 2 === 1;
-        const anyCut = b.pics.some((x) => x.cut);
         const fam = b.brand ? FAMILY.find((f) => f.id === b.brand) : undefined;
         const site = fam ? linkFor(fam) : null;
         const goSection = () => {
           if (b.to) scrollTo(`#${b.to}`);
         };
-        const sizeVars = {
-          "--pic-d": `min(${b.size[0]}px, ${b.size[1]}vw)`,
-          "--pic-p": `min(${b.size[0]}px, ${b.size[2]}vw)`,
-        } as CSSProperties;
 
         return (
           <Section key={b.key} id={`brand-${b.key}`} background={b.bg} compact noFade>
@@ -329,31 +322,48 @@ export function BrandBands() {
                 )}
               </div>
 
-              {/* picture half: every picture whole, cut-outs standing on the bottom edge */}
+              {/* picture half: a full-bleed strip of slanted photo tiles */}
               <div
                 aria-hidden
                 onClick={goSection}
-                className={`relative flex justify-center gap-[clamp(8px,1vw,14px)] overflow-hidden px-[var(--space-gutter)] pt-5 md:px-6 ${b.to ? "cursor-pointer" : ""} ${anyCut ? "items-end" : "items-center pb-5"} ${
-                  flip ? "md:ml-[clamp(0rem,4vw,4rem)]" : "md:mr-[clamp(0rem,4vw,4rem)]"
-                }`}
-                style={sizeVars}
+                className={`relative flex h-[clamp(200px,48vw,260px)] overflow-hidden md:h-auto ${b.to ? "cursor-pointer" : ""}`}
+                style={{ "--slant": "clamp(26px, 3.6vw, 54px)" } as CSSProperties}
               >
-                {b.backdrop && <Image src={b.backdrop} alt="" fill sizes="(max-width: 767px) 100vw, 50vw" className="object-cover opacity-90" />}
-                {b.pics.map((pic) => (
-                  <Image
-                    key={pic.src}
-                    src={pic.src}
-                    alt=""
-                    width={pic.w}
-                    height={pic.h}
-                    sizes="(max-width: 767px) 40vw, 18vw"
-                    className={`relative h-[var(--pic-p)] w-auto max-w-none shrink-0 transition-transform duration-500 ease-out group-hover:-translate-y-1 md:h-[var(--pic-d)] ${
-                      pic.cut ? "" : "rounded-2xl shadow-[0_6px_18px_rgba(20,25,60,0.18)]"
-                    } ${anyCut && !pic.cut ? "mb-6" : ""}`}
-                  />
-                ))}
-                {b.pics.length === 0 && (
-                  <p className="whitespace-nowrap py-6 font-display text-[clamp(2.2rem,4.5vw,4rem)] font-semibold text-[#E07A9A]/40 md:self-center">Coming soon</p>
+                {b.tiles.map((tile, k) => {
+                  const n = b.tiles.length;
+                  // inner edges slant; the page-side edge stays straight. On phones
+                  // the strip spans the full width, so both outer edges are straight.
+                  const leftD = flip ? k === 0 : false;
+                  const rightD = flip ? false : k === n - 1;
+                  const clip = (straightL: boolean, straightR: boolean) =>
+                    `polygon(${straightL ? "0 0" : "var(--slant) 0"}, 100% 0, ${straightR ? "100% 100%" : "calc(100% - var(--slant)) 100%"}, 0 100%)`;
+                  return (
+                    <div
+                      key={tile.src}
+                      className="relative min-w-0 flex-1 overflow-hidden [clip-path:var(--clip-m)] md:[clip-path:var(--clip-d)]"
+                      style={
+                        {
+                          "--clip-m": clip(k === 0, k === n - 1),
+                          "--clip-d": clip(leftD, rightD),
+                          marginLeft: k === 0 ? 0 : "calc(var(--slant) * -1 + 6px)",
+                          background: tile.cut && !tile.backdrop ? "color-mix(in srgb, #ffffff 35%, transparent)" : undefined,
+                        } as CSSProperties
+                      }
+                    >
+                      {tile.backdrop && <Image src={tile.backdrop} alt="" fill sizes="25vw" className="object-cover" />}
+                      <Image
+                        src={tile.src}
+                        alt=""
+                        fill
+                        sizes="(max-width: 767px) 40vw, 18vw"
+                        className={`transition-transform duration-700 ease-out group-hover:scale-[1.05] ${tile.cut ? "object-contain object-bottom pt-4" : "object-cover"}`}
+                        style={tile.pos ? { objectPosition: tile.pos } : undefined}
+                      />
+                    </div>
+                  );
+                })}
+                {b.tiles.length === 0 && (
+                  <p className="m-auto whitespace-nowrap py-6 font-display text-[clamp(2.2rem,4.5vw,4rem)] font-semibold text-[#E07A9A]/40">Coming soon</p>
                 )}
               </div>
             </div>
