@@ -102,13 +102,13 @@ export const FAMILY: readonly Brand[] = [
     url: 'https://www.raja-r.com/',
   },
   {
-    // Name and logo concept approved; audience and site are open decision 1.
-    // Sites must not show it until `url` is set.
+    // An eikaiwa (English conversation) for grade 4 and up, not launched yet:
+    // show it as "coming soon", never as a link. Its site is open decision 1.
     id: 'advance',
     element: 'octopus',
     name: { ja: 'RaJA Advance', en: 'RaJA Advance' },
-    desc: { ja: '新会社', en: 'New company' },
-    ages: { ja: '未定', en: 'To be decided' },
+    desc: { ja: '英会話（ただいま準備中）', en: 'English conversation (coming soon)' },
+    ages: { ja: '小学4年生以上', en: 'Grade 4 and up' },
     url: null,
   },
 ]
