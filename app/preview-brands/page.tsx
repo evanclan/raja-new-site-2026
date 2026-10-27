@@ -10,10 +10,11 @@ import { News } from "@/components/sections/News";
 import { Inquiry } from "@/components/sections/Inquiry";
 import { Footer } from "@/components/Footer";
 import { BrandBands } from "@/components/brands/BrandBands";
+import { OverHero, PinnedHero } from "@/components/brands/PinnedHero";
 
 // PROTOTYPE — the homepage exactly as it is, plus the seven brands as
 // colour bands right after the hero (after shin-ei-animation.jp's works
-// list). noindex, disallowed in robots.ts, allowed through proxy.ts.
+// list). The hero is pinned and the bands slide up over it. noindex, disallowed in robots.ts, allowed through proxy.ts.
 export const metadata: Metadata = {
   title: "RaJA ファミリー（プレビュー）— RaJA International",
   robots: { index: false, follow: false },
@@ -22,17 +23,24 @@ export const metadata: Metadata = {
 export default function PreviewBrandsPage() {
   return (
     <>
-      <Hero />
-      <BrandBands />
-      <StudyAbroad />
-      <Intro />
-      <Preschool />
-      <Academy />
-      <Clab />
-      <English />
-      <News />
-      <Inquiry />
-      <Footer />
+      {/* the hero stays put; the family bands slide up over it */}
+      <PinnedHero>
+        <Hero />
+      </PinnedHero>
+      <OverHero>
+        <BrandBands />
+      </OverHero>
+      <div className="relative z-10">
+        <StudyAbroad />
+        <Intro />
+        <Preschool />
+        <Academy />
+        <Clab />
+        <English />
+        <News />
+        <Inquiry />
+        <Footer />
+      </div>
     </>
   );
 }
