@@ -185,11 +185,12 @@ export function BrandBands() {
         [L.what, ja ? "少人数制クラス／英検Jr. 公式会場／無料体験レッスン" : "Small classes · official Eiken Jr. venue · free trial lesson"],
       ],
       logo: { src: "/lets-go-english/letsgonewlogo.png", w: 750, h: 750 },
+      // lesson photos from raja-english.com's own gallery
       tiles: [
-        { src: "/brands/lets-go-english-class.webp", pos: "50% 40%" },
-        { src: "/lets-go-english/main-hero-image.avif", cut: true },
-        { src: "/lets-go-english/chris.png", cut: true },
-        { src: "/lets-go-english/erika.png", cut: true },
+        { src: "/brands/lge-hug.webp", pos: "50% 40%" },
+        { src: "/brands/lge-whiteboard.webp", pos: "50% 45%" },
+        { src: "/brands/lge-writing.webp", pos: "45% 50%" },
+        { src: "/brands/lge-teachers.webp", pos: "50% 35%" },
       ],
       bg: "linear-gradient(155deg, #ffd79a 0%, #fff1c7 45%, #bfe3cf 100%)",
       ink: "var(--color-ink)",
@@ -208,11 +209,13 @@ export function BrandBands() {
         [L.to, ja ? "ニュージーランド・イギリス・カナダ・オーストラリア・フィリピン・マルタ ほか" : "New Zealand, UK, Canada, Australia, Philippines, Malta and more"],
       ],
       logo: { src: "/kaeruryugaku/home-assets/Logo.svg", w: 400, h: 400 },
+      // real students with their destination's flag at the かえる留学 office
+      // (raja-r.com's reviews, from kaeru-site-ayano)
       tiles: [
-        { src: "/brands/kaeru-certificate.webp", pos: "50% 40%" },
-        { src: "/kaeruryugaku/destinations/new-zealand.webp" },
-        { src: "/kaeruryugaku/destinations/canada.webp" },
-        { src: "/kaeruryugaku/destinations/malta.webp" },
+        { src: "/brands/kaeru-canada.webp", pos: "50% 40%" },
+        { src: "/brands/kaeru-australia.webp", pos: "50% 25%" },
+        { src: "/brands/kaeru-uk.webp", pos: "40% 40%" },
+        { src: "/brands/kaeru-philippines-flag.webp", pos: "18% 25%" },
       ],
       bg: "linear-gradient(165deg, #ffffff 0%, #f4faf1 50%, #d5ecd8 100%)",
       ink: "var(--color-ink)",
