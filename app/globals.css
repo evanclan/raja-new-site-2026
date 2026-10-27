@@ -4,6 +4,12 @@
    RaJA International — Design Tokens
    ============================================================ */
 :root {
+  /* Japanese text uses the device's own Japanese font (Hiragino on Apple,
+     Noto Sans CJK on Android, Yu Gothic / Meiryo on Windows). A Noto Sans JP
+     web font cost ~880 KB in dozens of requests on every first visit. The
+     name is kept so every existing var(--font-noto-jp) keeps working. */
+  --font-noto-jp: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Noto Sans CJK JP", "Yu Gothic", YuGothic, Meiryo, sans-serif;
+
   /* Brand palette — warm, child-friendly, globally inviting */
   --color-cream: #fff7e6;
   --color-ink: #20233a;
