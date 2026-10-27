@@ -256,15 +256,15 @@ export function BrandBands() {
   return (
     <>
       <Section id="family" background="var(--color-cream)" compact noFade>
-        <div className="mx-auto grid max-w-[88rem] gap-[clamp(1.75rem,4vw,4rem)] px-[clamp(1.25rem,5vw,5rem)] py-[clamp(2.75rem,6vw,5rem)] md:grid-cols-[minmax(0,0.8fr)_minmax(0,1.7fr)] md:items-center">
+        <div className="mx-auto grid max-w-[88rem] gap-[clamp(1.25rem,3vw,3.5rem)] px-[clamp(1.25rem,5vw,5rem)] py-[clamp(1.75rem,3.4vw,3rem)] md:grid-cols-[minmax(0,0.8fr)_minmax(0,1.7fr)] md:items-center">
           <div>
             <h2 className="whitespace-nowrap font-display text-[clamp(2.2rem,3.5vw,3.3rem)] font-semibold leading-[1.05] text-[var(--color-ink)]">{c.title}</h2>
-            <p className="mt-4 text-[clamp(1rem,1.3vw,1.2rem)] font-medium leading-relaxed text-[var(--color-ink)] [word-break:keep-all] [overflow-wrap:anywhere]">{c.lede}</p>
-            <p className="mt-4 flex items-center gap-3 text-[13px] text-[var(--color-ink-soft)]">
+            <p className="mt-2.5 text-[clamp(0.95rem,1.2vw,1.1rem)] font-medium leading-snug text-[var(--color-ink)] [word-break:keep-all] [overflow-wrap:anywhere]">{c.lede}</p>
+            <p className="mt-2.5 flex items-center gap-3 text-[13px] text-[var(--color-ink-soft)]">
               <span aria-hidden className="h-px w-8 bg-[var(--color-sun)]" />
               {PHILOSOPHY[locale]}
             </p>
-            <p className="mt-6 text-[13px] font-medium text-[var(--color-ink-soft)]">{c.find}</p>
+            <p className="mt-3 text-[13px] font-medium text-[var(--color-ink-soft)]">{c.find}</p>
           </div>
           <FamilyMap
             ages={c.ages}

@@ -41,11 +41,11 @@ export function FamilyMap({ rows, ages }: { rows: MapRow[]; ages: string[] }) {
         ))}
       </div>
 
-      <div className="relative grid items-center gap-y-[clamp(6px,0.8vw,10px)]" style={template}>
+      <div className="relative grid items-center gap-y-[clamp(3px,0.45vw,6px)]" style={template}>
         {/* age header */}
         <span style={{ gridRow: 1, gridColumn: 1 }} />
         {ages.map((a, c) => (
-          <span key={a} style={{ gridRow: 1, gridColumn: c + 2 }} className="pb-1 text-center text-[10.5px] font-medium tracking-wide text-[var(--color-ink-soft)] md:text-[12.5px]">
+          <span key={a} style={{ gridRow: 1, gridColumn: c + 2 }} className="pb-0.5 text-center text-[10.5px] font-medium tracking-wide text-[var(--color-ink-soft)] md:text-[12.5px]">
             {a}
           </span>
         ))}
@@ -69,7 +69,7 @@ export function FamilyMap({ rows, ages }: { rows: MapRow[]; ages: string[] }) {
                   {String(r.n).padStart(2, "0")}
                 </span>
                 {r.logo && (
-                  <Image src={r.logo.src} alt="" width={r.logo.w} height={r.logo.h} sizes="40px" className="hidden h-8 w-auto max-w-10 shrink-0 object-contain md:block" />
+                  <Image src={r.logo.src} alt="" width={r.logo.w} height={r.logo.h} sizes="40px" className="hidden h-6 w-auto max-w-8 shrink-0 object-contain md:block" />
                 )}
                 <span className={`text-[11.5px] font-semibold leading-tight transition-colors md:truncate md:text-[14px] ${lit ? "underline decoration-[var(--color-sun)] decoration-2 underline-offset-4" : ""}`}>
                   {r.name}
@@ -82,7 +82,7 @@ export function FamilyMap({ rows, ages }: { rows: MapRow[]; ages: string[] }) {
                 whileInView={{ scaleX: 1 }}
                 viewport={{ once: true, amount: 0.6 }}
                 transition={{ duration: 0.7, delay: 0.1 + i * 0.07, ease: [0.22, 1, 0.36, 1] }}
-                className={`mx-[2px] flex h-[clamp(26px,2.6vw,34px)] origin-left cursor-pointer items-center justify-center overflow-hidden whitespace-nowrap rounded-full px-0.5 text-[9.5px] font-medium md:mx-[3px] md:px-2 transition-transform duration-300 md:text-[12.5px] ${
+                className={`mx-[2px] flex h-[clamp(22px,2vw,28px)] origin-left cursor-pointer items-center justify-center overflow-hidden whitespace-nowrap rounded-full px-0.5 text-[9.5px] font-medium md:mx-[3px] md:px-2 transition-transform duration-300 md:text-[12.5px] ${
                   lit ? "-translate-y-0.5" : ""
                 } ${r.soon ? "border-2 border-dashed" : "shadow-[0_2px_0_rgba(20,25,60,0.12)]"}`}
                 style={{
